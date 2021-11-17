@@ -10,7 +10,7 @@
             <div class="col-12 mt-5">
                 <div class="mb-3">
                     <label class="form-label">아이디</label>
-                    <input type="email" class="form-control" placeholder="name@example.com">
+                    <input type="email" class="form-control" placeholder="아이디">
                 </div>
             </div>
             <div class="col-12">
@@ -21,15 +21,13 @@
                         <a class="text-primary" href="auth-password-reset.html">비밀번호 찾기</a>
                         </span>
                     </div>
-                    <input type="password" class="form-control" placeholder="***************">
+                    <input type="password" class="form-control" placeholder="비밀번호">
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        아이디 저장
-                    </label>
+                    <label class="form-check-label" for="flexCheckDefault"> 아이디 저장 </label>
                 </div>
             </div>
             <div class="col-12 text-center mt-4 mb-3">
