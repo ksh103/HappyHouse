@@ -18,28 +18,10 @@
             <p class="fs-6 text-muted">{{ desc }}</p>
           </div>
         </div>
-        <div class="col-xl-4 col-lg-5 col-md-12 text-md-end">
-          <div class="d-flex justify-content-lg-end">
-            <div class="">
-              <button class="btn btn-light">
-                <i class="fa fa-comments"></i>
-              </button>
-              <button class="btn btn-light">
-                <i class="fa fa-area-chart"></i>
-              </button>
-              <button class="btn btn-light">
-                <i class="fa fa-download"></i>
-              </button>
-              <a href="#" class="btn btn-dark">Add New</a>
-            </div>
-          </div>
-        </div>
       </div>
-      <!-- .row end-->
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'Header',
