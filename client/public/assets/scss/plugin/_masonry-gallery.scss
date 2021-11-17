@@ -1,0 +1,36 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+.m-grid{
+    .grid-item {
+        @include transition(ease .2s);
+        width: 15.4rem;
+
+        &:hover{
+            transform: scale(1.1);
+            z-index: 999;
+            img{
+                border: 2px solid var(--card-color);
+            }
+        }
+        
+        @media only screen and (max-width: $break-xlarge) {
+            width: 14.5rem;
+        }
+        @media only screen and (max-width: $break-1280) {
+            width: 13.77rem;
+        }
+        @media only screen and (max-width: $break-large) {
+            width: 12.7rem;
+        }
+        @media only screen and (max-width: $break-medium) {
+            width: 14.79rem;
+        }
+        @media only screen and (max-width: $break-small - 1px) {
+           width: 100%;
+        }
+    }
+}

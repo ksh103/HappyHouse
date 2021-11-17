@@ -1,0 +1,256 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+:root {
+	--dark-color: 		#323A45;
+
+	--color-fff:		#FFFFFF;
+	--color-100:		#F0F0F0;
+	--color-200:		#EEEEEE;
+	--color-300:		#E0E0E0;
+	--color-400:		#BDBDBD;
+	--color-500:		#555353;
+	--color-600:		#464545;
+	--color-700:		#363535;
+	--color-800:		#252525;
+	--color-900:		#181818;
+	--color-000:		#000000;
+
+	//--border-color:		#ebebeb;
+	--border-color:		#F0F0F0;
+	--card-color: 		#ffffff;
+	--body-color: 		#f4f7f6;
+	--white-color: 		#ffffff;
+	--sidebar-color:	#fcfcfc;
+
+	--hc-font-color:	#555555;
+	--hc-bg-color:		#f0f0f0;
+
+	--primary-color: 	#0d6efd;
+	--secondary-color: 	#ffd55d;
+
+	--chart-color1:	 	#2794eb;
+	--chart-color2: 	#17b3c1;
+	--chart-color3: 	#64868e;
+	--chart-color4: 	#47d6b6;
+	--chart-color5: 	#4362D0;
+
+	--sidebar-img: 		url(https://alui.thememakker.com/html/assets/images/sidebar-bg/sidebar-1.jpg);
+}
+
+// Theme Dark version color variable
+[data-theme="dark"] {
+	--dark-color: 		#323A45;
+
+	--color-fff:		#000000;
+	--color-100:		#212121;
+	--color-200:		#424242;
+	--color-300:		#616161;
+	--color-400:		#757575;
+	--color-500:		#8f8f8f;
+	--color-600:		#BDBDBD;
+	--color-700:		#E0E0E0;
+	--color-800:		#EEEEEE;
+	--color-900:		#F0F0F0;
+	--color-000:		#FFFFFF;
+
+	--border-color:		#353535;
+	--card-color: 		#262727;
+	--body-color: 		#1e1f20;
+	--white-color: 		#ffffff;
+	--sidebar-color:	#fcfcfc;
+
+	--hc-font-color:	#555555;
+	--hc-bg-color:		#f0f0f0;
+
+	[class="theme-cyan"] {
+		--primary-color: 	#00bdaa;
+	}
+
+	[class="theme-indigo"] {
+		--border-color:		#212020;
+		--card-color: 		#101010;
+		--body-color: 		#050505;
+	}
+
+	[class="theme-blue"] {
+		--primary-color: 	#2e7bec;
+        --border-color:		#1a1f2d;
+		--card-color: 		#10141f;
+		--body-color: 		#080b13;
+	}
+	
+	[class="theme-orange"] {
+        --border-color:		#092940;
+		--card-color: 		#052133;
+		--body-color: 		#051e2f;
+	}
+	
+	[class="theme-blush"] {
+        --border-color:		#242331;
+		--card-color: 		#1a1925;
+		--body-color: 		#15141f;
+	}
+	
+	[class="theme-red"] {
+		--primary-color: 	#f73e60;
+        --border-color:		#222335;
+		--card-color: 		#161725;
+		--body-color: 		#11121d;
+    }
+}
+
+// Theme high-contrast color variable
+[data-theme="high-contrast"] {
+	--dark-color: 		#323A45;
+
+	--color-fff:		#000000;
+	--color-100:		#000000;
+	--color-200:		#ffffff;
+	--color-300:		#ffffff;
+	--color-400:		#000000;
+	--color-500:		#ffffff;
+	--color-600:		#ffffff;
+	--color-700:		#ffffff;
+	--color-800:		#ffffff;
+	--color-900:		#ffffff;
+	--color-000:		#ffffff;
+
+	--border-color:		#262727;
+	--card-color: 		#0e0e0e;
+	--body-color: 		#000000;
+	--white-color: 		#ffffff;
+	--black-color: 		#000000;
+	--sidebar-color:	#fcfcfc;
+
+	--hc-font-color:	#555555;
+	--hc-bg-color:		#f0f0f0;
+
+	// some spacific class css in " high-contrast theme "
+	.avatar.no-thumbnail{
+		background-color: $dark;
+	}
+	.form-control {
+		&::placeholder{
+			color: var(--white-color);
+		}
+	}
+	.modal {
+		color: $dark;
+		.card{
+			border-color: var(--hc-bg-color);
+			background-color: var(--white-color);
+		}
+	}
+	.border-dark{
+        border-color: var(--color-200) !important;
+    }
+}
+
+// Theme color variable
+[class="theme-indigo"] {
+	--primary-color: 	#484c7f;
+	--secondary-color: 	#d8d419;
+
+	--primary-rgb: 72, 76, 127;
+
+	--chart-color1:	 	#484c7f;
+	--chart-color2: 	#d8d419;
+	--chart-color3: 	#7394b9;
+	--chart-color4: 	#79b6bd;
+	--chart-color5: 	#a0c1b8;
+
+	--primary-gradient: linear-gradient(145deg, var(--primary-color), var(--chart-color3));
+}
+[class="theme-blue"] {
+	--primary-color: 	#0d6efd;
+	--secondary-color: 	#ffd55d;
+
+	--primary-rgb: 13, 110, 253;
+
+	--chart-color1:	 	#2794eb;
+	--chart-color2: 	#17b3c1;
+	--chart-color3: 	#64868e;
+	--chart-color4: 	#47d6b6;
+	--chart-color5: 	#4362D0;
+
+	--primary-gradient: linear-gradient(145deg, var(--primary-color), var(--chart-color3));
+}
+[class="theme-cyan"] {
+	--primary-color: 	#00bdaa;
+	--secondary-color: 	#f1ff17;
+
+	--primary-rgb: 0, 189, 170;
+
+	--chart-color1:	 	#00bdaa;
+	--chart-color2: 	#c1c0b9;
+	--chart-color3: 	#537791;
+	--chart-color4: 	#9cbf3b;
+	--chart-color5: 	#cdb60c;
+
+	--primary-gradient: linear-gradient(145deg, var(--primary-color), var(--chart-color3));
+}
+[class="theme-green"] {
+	--primary-color: 	#7EB93F;
+	--secondary-color: 	#fffb83;
+
+	--primary-rgb: 126, 185, 63;
+
+	--chart-color1:	 	#7EB93F;
+	--chart-color2: 	#b9bc6d;
+	--chart-color3: 	#427a5b;
+	--chart-color4: 	#4e7376;
+	--chart-color5: 	#a6a6a4;
+
+	--primary-gradient: linear-gradient(145deg, var(--primary-color), var(--chart-color3));
+}
+[class="theme-orange"] {
+	--primary-color: 	#feb019;
+	--secondary-color: 	#35f3fd;
+
+	--primary-rgb: 254, 176, 25;
+
+	--chart-color1:	 	#ef7e56;
+	--chart-color2: 	#44558f;
+	--chart-color3: 	#ded5c4;
+	--chart-color4: 	#f59292;
+	--chart-color5: 	#90a4ae;
+
+	--primary-gradient: linear-gradient(145deg, var(--primary-color), var(--chart-color4));
+}
+[class="theme-blush"] {
+	--primary-color: 	#ED5782;
+	--secondary-color: 	#ffdd95;
+
+	--primary-rgb: 237, 87, 130;
+
+	--chart-color1:	 	#ED5782;
+	--chart-color2: 	#e5df88;
+	--chart-color3: 	#726a95;
+	--chart-color4: 	#a6a6a4;
+	--chart-color5: 	#c9b8b8;
+
+	--primary-gradient: linear-gradient(145deg, var(--primary-color), var(--chart-color3));
+}
+[class="theme-red"] {
+	--primary-color: 	#ff4560;
+	--secondary-color: 	#FFDF41;
+
+	--primary-rgb: 255, 69, 96;
+
+	--chart-color1:	 	#ff5959;
+	--chart-color2: 	#ffad5a;
+	--chart-color3: 	#4f9da6;
+	--chart-color4: 	#c06c84;
+	--chart-color5: 	#f67280;
+
+	--primary-gradient: linear-gradient(145deg, var(--primary-color), var(--chart-color4));
+}
+
+// dynamic Theme default color variable
+[class="theme-dynamic"] {
+	--primary-gradient: linear-gradient(145deg, var(--primary-color), var(--chart-color3));
+}

@@ -1,0 +1,18 @@
+<svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="600" height="400" fill="white"/>
+<path d="M600 2C600 0.89543 599.105 0 598 0H2C0.895429 0 0 0.895431 0 2V117C0 118.105 0.895431 119 2 119H598C599.105 119 600 118.105 600 117V2Z" fill="#D3DBDF"/>
+<path d="M467 81C467 79.8954 466.105 79 465 79H132C130.895 79 130 79.8954 130 81V188C130 189.105 130.895 190 132 190H465C466.105 190 467 189.105 467 188V81Z" fill="#F3F3F3"/>
+<path d="M467 201C467 199.895 466.105 199 465 199H132C130.895 199 130 199.895 130 201V366C130 367.105 130.895 368 132 368H465C466.105 368 467 367.105 467 366V201Z" fill="#F3F3F3"/>
+<path d="M467 379C467 377.895 466.105 377 465 377H132C130.895 377 130 377.895 130 379V388C130 389.105 130.895 390 132 390H465C466.105 390 467 389.105 467 388V379Z" fill="#F3F3F3"/>
+<rect opacity="0.5" x="169" y="19" width="114" height="13" rx="3" fill="white"/>
+<circle cx="146" cy="25" r="6" fill="white"/>
+<circle cx="456" cy="25" r="4" fill="white"/>
+<circle cx="436" cy="25" r="4" fill="white"/>
+<circle cx="416" cy="25" r="4" fill="white"/>
+<rect x="140" y="55" width="23" height="5" fill="white"/>
+<rect x="180" y="55" width="23" height="5" fill="white"/>
+<rect x="220" y="55" width="23" height="5" fill="white"/>
+<rect x="260" y="55" width="23" height="5" fill="white"/>
+<rect x="300" y="55" width="23" height="5" fill="white"/>
+<rect x="340" y="55" width="23" height="5" fill="white"/>
+</svg>

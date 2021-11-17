@@ -1,0 +1,159 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+.timeline-item {
+	border-left: 2px solid var(--border-color);
+	display: flex;
+	position: relative;
+	padding: 1em 2em 2em;
+
+	@media only screen and (max-width: $break-small - 1px) {
+		padding: 1em 0 1em 1em;
+	}
+	
+	&:hover{
+		&::after{
+			transform: scale(3.5);
+		}
+	}
+
+	&::after {
+		@include transition(ease .1s);
+        border: 2px solid var(--border-color);
+		background: var(--color-900);
+        display: block;
+        position: absolute;
+        content: '';
+        width: 8px;
+		height: 8px;
+		top: 1.3em;
+		left: -5px;
+		border-radius: 30px;
+	}
+	&.ti-primary:after{
+		background: var(--primary-color);
+	}
+	&.ti-info:after{
+		background: $info;
+	}
+	&.ti-success:after{
+		background: $green;
+	}
+	&.ti-warning:after{
+		background: $orange;
+	}
+	&.ti-danger:after{
+		background: $red;
+	}
+
+	&:last-child {
+		border-image: linear-gradient( to bottom, $border-color 60%, rgba($border-color, 0)) 1 100%;
+	}
+}
+
+.timeline-item-2 {
+    padding: 0 7em 3em 2em;
+    margin-left: 4em;
+    position: relative;
+    border-left: 1px solid var(--border-color);
+
+    &::after {
+        content: "";
+        background: var(--color-fff);
+        display: block;
+        position: absolute;
+        width: 11px;
+        height: 11px;
+        top: 1em;
+        left: -6px;
+        border-radius: 10px;
+        border: 3px solid var(--color-fff);
+    }
+    &.green {
+        &::after {
+            background-color: $color-success;
+        }
+    }
+    &.blue {
+        &::after {
+          background-color: $color-info;
+        }
+    }
+    &.warning {
+        &::after {
+          background-color: $color-danger;
+        }
+    }
+  
+    .msg {
+        margin: 15px 0;
+    }
+    .user {
+        position: absolute;
+        left: -4em;
+        top: 0;
+    }
+    .badge {
+        line-height: 16px;
+    }
+  
+    .quick-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        a {
+            color: var(--color-400);
+            margin-left: 20px;
+        }
+    }
+    
+    &.rtl {
+        border-left: 0;
+        border-right: 1px solid var(--border-color);
+        &::before {
+            left: 0;
+            right: 2em;
+        }
+        &::after {
+            left: 0;
+            right: -5px;
+        }
+    }
+}
+
+.timeline-activity{
+	border-left: 3px solid var(--secondary-color);
+    position: relative;
+	margin-left: 100px;
+
+	.activity{
+		position: relative;
+		&::before,
+		&::after{
+			position: absolute;
+    		display: block;
+		}
+
+		&:before{
+			content: attr(data-date);
+			text-align: right;
+			left: -120px;
+			font-size: 12px;
+			min-width: 100px;
+		}
+		&::after{
+			content: "";
+			-webkit-box-shadow: 0 0 0 3px var(--primary-color);
+			box-shadow: 0 0 0 3px var(--primary-color);
+			background: var(--card-color);
+			left: -6px;
+			border-radius: 10px;
+			height: 9px;
+			width: 9px;
+			top: 14px;
+		}
+	}
+}

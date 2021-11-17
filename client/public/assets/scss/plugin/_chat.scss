@@ -1,0 +1,105 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+// Chat app page scss
+.card-chat,
+.card-chat-body{
+    height: 100vh;
+}
+
+// left sidebar chat list, groups and contact
+.card-chat{
+    min-width: 380px;
+
+    @media only screen and (max-width: $break-1024) {
+        @include transition(ease .1s);
+        position: fixed;
+        left: -600px;
+        z-index: 9;
+
+        &.open{
+            left: 0;
+            top: 0;
+        }
+    }
+    @media only screen and (max-width: $break-small - 1px) {
+        &.open{
+            min-width: 300px;
+            width: 300px;
+        }
+    }
+
+    .tab-content{
+        @include c_overflow(scroll);
+        height: calc(100vh - 150px);
+    }
+
+    .list-group{
+        .list-group-item{
+            &.open,
+            &:hover{
+                background-color: var(--body-color);
+            }
+            a{
+                color: var(--color-500);
+            }
+        }
+        .msg-time{
+            font-size: 11px;
+            font-weight: 600;
+        }
+    }
+}
+
+// 
+.card-chat-body{
+    
+    @media only screen and (max-width: $break-small) {
+        height: calc(100vh - 60px);
+    }
+
+    .max-width-70{
+        max-width: 70%;
+
+        @media only screen and (max-width: $break-small) {
+            max-width: 100%;
+        }
+    }
+
+    .chat-history{
+        @include overflow(scroll);
+        height: 100vh;
+    }
+    .chat-message{
+        position: relative;
+        .btn.btn-dark{
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        .action-bar{
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        .form-control{
+            padding-right: 80px;
+        }
+    }
+
+    .text-end{
+        .message{
+            color: $white;
+        }    
+    }
+    .message{
+        color: var(--color-600);
+    }
+
+    &.card{
+        background-color: var(--body-color);
+    }
+}

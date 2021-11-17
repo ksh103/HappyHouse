@@ -1,0 +1,187 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+@import "../global/variables";
+@import "../global/themes";
+@import "../global/mixins";
+
+// main layout scss
+#layout-o{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    /* -webkit-box-orient: vertical; */
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+// main header
+.header {
+    background-color: var(--color-900);
+
+    .navbar-nav{
+        .nav-item{
+            &:hover{
+                .dropdown-menu{
+                    display: block;
+                    &.ui-dropdown-link{
+                        display: flex;
+                    }
+                }
+            }
+        }
+    }
+    .navbar-collapse{
+        background: var(--secondary-color);
+        .nav-link{
+            font-size: 15px;
+            color: var(--dark-color) !important;
+        }
+    }
+
+    @media only screen and (max-width: $break-medium - 1px) {
+        .navbar-toggler{
+            position: fixed;
+            right: 1.3rem;
+            top: 16px;
+        }
+        #mainHeader{
+            background-color: var(--color-fff);
+            position: fixed;
+            top: 62px;
+            left: 0;
+            width: 100%;
+            padding: 1rem 1.5rem;
+        }
+    }
+    @media only screen and (max-width: $break-small) {
+        .navbar-toggler{
+            top: 19px;
+        }
+        #mainHeader{
+            top: 55px;
+            height: calc(100vh - 55px);
+            overflow-y: auto;
+            
+            .shadow {
+                box-shadow: none !important;
+            }
+        }
+        .navbar-collapse{
+            display: block;
+            opacity: 0;
+            visibility: hidden;
+            &.show{
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+    @media only screen and (max-width: $break-xsmall - 1px) {
+        .h-left{
+            display: none !important;
+        }
+    }
+}
+
+// main header search bar
+.main-search {
+    position: relative;
+    border-color: rgba($white, 0.1) !important;
+
+    .form-control{
+        background: rgba($white, .02);
+        border: 0;
+        &:focus,
+        &:active{
+            box-shadow: none;
+            color: var(--primary-color);
+            border-bottom: 1px solid rgba($white, 0.3);
+            &::placeholder{
+                color: rgba($white, 0.7);
+            }
+        }
+        &::placeholder{
+            color: rgba($white, 0.4);
+        }
+    }
+
+    .search-result{
+        position: absolute;
+        z-index: 99;
+        width: 100%;
+        top: 40px;
+
+        .dropdown-item{
+            color: var(--color-600);
+            &:hover{
+                background: rgba(var(--primary-rgb), .1);
+                color: var(--primary-color);
+            }
+        }
+
+        @media only screen and (max-width: $break-medium - 1px) {
+            position: fixed;
+            width: calc(100% - 32px);
+            margin: 0 1rem;
+            top: 68px;
+            left: 0;
+        }
+    }
+}
+
+
+// project main body part
+.main {
+    background-color: var(--body-color);
+    overflow-y: auto;
+    margin-top: 125px;
+    height: auto;
+    -webkit-box-ordinal-group: 4;
+    -ms-flex-order: 3;
+    order: 0;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+
+    @media only screen and (max-width: $break-medium - 1px) {
+        margin-top: 55px;
+        height: calc(100vh - 55px);
+    }
+
+    .body{
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+        flex-flow: column;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        min-width: 0;
+        min-height: calc(100vh - 290px);
+    }
+
+    .card-chat,
+    .card-chat-body{
+        height: calc(100vh - 125px);
+        @media only screen and (max-width: $break-1024 - 1px) {
+            height: calc(100vh - 55px);
+        }
+    }
+}
+
+// theme setting
+.setting-img,
+.gradient-switch{
+    display: none;
+}

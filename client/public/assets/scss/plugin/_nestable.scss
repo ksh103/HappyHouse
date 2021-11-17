@@ -1,0 +1,129 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+
+/*** Nestable & Draggable plugin */
+
+ .dd {
+    position: relative;
+
+	.dd-list {
+		display: block;
+		position: relative;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	
+		.dd-list {
+			margin-top: 10px;
+			.dd-item{
+				border-left: 5px solid var(--border-color);
+			}
+		}
+		li{
+			margin-bottom: 5px;
+			&:last-child{
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.dd-collapsed .dd-list {
+		display: none;
+	}
+
+	
+	.dd-item {
+		> button {
+			display: block;
+			position: relative;
+			cursor: pointer;
+			float: left;
+			white-space: nowrap;
+			overflow: hidden;
+			background: transparent;
+			border: 0;
+			width: 25px;
+			padding: 0;
+			text-indent: 100%;
+			font-size: 18px;
+			
+			&[data-action="collapse"]:before {
+				content: '-';
+			}
+
+			&:focus{
+				outline: none;
+				border: 0;
+			}
+
+			&:before {
+				content: '+';
+				display: block;
+				position: absolute;
+				text-align: left;
+				width: 100%;
+				text-indent: 0;
+			}
+		}
+	}
+
+	.dd-item,
+	.dd-empty,
+	.dd-placeholder {
+		display: block;
+		position: relative;
+		margin: 0;
+		padding: 0;
+		min-height: 20px;
+		line-height: 20px;
+	}
+
+	.dd-empty {
+		border: 1px dashed var(--primary-color);
+		min-height: 100px;
+		background-color: var(--border-color);
+		-ms-background-size: 60px 60px;
+		background-size: 60px 60px;
+		background-position: 0 0, 30px 30px;
+	}
+}
+
+.dd-handle {
+    display: block;
+    text-decoration: none;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+	line-height: 22px;
+
+	&:hover {
+		color: var(--primary-color);
+		cursor: move;
+	}
+}
+
+
+.dd-placeholder,
+.dd-empty {
+    background: #f2fbff;
+    border: 1px dashed #b6bcbf;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+	margin: 5px 0;
+    padding: 0;
+    min-height: 30px;
+}
+
+.dd-dragel {
+    position: absolute;
+    pointer-events: none;
+	z-index: 9999;
+	> .dd-item .dd-handle {
+		margin-top: 0;
+	}
+}

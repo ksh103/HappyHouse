@@ -1,0 +1,211 @@
+.print_invoice{
+    table {
+        border-collapse: collapse;
+    
+        td,
+        th {
+            border: 1px solid var(--border-color);
+            padding: 5px
+        }
+    }
+
+    textarea{
+        border: 1px solid var(--card-color);
+        overflow: hidden;
+        resize: none;
+        width: 100%;
+        border-radius: .25rem;
+
+        &:hover,
+        &:focus{
+            background: rgba(var(--primary-rgb),.1);
+            border: 1px solid  var(--primary-color);
+            box-shadow: none;
+            outline: 0;
+        }
+    }
+
+    .address {
+        width: 250px;
+        height: 150px;
+        float: left
+    }
+
+    .customer {
+        overflow: hidden;
+        .customer-title {
+            width: 250px;
+            font-size: 20px;
+            font-weight: 700;
+            float: left
+        }
+    }
+
+    .delete-wpr {
+        position: relative
+    }
+    
+    .delete {
+        background: var(--border-color);
+        color: $color-danger;
+        display: block;
+        text-decoration: none;
+        position: absolute;
+        padding: 0 5px;
+        top: 3px;
+        left: -22px;
+        font-size: 12px;
+
+        &:hover{
+            background: $color-danger;
+            color: $white;
+        }
+    }
+
+    #logo {
+        border: 1px solid $white;
+        text-align: right;
+        float: right;
+        position: relative;
+        overflow: hidden;
+        margin-top: 25px;
+        max-width: 540px;
+        max-height: 100px;
+    
+        &:hover,
+        &.edit {
+            border: 1px solid var(--border-color);;
+            margin-top: 0;
+            max-height: 125px;
+    
+            #logoctr {
+                display: block;
+                text-align: right;
+                line-height: 25px;
+                background: var(--color-100);
+                padding: 0 5px
+            }
+        }
+        #logoctr {
+            display: none
+        }
+    }    
+    
+    #logohelp {
+        text-align: left;
+        display: none;
+        font-style: italic;
+        padding: 10px 5px;
+        input {
+            margin-bottom: 5px
+        }
+    }
+    
+    .edit {
+        #logohelp {
+            display: block
+        }
+        #save-logo,
+        #cancel-logo {
+            display: inline
+        }
+    }
+    
+    .edit #image,
+    #save-logo,
+    #cancel-logo,
+    .edit #change-logo,
+    .edit #delete-logo {
+        display: none;
+    }
+    
+    .meta {
+        margin-top: 1px;
+        width: 300px;
+        float: right;
+    
+        td {
+            text-align: right;
+            &.meta-head {
+                text-align: left;
+                background: var(--color-100);
+            }
+            .due{
+                padding-right: 13px;
+            }
+            textarea {
+                height: 20px;
+                text-align: right;
+            }
+        }
+    }
+    
+    .items {
+        clear: both;
+        width: 100%;
+        margin: 30px 0 0;
+        border: 1px solid var(--border-color);
+    
+        th {
+            background: var(--color-100);
+        }
+        tr.item-row td {
+            vertical-align: top
+        }
+        td{ 
+            &.item-name {
+                width: 150px;
+            }
+            &.description {
+                width: 280px;
+                @media only screen and (max-width: $break-medium) {
+                    width: 220px;
+                }
+            }
+            &.total-line {
+                border-right: 0;
+                text-align: right;
+            }
+            &.total-value {
+                padding: 5px;
+            }
+            &.balance {
+                background: var(--color-100);
+            }
+            &.blank {
+                border: 0;
+            }
+        }
+    }
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+        margin: 0;
+        color: #000;
+        background-color: #fff;
+    }
+    .print_invoice {
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        * {
+            visibility: visible;
+            #hiderow,
+            .delete {
+                display: none;
+            }
+        }
+        .footer-note{
+            .form-control{
+                padding: 0;
+            }
+        }
+    }
+    .navigation,
+    .sidebar{
+        display: none;
+    }
+}

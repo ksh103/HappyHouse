@@ -1,0 +1,47 @@
+<svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="600" height="400" fill="white"/>
+<path d="M590 12C590 10.8954 589.105 10 588 10H147C145.895 10 145 10.8954 145 12V388C145 389.105 145.895 390 147 390H588C589.105 390 590 389.105 590 388V12Z" fill="#F3F3F3"/>
+<path d="M130 12C130 10.8954 129.105 10 128 10H37C35.8954 10 35 10.8954 35 12V388C35 389.105 35.8954 390 37 390H128C129.105 390 130 389.105 130 388V12Z" fill="#D3DBDF"/>
+<rect opacity="0.2" x="48.5" y="117.5" width="69" height="150" rx="3.5" stroke="white"/>
+<circle cx="66" cy="131" r="3" fill="white"/>
+<rect x="59" y="139" width="15" height="1" fill="white"/>
+<circle cx="101" cy="131" r="3" fill="white"/>
+<rect x="94" y="139" width="15" height="1" fill="white"/>
+<circle cx="66" cy="161" r="3" fill="white"/>
+<rect x="59" y="169" width="15" height="1" fill="white"/>
+<circle cx="101" cy="161" r="3" fill="white"/>
+<rect x="94" y="169" width="15" height="1" fill="white"/>
+<circle cx="66" cy="191" r="3" fill="white"/>
+<rect x="59" y="199" width="15" height="1" fill="white"/>
+<circle cx="101" cy="191" r="3" fill="white"/>
+<rect x="94" y="199" width="15" height="1" fill="white"/>
+<circle cx="66" cy="221" r="3" fill="white"/>
+<rect x="59" y="229" width="15" height="1" fill="white"/>
+<circle cx="101" cy="221" r="3" fill="white"/>
+<rect x="94" y="229" width="15" height="1" fill="white"/>
+<circle cx="66" cy="251" r="3" fill="white"/>
+<rect x="59" y="259" width="15" height="1" fill="white"/>
+<circle cx="101" cy="251" r="3" fill="white"/>
+<rect opacity="0.2" x="94" y="259" width="15" height="1" fill="white"/>
+<rect opacity="0.2" x="48" y="147" width="70" height="1" fill="white"/>
+<rect opacity="0.2" x="48" y="177" width="70" height="1" fill="white"/>
+<rect opacity="0.2" x="48" y="207" width="70" height="1" fill="white"/>
+<rect opacity="0.2" x="48" y="237" width="70" height="1" fill="white"/>
+<circle cx="83" cy="43" r="23" fill="white"/>
+<rect x="60" y="74" width="46" height="2" fill="white"/>
+<rect x="48" y="369" width="70" height="2" fill="white"/>
+<rect x="48" y="379" width="70" height="2" fill="white"/>
+<rect x="68" y="80" width="30" height="1" fill="white"/>
+<circle cx="83" cy="90" r="3" fill="white"/>
+<circle cx="93" cy="90" r="3" fill="white"/>
+<circle cx="73" cy="90" r="3" fill="white"/>
+<path d="M30 12C30 10.8954 29.1046 10 28 10H12C10.8954 10 10 10.8954 10 12V388C10 389.105 10.8954 390 12 390H28C29.1046 390 30 389.105 30 388V12Z" fill="#D3DBDF"/>
+<circle cx="20" cy="23" r="6" fill="white"/>
+<circle cx="20" cy="50" r="3" fill="white"/>
+<circle cx="20" cy="70" r="3" fill="white"/>
+<circle cx="20" cy="90" r="3" fill="white"/>
+<circle cx="20" cy="110" r="3" fill="white"/>
+<circle cx="20" cy="380" r="3" fill="white"/>
+<circle cx="20" cy="360" r="3" fill="white"/>
+<line opacity="0.2" x1="83.5" y1="117" x2="83.5" y2="267" stroke="white"/>
+</svg>

@@ -1,0 +1,42 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+// apex chart line and text color
+.apexcharts-canvas{
+    line,
+    circle{
+		stroke: var(--border-color);
+	}
+	text{
+		fill: var(--color-500);
+	}
+	.apexcharts-legend-text{
+		color: var(--color-500) !important;
+    }
+    .apexcharts-pie{
+        path{
+           stroke: var(--border-color);
+        }
+    }
+    .apexcharts-legend-marker{
+        height: 3px !important;
+    }
+}
+.ac-line-transparent{
+    line{
+        stroke: var(--card-color);
+    }
+}
+.apexcharts-line-0{
+    line{
+        display: none;
+    }
+}
+.sparkline_chart{
+    canvas{
+        width: 100% !important;
+    }
+}

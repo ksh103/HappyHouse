@@ -1,0 +1,275 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+.main{
+    
+    // Login page design version 1
+    &.auth-div{
+        
+        .body{
+            position: relative;
+            justify-content: center;
+            z-index: 8;
+        }
+        
+        // responsive css 
+        @media only screen and (max-height: $break-medium - 50px) {
+            margin: 0 !important;
+            height: 100vh !important;
+            padding: 0 !important;
+            .body {
+                min-height: 100vh !important;
+                &.p-xl-5{
+                    padding: 1rem !important;
+                }
+            }
+        }
+    }
+
+    // Login page design version 2
+    &.auth-div2,
+    &.auth-div3,
+    &.auth-div7{
+
+        height: auto !important;
+        margin-top: 0 !important;
+        padding: 0 !important;
+        .body{
+            min-height: 100vh !important;
+            z-index: 9;
+            position: relative;
+            justify-content: center;
+        }
+    }
+
+    // Login page design version 3
+    &.auth-div3{
+        background: var(--primary-gradient); 
+        .form-control{
+            border: 0;
+            &:focus,
+            &:focus-within,
+            &:focus-visible,
+            &:active,
+            &:visited{
+                border: 0;
+                box-shadow: none;
+                outline: none;
+            }
+        }
+
+        @media only screen and (max-width: $break-small) {
+            .input-group{
+                >:not(:first-child){
+                    margin-left: 0 !important;
+                    .form-control{
+                        border-radius: 0 !important;
+                    }
+                }
+                .btn{
+                    width: 100%;
+                    border-radius: 0 0 .25rem .25rem !important;
+                }
+            }
+            .form-floating{
+                width: 100%;
+                .form-control{
+                    border-radius: .25rem .25rem 0 0 !important;
+                }
+            }
+        }   
+    }
+
+    // Login page design version 4
+    &.auth-div4{
+        width: 100%;
+        height: 100vh;
+
+        .login-img{
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+
+            @media only screen and (max-width: $break-small) {
+                height: 300px;
+            }
+        }
+        .contents{
+            width: 100%;
+        }
+    }
+
+    // Login page design version 5
+    &.auth-div5{
+        border-top: 15px solid var(--card-color);
+
+        @media only screen and (max-width: $break-small) {
+
+            .input-group{
+                >:not(:first-child){
+                    margin-left: 0 !important;
+                    .form-control{
+                        border-radius: 0 !important;
+                    }
+                }
+                .btn{
+                    width: 100%;
+                    border-radius: 0 0 .25rem .25rem !important;
+                }
+            }
+            .form-floating{
+                width: 100%;
+                .form-control{
+                    border-radius: .25rem .25rem 0 0 !important;
+                }
+            }
+        }
+        @media only screen and (max-width: $break-medium) {
+            height: auto !important;
+            margin-top: 0 !important;
+        }
+    }
+
+    // Login page design version 6
+    &.auth-div6{
+        margin-top: 0;
+        height: auto;
+
+        .body{
+            display: flex;
+            flex-flow: row;
+            justify-content: center;
+            overflow: hidden;
+
+            @media only screen and (max-width: $break-small) {
+                flex-flow: column;
+            }
+
+            .login-form,
+            .login-text{
+                display: flex;
+                align-items: center;
+                height: 100vh;
+                @media only screen and (max-width: $break-small) {
+                    height: auto;
+                }
+            }
+            .login-form{
+                width: 70rem;
+                padding: 2rem 8rem;
+
+                @media only screen and (max-width: $break-xlarge) {
+                    width: 50rem;
+                    padding: 2rem 5rem;
+                }
+
+                @media only screen and (max-width: $break-large) {
+                    padding: 2rem 3rem;
+                }
+                @media only screen and (max-width: $break-large - 1px) {
+                    width: 100%;
+                }
+            }
+            .login-text{
+                background: var(--primary-gradient);
+                color: var(--color-100);
+                position: relative;
+                width: 100%;
+                padding: 2rem 15rem;
+
+                .svg-1,
+                .svg-2{
+                    position: absolute;
+                    opacity: .1;
+                    width: 16rem;
+                }
+                .svg-1{
+                    top: -120px;
+                    left: -80px;
+                }
+                .svg-2{
+                    bottom: 10%;
+                    right: 10%;
+                }
+
+                @media only screen and (max-width: $break-xlarge) {
+                    padding: 2rem 8rem;
+                }
+                @media only screen and (max-width: $break-1280) {
+                    padding: 2rem 6rem;
+                }
+                > div{
+                    max-width: 22rem;
+                }
+            }
+        }
+
+        
+        @media only screen and (max-width: $break-medium) {
+        }
+    }
+
+    // Login page design version 7
+    &.auth-div7{
+        //background: var(--primary-gradient);
+        background: url("../images/auth7-bg.png") no-repeat top right;
+        background-size: cover;
+        width: 100%;
+
+        .form-control{
+            border: 0;
+            &:focus,
+            &:focus-within,
+            &:focus-visible,
+            &:active,
+            &:visited{
+                border: 0;
+                box-shadow: none;
+                outline: none;
+            }
+        }
+
+        @media only screen and (max-width: $break-small) {
+            .input-group{
+                >:not(:first-child){
+                    margin-left: 0 !important;
+                    .form-control{
+                        border-radius: 0 !important;
+                    }
+                }
+                .btn{
+                    width: 100%;
+                    border-radius: 0 0 .25rem .25rem !important;
+                }
+            }
+            .form-floating{
+                width: 100%;
+                .form-control{
+                    border-radius: .25rem .25rem 0 0 !important;
+                }
+            }
+        }   
+    }
+
+    // Login page design version 8
+    &.auth-div8{
+        background: var(--body-color) url("../images/saas-overlay.png") no-repeat bottom center;
+        background-size: cover;
+        width: 100%;
+
+        @media only screen and (max-width: $break-medium) {
+            height: auto;
+            margin-top: 0;
+        }
+
+        #main-search {
+            position: absolute;
+            top: 85px;
+            width: 100%;
+            left: 0;
+        }
+    }
+}

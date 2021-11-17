@@ -1,0 +1,131 @@
+﻿// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+.no-resize              {resize: none;}
+
+.text-primary           {color: var(--primary-color) !important;}
+.text-secondary         {color: var(--secondary-color) !important;}
+.text-muted             {color: #8c9db5 !important;}
+.text-gradient          {background: linear-gradient(145deg, var(--primary-color), var(--dark-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+
+.bg-primary             {background: var(--primary-color) !important;}
+.bg-secondary           {background: var(--secondary-color) !important;}
+.bg-primary-gradient    {background: var(--primary-gradient) !important; color: $white;}
+.bg-dark                {background: var(--color-900) !important;}
+.bg-light               {background: var(--color-200) !important;}
+
+.btn-success            {background-color: $color-success; border-color: $color-success;}
+.btn-danger             {background-color: $color-danger; border-color: $color-danger;}
+.btn-warning            {background-color: $color-warning; border-color: $color-warning;}
+.btn-info               {background-color: $color-info; border-color: $color-info;}
+
+.fill-primary           {fill: var(--primary-color) !important;}
+.fill-danger            {fill: var(--bs-danger) !important;}
+.fill-warning           {fill: var(--bs-warning) !important;}
+.fill-success           {fill: var(--bs-success) !important;}
+.fill-white             {fill: $white !important;}
+.fill-muted             {fill: #8c9db5 !important;}
+
+.chart-color1           {background-color: var(--chart-color1) !important}
+.chart-color2           {background-color: var(--chart-color2) !important}
+.chart-color3           {background-color: var(--chart-color3) !important}
+.chart-color4           {background-color: var(--chart-color4) !important}
+.chart-color5           {background-color: var(--chart-color5) !important}
+
+.chart-text-color1      {color: var(--chart-color1) !important}
+.chart-text-color2      {color: var(--chart-color2) !important}
+.chart-text-color3      {color: var(--chart-color3) !important}
+.chart-text-color4      {color: var(--chart-color4) !important}
+.chart-text-color5      {color: var(--chart-color5) !important}
+
+.color-fff              {color: var(--color-fff);}
+.color-100              {color: var(--color-100);}
+.color-200              {color: var(--color-200);}
+.color-300              {color: var(--color-300);}
+.color-400              {color: var(--color-400);}
+.color-600              {color: var(--color-600);}
+.color-700              {color: var(--color-700);}
+.color-800              {color: var(--color-800);}
+.color-900              {color: var(--color-900);}
+.color-000              {color: var(--color-000);}
+
+.vh100                  {height: 100vh;}
+.w30                    {width: 30px;}
+.w60                    {width: 60px;}
+.w90                    {width: 90px;}
+.w120                   {width: 120px;}
+.w240                   {width: 240px;}
+.w320                   {width: 320px;}
+.w380                   {width: 380px;}
+
+.dividers {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    &:after,
+    &:before{
+        -ms-flex: 1 1 0%;
+        flex: 1 1 0%;
+        border-top: .0625rem solid var(--border-color);
+        content: "";
+        margin-top: .0625rem;
+    }
+    &::before{
+        margin-right: 1.5rem;
+    }
+    &::after{
+        margin-left: 1.5rem;
+    }
+}
+.custom_scroll{
+    @include c_overflow(scroll);
+}
+.py-6{
+    padding-top: 4rem !important; padding-bottom: 4rem !important;
+    @media only screen and (max-width: $break-1280) {
+        padding-top: 3rem !important; padding-bottom: 3rem !important;
+    }
+    @media only screen and (max-width: $break-large) {
+        padding-top: 2.5rem !important; padding-bottom: 2.5rem !important;
+    }
+    @media only screen and (max-width: $break-medium) {
+        padding-top: 1.5rem !important; padding-bottom: 1.5rem !important;
+    }
+}
+.py-7{ padding-top: 5rem !important; padding-bottom: 5rem !important;}
+.rounded-4{
+    border-radius: .5rem!important;
+}
+.rounded-5{
+    border-radius: .8rem!important;
+}
+.bg-text{
+    font-size: 4rem;
+    @media only screen and (max-width: $break-xlarge) {
+        font-size: 3rem;
+    }
+    @media only screen and (max-width: $break-large) {
+        font-size: 2.6rem;
+    }
+}
+
+[data-theme="dark"] {
+    .shadow-sm{
+        box-shadow: 0 0.125rem 0.25rem rgba($white, 0.15) !important;
+    }
+    .shadow{
+        box-shadow: 0 0.5rem 1rem rgba($white, 0.15) !important;
+    }
+
+    .text-muted{
+        color: #565b63 !important;
+    }
+
+    .border-dark{
+        border-color: #f0f0f0 !important;
+    }
+}

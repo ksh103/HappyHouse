@@ -1,0 +1,32 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+/* cyrillic-ext */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap');
+
+
+// Font Awesome
+@import "node_modules/font-awesome/scss/font-awesome.scss";
+
+// weather font icons
+@import "assets/fonts/weather-icons/css/weather-icons.scss";
+
+// Line Awesome by Icons8
+@import "assets/fonts/line-awesome/scss/line-awesome.scss";
+
+// Flag icon
+@import "assets/fonts/flag-icon/sass/flag-icon.scss";
+
+
+// use with CDN url
+// simple line icons
+@import url('https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css');
+
+// Bootatrap icon
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");

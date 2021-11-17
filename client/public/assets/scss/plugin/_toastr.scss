@@ -1,0 +1,61 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+// use with CDN url
+@import "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css";
+
+// NPM node_modules url
+//@import "../../node_modules/toastr/build/toastr.css";
+
+#toast-container{
+    .toast{
+        background-image: none !important;
+        opacity: 0.9;
+
+        &:hover{
+            box-shadow: 0 0 15px 2px #b1b1b1;
+        }
+        
+        &:before {
+            color: var(--bs-white);
+            position: fixed;
+            font-family: 'FontAwesome';
+            float: left;
+            margin: auto 0.5em auto -1.5em;
+            padding-right: 0.5em;
+            font-size: 24px;
+            line-height: 18px;
+        }
+
+        &.toast-info{
+            background: var(--bs-info);
+            &:before {
+                content: "\f05a";
+            }
+        }
+        &.toast-success{
+            background: var(--bs-green);
+            &:before {
+                content: "\f058";
+            }
+        }
+        &.toast-warning{
+            background: var(--bs-orange);
+            &:before {
+                content: "\f003";
+            }
+        }
+        &.toast-error{
+            background: var(--bs-red);
+            &:before {
+                content: "\f071";
+            }
+        }
+    }
+    .toast-close-button{
+        color: var(--bs-gray-100);
+    }
+}

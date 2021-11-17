@@ -1,0 +1,33 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+.irs--flat{
+    .irs-from,
+    .irs-to,
+    .irs-single{
+        background-color: var(--primary-color);
+        &:before{
+            border-top-color: var(--primary-color);
+        }
+    }
+
+    .irs-bar{
+        background-color: var(--primary-color);
+    }
+    .irs-line{
+        background-color: var(--body-color);
+    }
+    .irs-min,
+    .irs-max{
+        color: var(--color-500);
+        background-color: var(--body-color);
+    }
+    .irs-handle {
+        > i:first-child{
+            background-color: var(--primary-color);
+        }
+    }
+}

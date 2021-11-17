@@ -1,0 +1,63 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+//Fonts Family
+$font-family: 		'Open Sans', sans-serif;
+$font-opensans: 	'Open Sans', sans-serif;
+$font-quicksand: 	'Quicksand', sans-serif;
+$font-nunito: 	    'Nunito', sans-serif;
+$font-raleway: 	    'Raleway', sans-serif;
+
+// Fonts
+$font-size: 		14px;
+
+// Bootstrap colors
+$color-success:     #4DCA88;
+$color-danger: 	    #FC5A69;
+$color-warning:     #FFBA33;
+$color-info: 	    #4FB8C9;
+$color-secondary: 	#6c757d;
+
+// more color 
+$indigos: 		    #484c7f !default;
+$purples: 		    #793997 !default;
+$oranges:           #f8b500 !default;
+$yellow:            #FFBA33 !default;
+$greens:            #7EB93F !default;
+$blues:	            #0d6efd !default;
+$blush:             #ED5782 !default;
+$cyans:	            #00bdaa !default;
+$reds:	 			#FF1843 !default;
+$info:		        #4FB8C9 !default;
+$white:		        #ffffff !default;
+$dark:		        #191818 !default;
+
+// scss-docs-start colors-map
+$c_colors: (
+    "blue":         $blues,
+    "blush":        $blush,
+    "indigo":       $indigos,
+    "purple":       $purples,
+    "red":          $reds,
+    "orange":       $oranges,
+    "yellow":       $yellow,
+    "green":        $greens,
+    "cyan":         $cyans,
+) !default;
+
+$sidebar-width: 	250px;
+$rightbar-width: 	280px;
+$sidebar-icon:	 	50px;
+
+// Breakpoints
+$break-sm: 		    567px;
+$break-xsmall: 		640px;
+$break-small: 		768px;
+$break-medium: 		992px;
+$break-1024: 		1024px;
+$break-large: 		1200px;
+$break-1280: 		1280px;
+$break-xlarge: 		1440px;

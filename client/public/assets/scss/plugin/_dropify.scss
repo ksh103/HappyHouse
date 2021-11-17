@@ -1,0 +1,15 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+.dropify-wrapper{
+    border: 1px solid var(--border-color);
+    border-radius: .25rem;
+    .dropify-message {
+        p{
+            font-size: 20px;
+        }
+    }
+}

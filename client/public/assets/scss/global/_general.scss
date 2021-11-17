@@ -1,0 +1,271 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+
+html{
+    //-webkit-user-select: none;
+    //-khtml-user-select: none;
+    //-moz-user-select: none;
+    //-o-user-select: none;
+    //user-select: none;
+}
+
+body {
+    @include transition(ease .1s);
+    @include fadeInAnimation('fadeInAnimation');
+    background-color: var(--body-color);
+    color: var(--color-500);
+    font-family: $font-opensans;
+    direction: ltr;
+    font-size: 14px;
+
+    &.font-opensans{
+        font-family: $font-opensans;
+    }
+    &.font-quicksand{
+        font-family: $font-quicksand;
+        font-size: 15px;
+    }
+    &.font-nunito{
+        font-family: $font-nunito;
+        font-size: 15px;
+    }
+    &.font-raleway{
+        font-family: $font-raleway;
+    }
+}
+
+a {
+    text-decoration: none;
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        outline: none;
+        box-shadow: none;
+    }
+}
+
+.brand-icon {
+    path{
+        fill: var(--primary-color);
+    }
+}
+
+.page-setting{
+    position: fixed;
+    right: 0;
+    top: 150px;
+    width: 30px;
+    height: 30px;
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    text-align: center;
+    line-height: 30px;
+    z-index: 999;
+}
+
+.hover-show{
+    &:hover{
+        .hover-div{
+            display: block;
+            z-index: 99;
+        }
+        &::after{
+            content: '';
+            top: 0;
+            left: 0;
+            width: 100%;
+            position: absolute;
+            background: #000;
+            height: 100%;
+            opacity: 0.5;
+            z-index: 0;
+        }
+        div.small{
+            z-index: 99;
+        }
+    }
+    .hover-div{
+        display: none;
+    }
+}
+
+// header notifications 
+.notifications {
+    .pulse,
+    .pulse:focus{
+        color: var(--primary-color) !important;
+    }
+
+    .card{
+
+        .card-header{
+            background-color: $dark;
+            color: $white;
+
+            .nav-tabs{
+                .nav-link{
+                    color: rgba($white, .7);
+                    font-size: 1rem;
+                    border: 0;
+
+                    &.active,
+                    &:hover{
+                        color: var(--secondary-color);
+                        background-color: transparent;
+
+                        &::after{
+                            content: '';
+                            width: 7px;
+                            height: 7px;
+                            background-color: var(--secondary-color);
+                            display: block;
+                            border-radius: 50%;
+                            margin: 5px auto 0;
+                        }
+                    }
+                }
+            }
+        }
+        .card-body.tab-content{
+            height: 330px;
+        }
+    }
+    ul:hover{
+        li{
+            @include transition(ease .1s);
+            opacity: .5;
+        }
+        li:hover{
+            opacity: 1 !important;
+        }
+    }
+}
+.menu-grid {
+    width: 180px;
+
+    li {
+      flex: 1 1 auto !important;
+      border-top: 1px solid var(--border-color);
+
+      .m-link {
+        @include transition(ease 0.3s);
+        color: var(--color-400);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0 5px;
+        width: 89px;
+        height: 89px;
+
+        &:hover {
+          background-color: var(--secondary-color);
+          color: $dark;
+          border: 3px solid var(--card-color);
+          box-shadow: 0 0 12px rgba($dark, 0.2);
+          transform: scale(1.2);
+        }
+        &.active {
+            background-color: var(--border-color);
+            color: $dark;
+            border: 3px solid var(--card-color);
+        }
+
+        .fa {
+          width: auto;
+          font-size: 18px;
+          margin-bottom: 12px;
+        }
+
+        span {
+          font-size: 12px;
+          text-align: center;
+        }
+      }
+      &:nth-child(2),
+      &:nth-child(4),
+      &:nth-child(6) {
+        border-left: 1px solid var(--border-color);
+      }
+      &:nth-child(1),
+      &:nth-child(2) {
+        border-top: 0;
+      }
+    }
+}
+
+#main-search{
+    .form-control{
+        font-size: 1.3rem;
+        color: $white;
+
+        &:focus,
+        &:focus-within,
+        &:active{
+            box-shadow: none;
+            &::placeholder{
+                color: $white;
+            }
+        }
+        &::placeholder{
+            color: rgba($white, .7);
+        }
+    }
+}
+
+// for card layout height
+.row-deck {
+    >.col,
+    >[class*='col-']{
+        display: flex;
+        align-items: stretch;
+        .card{
+            flex: 1 1 auto;
+        }
+    }
+}
+
+// Do not add in project
+code{
+    font-size: $font-size;
+}
+:not(pre) > code[class*="language-"],
+pre[class*="language-"]{
+    background: var(--color-100) !important;
+}
+code[class*="language-"],
+pre[class*="language-"]{
+    text-shadow: none !important;
+    color: var(--color-000) !important;
+}
+
+// responsive css
+@media only screen and (max-width: $break-xlarge) {
+    
+}
+@media only screen and (max-width: $break-large) {
+    
+}
+@media only screen and (max-width: $break-medium) {
+    
+}
+@media only screen and (max-width: $break-small - 1px) {
+    .body-header{
+        .row{
+            display: block;
+            .col-auto{
+                margin-top: 20px;
+            }
+        }
+    }
+    #NotificationsDiv{
+        left: 0;
+        right: 0;
+        position: fixed;
+        top: 55px;
+    }
+}

@@ -1,0 +1,110 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+
+.choose-skin {
+
+    li {
+        position: relative;
+        cursor: pointer;
+        margin: 4px;
+        font-size: 11px;
+
+        &.active {
+
+            &:after {
+                content: '';
+                position: absolute;
+                top: -4px;
+                left: -4px;
+                height: 24px;
+                width: 24px;
+                border: 1px solid var(--primary-color);
+            }
+            .dynamic{
+                background: var(--primary-color);
+                color: $white;
+            }
+        }
+
+        div {
+            width: 16px;
+            height: 16px;
+            text-align: center;
+            line-height: 14px;
+        }
+
+        span {
+            position: relative;
+            bottom: 7px;
+            left: 5px;
+        }
+    }
+    @each $key, $val in $c_colors {
+        .#{$key} {
+            background-color: $val;
+        }
+    }
+}
+
+.setting-img{
+    .bg-images{
+        display: none;
+        &.show{
+            display: block;
+        }
+    }
+    li{
+        filter: grayscale(100%);
+        &.sidebar-img-active{
+            filter: none;
+        }
+        a{
+            display: flex;
+            width: 40px;
+            height: 100px;
+            overflow: hidden;
+            align-items: center;
+            img{
+                width: 100%;
+            }
+        }
+    }
+}
+
+.theme-dynamic{
+    .dt-setting{
+        display: block;
+    }    
+}
+
+.dt-setting{
+    display: none;
+}
+
+.setting-list,
+.layout_setting{
+    li{
+        margin-bottom: 15px;
+    }
+}
+
+.colorpicker{
+    &.dropdown-menu{
+        z-index: 9999;
+    }
+}
+
+.rtl_mode{
+    .right-sidebar{
+        left: -300px;
+        right: auto;
+        &.open{
+            left: 0;
+            right: auto;
+        }
+    }
+}

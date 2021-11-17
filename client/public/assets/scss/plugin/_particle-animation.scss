@@ -1,0 +1,96 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+/* Config */
+$color-particle: var(--primary-color);
+$spacing: 2560px;
+$time-1: 60s;
+$time-2: 120s;
+$time-3: 180s;
+$time-4: 600s;
+
+/* Pauls awesome mixin */
+@function particles($max) {
+   $val: 0px 0px $color-particle;
+   @for $i from 1 through $max {
+      $val: #{$val},
+      random($spacing)+px random($spacing)+px $color-particle;
+   }
+   @return $val;
+}
+
+@mixin particles($max) {
+   box-shadow: particles($max);
+}
+
+.animation-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.particle,
+.particle:after {
+    background: transparent;
+}
+.particle:after {
+    position: absolute;
+    content: "";
+    top: $spacing;
+}
+
+.particle-1 {
+    @include particles(600);
+    animation: animParticle $time-1 linear infinite;
+    height: 1px;
+    width: 1px;
+
+    &:after {
+        @include particles(600);
+        height: 1px;
+        width: 1px;
+      }
+}
+.particle-2 {
+    @include particles(200);
+    animation: animParticle $time-2 linear infinite;
+    height: 2px;
+    width: 2px;
+    &:after {
+        @include particles(200);
+        height: 2px;
+        width: 2px;
+    }
+}
+.particle-3 {
+    @include particles(100);
+    animation: animParticle $time-3 linear infinite;
+    height: 3px;
+    width: 3px;
+    &:after {
+        @include particles(100);
+        height: 3px;
+        width: 3px;
+      }
+}
+.particle-4 {
+    @include particles(400);
+    animation: animParticle $time-4 linear infinite;
+    height: 1px;
+    width: 1px;
+    :after {
+        @include particles(400);
+        height: 1px;
+        width: 1px;
+    }
+}
+
+@keyframes animParticle {
+    from { transform: translateY(1px); }
+    to   { transform: translateY($spacing * -1); }
+}

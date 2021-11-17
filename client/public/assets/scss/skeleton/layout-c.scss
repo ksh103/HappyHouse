@@ -1,0 +1,329 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+@import "../global/variables";
+@import "../global/themes";
+@import "../global/mixins";
+
+// main layout scss
+#layout-c{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  /* -webkit-box-orient: vertical; */
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+// left icon navigation bar
+.navigation {
+  background-color: var(--body-color);
+  width: 60px;
+  height: 100vh;
+  font-size: 1rem;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  overflow-y: auto;
+  overflow-x: hidden;
+  text-align: center;
+
+  -webkit-box-ordinal-group: 1;
+  -ms-flex-order: 0;
+  order: 0;
+  z-index: 9;
+
+  @media only screen and (max-width: $break-1280 - 1px) {
+    background-color: var(--card-color);
+    z-index: 10;
+  }
+  @media only screen and (max-width: $break-sm) {
+    top: 0;
+    height: 56px;
+    width: 100%;
+    border-bottom: 1px solid;
+    position: fixed;
+    flex-direction: row;
+
+    .navbar-nav {
+      justify-content: flex-end !important;
+      .nav-item {
+        margin-left: 10px;
+      }
+    }
+
+    .nav-item.flex-grow-1 {
+      flex-grow: unset !important;
+    }
+  }
+}
+
+// sidebar main div
+.sidebar {
+  @include transition(ease 0.1s);
+  //background-color: $dark;
+  background: var(--primary-color);
+  position: relative;
+  height: calc(100vh - 32px);
+  width: 260px;
+  overflow-y: auto;
+  -webkit-box-flex: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+
+  -webkit-box-ordinal-group: 2;
+  -ms-flex-order: 1;
+  order: 1;
+
+  overflow-y: scroll;
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE 10+
+
+  &::-webkit-scrollbar {
+    // WebKit
+    width: 5px;
+  }
+
+  .sidebar-title {
+    color: var(--white-color);
+  }
+  .tab-content {
+    .list-group-item {
+      color: var(--white-color);
+    }
+  }
+  .menu-list {
+    list-style: none;
+    padding: 0;
+
+    a[aria-expanded="true"] {
+      .m-link {
+        color: var(--secondary-color);
+      }
+      .arrow:before {
+        content: "\f068";
+      }
+    }
+
+    .m-link,
+    .ms-link {
+      display: flex;
+      &:hover,
+      &.active {
+        color: var(--secondary-color);
+
+        &::before {
+          display: block;
+        }
+      }
+    }
+    .m-link {
+      color: var(--white-color);
+      align-items: center;
+      padding: 10px 0;
+    }
+    .ms-link {
+      color: var(--white-color);
+      position: relative;
+      padding: 5px 0;
+
+      &::before {
+        background-color: var(--secondary-color);
+        content: "";
+        display: none;
+        position: absolute;
+        height: 5px;
+        width: 5px;
+        left: -24px;
+        top: 13px;
+      }
+    }
+
+    .fa {
+      width: 30px;
+    }
+    .arrow {
+      color: var(--white-color);
+      opacity: 0.3;
+    }
+    .divider {
+      color: var(--white-color);
+      border-color: rgba($white, 0.3) !important;
+      opacity: 0.5;
+    }
+
+    .sub-menu {
+      list-style: none;
+      position: relative;
+      padding-left: 30px;
+
+      &::before {
+        background-color: var(--white-color);
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 1px;
+        left: 8px;
+        top: 0;
+      }
+    }
+  }
+  &.sidebar-img-bg{
+    background: rgba($dark,.8) !important;
+    &::after{
+        position: fixed;
+        background-image: var(--sidebar-img);
+        background-size: cover;
+        background-position: center center;
+        content: '';
+        left: 60px;
+        top: 15px;
+        z-index: -1;
+        width: 260px;
+        opacity: 1;
+        height: calc(100vh - 32px);
+    }
+    &.sidebar-mini{
+        &::after{
+            width: 60px;
+        }
+    }
+  }
+
+  &.open {
+    left: 60px;
+    z-index: 9;
+    &.sidebar-img-bg{
+      background: $dark !important;
+      &::after{
+          opacity: 0.1;
+          left: 60px;
+      }
+    }
+    @media only screen and (max-width: $break-sm) {
+      left: 0;
+      margin-bottom: 0 !important;
+      height: calc(100vh - 16px);
+      &.sidebar-img-bg{
+        &::after{
+            left: 0;
+        }
+      }
+    }
+    
+  }
+
+  @media only screen and (max-width: $break-1280 - 1px) {
+    position: fixed;
+    left: -400px;
+    &.sidebar-img-bg{
+      &::after{
+        left: -400px;
+      }
+    }
+  }
+}
+
+// project main body part
+.main { 
+  @include c_overflow(scroll);
+  background-color: var(--body-color);
+  height: 100vh;
+  -webkit-box-ordinal-group: 4;
+  -ms-flex-order: 3;
+  order: 3;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+
+  @media only screen and (max-width: $break-sm) {
+    height: calc(100vh - 60px);
+    margin-top: 60px;
+  }
+
+  .body {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: column;
+    flex-flow: column;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    min-width: 0;
+    min-height: calc(100vh - 180px);
+  }
+}
+
+// RTL mode css
+.rtl_mode { 
+  .sidebar {
+    .menu-list .sub-menu {
+      padding-right: 30px;
+      padding-left: 0;
+      &:before {
+        right: 8px;
+        left: auto;
+      }
+    }
+    &.sidebar-img-bg{
+      &::after{
+        left: auto;
+        right: 60px;
+      }
+    }
+    &.open {
+      left: auto;
+      right: 60px;
+      &.sidebar-img-bg{
+        &::after{
+          left: auto;
+          right: 60px;
+        }
+      }
+      @media only screen and (max-width: $break-sm) {
+        left: auto;
+        right: 0;
+        &.sidebar-img-bg{
+          &::after{
+            left: auto;
+            right: 0;
+          }
+        }
+      }
+    }
+  
+    @media only screen and (max-width: $break-1280 - 1px) {
+      left: auto;
+      right: -400px;
+      &.sidebar-img-bg{
+        &::after{
+          left: auto;
+          right: -400px;
+        }
+      }
+    }
+  }
+}
+
+[data-theme="dark"] {
+  .sidebar {
+    background: #000000 !important;
+  }
+}

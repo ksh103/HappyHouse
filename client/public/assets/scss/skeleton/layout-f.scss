@@ -1,0 +1,210 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+@import "../global/variables";
+@import "../global/themes";
+@import "../global/mixins";
+
+body{
+	@include c_overflow(scroll);
+}
+
+#layout-f::after {
+  background-color: var(--primary-color);
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 280px;
+  width: 100%;
+  z-index: -1;
+}
+.dropdown-menu.dropdown-animation{
+  a.dropdown-item{
+    min-width: auto;
+  }
+}
+
+// main header
+.brand-icon {
+  path {
+    fill: $white;
+  }
+}
+.header {
+  .navbar-nav {
+    .nav-item {
+      &:hover {
+        .dropdown-menu {
+          display: block;
+          &.ui-dropdown-link{
+            display: flex;
+          }
+        }
+      }
+      .dropdown-menu {
+        margin: 0;
+        &.ui-dropdown-link{
+          width: 240px;
+          flex-wrap: wrap;
+          li{
+              width: 50%;
+          }
+        }
+      }
+    }
+  }
+
+  .nav-link {
+    font-size: 15px;
+    color: rgba($white, 0.8);
+    &:hover,
+    &.active {
+      color: $white;
+    }
+    @media only screen and (max-width: $break-small) {
+    }
+  }
+
+  .h-left {
+    > .border {
+      border-color: rgba($white, 0.3) !important;
+    }
+  }
+
+  .header-search {
+    .form-control::placeholder {
+      color: rgba($white, 0.3);
+    }
+    .form-control:focus {
+      &::placeholder {
+        color: $white;
+      }
+    }
+    .btn-outline-secondary:hover {
+      background-color: transparent;
+    }
+  }
+
+  .navbar-collapse {
+    border-bottom: 1px solid rgba($white, 0.1);
+  }
+
+  .sub-header {
+    background-color: var(--primary-color);
+  }
+
+  @media only screen and (max-width: $break-medium - 1px) {
+    .navbar-toggler {
+      position: fixed;
+      right: 1rem;
+      top: 25px;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+    #mainHeader {
+      background-color: var(--primary-color);
+      position: fixed;
+      top: 62px;
+      left: 0;
+      width: 100%;
+      padding: 1rem 1.5rem;
+    }
+  }
+  @media only screen and (max-width: $break-small) {
+    .navbar-toggler {
+      top: 19px;
+    }
+    #mainHeader {
+      height: calc(100vh - 55px);
+      top: 55px;
+      overflow-y: auto;
+
+      .shadow {
+        box-shadow: none !important;
+      }
+    }
+    .navbar-collapse {
+      display: block;
+      opacity: 0;
+      visibility: hidden;
+      &.show {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+    .notifications{
+      .w380{
+        width: 100%;
+      }
+    }
+  }
+}
+.notifications {
+  .pulse {
+    color: $white !important;
+    &:focus {
+      color: $white !important;
+    }
+    .pulse-ring {
+      border-color: var(--secondary-color);
+    }
+  }
+}
+
+// project main body part
+.main {
+  //background-color: var(--body-color);
+  margin-top: 125px;
+  height: calc(100vh - 125px);
+  -webkit-box-ordinal-group: 4;
+  -ms-flex-order: 3;
+  order: 0;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+
+  @media only screen and (max-width: $break-medium - 1px) {
+    margin-top: 55px;
+    height: calc(100vh - 55px);
+  }
+
+  .body-header .breadcrumb {
+    a {
+      color: $white;
+    }
+    .breadcrumb-item.active {
+      color: rgba($white, 0.5);
+    }
+  }
+
+  .body {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: column;
+    flex-flow: column;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    min-width: 0;
+    min-height: calc(100vh - 290px);
+  }
+  .card-chat,
+  .card-chat-body {
+    height: calc(100vh - 125px);
+    @media only screen and (max-width: $break-1024 - 1px) {
+      height: calc(100vh - 55px);
+    }
+  }
+}
+
+// theme setting
+.setting-img,
+.gradient-switch{
+    display: none;
+}

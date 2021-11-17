@@ -1,0 +1,66 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+// Global
+@import "../scss/global/fonts";
+@import "../scss/global/variables";
+@import "../scss/global/themes";
+@import "../scss/global/mixins";
+
+// Bootstrap 5x
+@import "node_modules/bootstrap/scss/bootstrap.scss";
+
+@import "../scss/global/general";
+@import "../scss/global/rtl-mode";
+
+// Dynamic Color scss
+@import "assets/plugin/colorpicker/colorpicker.min.scss";
+
+// Custom Bootstrap Components
+@import "../scss/bootstrap/custom";
+
+// Generic
+@import "../scss/generic/helpers";
+@import "../scss/generic/animate";
+@import "../scss/generic/setting-bar";
+@import "../scss/generic/auth";
+
+// ALUI custome Plugin scss
+@import "../scss/plugin/chat";
+@import "../scss/plugin/inbox";
+@import "../scss/plugin/timeline";
+@import "../scss/plugin/invoices";
+
+// vendor plugin custome scss
+@import "../scss/plugin/particle-animation";
+@import "../scss/plugin/calendar";
+@import "../scss/plugin/nestable";
+@import "../scss/plugin/datatable";
+@import "../scss/plugin/dropify";
+@import "../scss/plugin/summernote";
+@import "../scss/plugin/owl-carousel";
+@import "../scss/plugin/masonry-gallery";
+@import "../scss/plugin/select2";
+@import "../scss/plugin/apex-chart";
+@import "../scss/plugin/wizard";
+@import "../scss/plugin/todo";
+@import "../scss/plugin/floatlabel";
+@import "../scss/plugin/tagsinput";
+@import "../scss/plugin/nouislider";
+@import "../scss/plugin/skedtape";
+@import "../scss/plugin/jsgrid-custome";
+@import "../scss/plugin/fancybox";
+@import "../scss/plugin/sweetalert";
+@import "../scss/plugin/toastr";
+@import "../scss/plugin/rangeslider";
+
+// Application widgets
+@import "../scss/widgets/card";
+@import "../scss/widgets/list";
+@import "../scss/widgets/table";
+
+// High contrast scss
+@import "../scss/global/high-contrast";

@@ -1,0 +1,266 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+
+// Bootstrap RTL scss
+body.rtl_mode {
+
+    direction: rtl;
+    text-align: right;
+    overflow: hidden;
+
+    ul{
+        padding-right: 0;
+    }
+
+    .float-right{
+        float: left !important;
+    }
+    .text-end{
+        text-align: left !important;
+    }
+    .text-start{
+        text-align: right !important;
+    }
+    .ms-auto{
+        margin-left: unset !important;
+        margin-right: auto !important;
+    }
+    .me-auto{
+        margin-right: unset !important;
+        margin-left: auto !important;
+    }
+    .end-0{
+        left: 0 !important;
+        right: auto !important;
+    }
+
+    .ms-1 {
+        margin-right: ($spacer * .25) !important;
+    }
+
+    .ms-1{
+        margin-left: 0 !important;
+        margin-right: .25rem !important;
+    }
+    .me-1{
+        margin-right: 0 !important;
+        margin-left: .25rem !important;
+    }
+    .ps-1{
+        padding-left: 0 !important;
+        padding-right: .25rem !important;
+    }
+    .ps-1{
+        padding-right: 0 !important;
+        padding-left: .25rem !important;
+    }
+
+    .ms-2{
+        margin-left: 0 !important;
+        margin-right: .5rem !important;
+    }
+    .me-2{
+        margin-right: 0 !important;
+        margin-left: .5rem !important;
+    }
+    .ps-2{
+        padding-left: 0 !important;
+        padding-right: .5rem !important;
+    }
+    .pe-2{
+        padding-right: 0 !important;
+        padding-left: .5rem !important;
+    }
+
+    .ms-3{
+        margin-left: 0 !important;
+        margin-right: 1rem !important;
+    }
+    .me-3{
+        margin-right: 0 !important;
+        margin-left: 1rem !important;
+    }
+    .me-4{
+        margin-right: 0 !important;
+        margin-left: 1.5rem !important;
+    }
+    .ms-4{
+        margin-left: 0 !important;
+        margin-right: 1.5rem !important;
+    }
+    .ps-3{
+        padding-left: 0 !important;
+        padding-right: 1rem !important;
+    }
+    .pe-3{
+        padding-right: 0 !important;
+        padding-left: 1rem !important;
+    }
+    .dropdown-menu{
+        text-align: right;
+
+        &.dropdown-menu-end[data-bs-popper]{
+            right: auto;
+            left: 0;    
+        }
+    }
+    .dropdown-menu-right{
+        left: 0;
+        right: auto;
+        text-align: right;
+    }
+
+    .modal-header{
+        .btn-close{
+            margin: unset;
+        }
+    }
+    .list-inline-item{
+        &:not(:last-child){
+            margin-left: .5rem;
+            margin-right: 0;
+        }
+    }
+    .form-check{
+        padding-right: 1.5em;
+        padding-left: 0;
+
+        .form-check-input{
+            float: right;
+            margin-left: 10px;
+            margin-right: -1.5em;
+        }
+    }
+    .breadcrumb-item+.breadcrumb-item{
+        padding-right: .5rem;
+        padding-left: 0;
+        &:before{
+            float: right;
+            padding-left: .5rem;
+            padding-right: 0;
+        }
+    }
+    .modal{
+        &.fade .modal-dialog-vertical{
+            transform: translateX(+100%);
+        }
+        &.show .modal-dialog-vertical{
+            transform: translateX(0);
+        }
+    }
+
+    .input-group{
+        &:not(.has-validation){
+            >:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
+            >.dropdown-toggle:nth-last-child(n+3){
+                border-top-right-radius: .25rem;
+                border-bottom-right-radius: .25rem;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+        >:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback){
+            margin-right: -1px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-top-left-radius: .25rem;
+            border-bottom-left-radius: .25rem;
+        }
+    }
+
+    .form-floating{
+        >label{
+            right: 0;
+            left: auto;
+        }
+    }
+    .btn-group{
+        .btn:first-child{
+            border-top-right-radius: .25rem;
+            border-bottom-right-radius: .25rem;
+        }
+        >.btn:not(:last-child):not(.dropdown-toggle),
+        >.btn-group:not(:last-child)>.btn{
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        >.btn:nth-child(n+3),
+        >:not(.btn-check)+.btn,
+        >.btn-group:not(:first-child)>.btn{
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-top-left-radius: .25rem;
+            border-bottom-left-radius: .25rem;
+        }
+    }
+    .sidebar-mini-btn{
+        .fa-arrow-left{
+            transform: rotate(180deg);
+        }
+    }
+    .dropdown-toggle::after {
+        margin-left: unset;
+        margin-right: 0.255em;
+    }
+
+    @media (min-width: 1200px){
+        .ms-xl-5 {
+            margin-left: 0 !important;
+            margin-right: 3rem !important;
+        }
+    }
+    @media (min-width: 992px){
+        .me-lg-0{
+            margin-left: 0 !important;
+        }
+        .pe-lg-4 {
+            padding-left: 1.5rem !important;
+            padding-right: 0 !important;
+        }
+    }
+    @media (min-width: 768px){
+        .ms-md-5 {
+            margin-right: 3rem !important;
+        }
+        .text-md-start {
+            text-align: right !important;
+        }
+    }
+}
+
+// project widgets scss
+body.rtl_mode {
+    .timeline-item{
+        border-left: 0;
+        border-right: 2px solid var(--border-color);
+        &:after{
+            right: -5px;
+            left: auto;
+        }
+    }
+    .resume-box{
+        padding: 30px 20px;
+        li{
+            padding: 0 60px 0 20px;
+            &::after{
+                border-left: 0;
+                border-right: 1px dashed var(--primary-color);
+                right: 20px;
+                left: auto
+            }
+        }
+    }
+    .apexcharts-canvas{
+        direction: ltr;
+    }
+    .post-card{
+        .author{
+            float: right;
+            margin-left: 5px;
+        }
+    }
+}

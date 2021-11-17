@@ -1,0 +1,46 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+.sked-tape{
+    .sked-tape__caption,
+    .sked-tape__hours{
+        background-color: var(--card-color);
+    }
+    .sked-tape__location{
+        background-color: var(--border-color);
+        &:not(:last-child){
+            border-color: var(--card-color);
+        }
+    }
+
+    .sked-tape__date{
+        background: var(--card-color);
+        &:nth-child(odd){
+            background: var(--border-color);
+        }
+    }
+
+    .sked-tape__event{
+        background-color: var(--chart-color1);
+        border: 0;
+    }
+    .sked-tape__event--low-gap{
+        background-color: var(--chart-color3);
+        border: 0;
+    }    
+    .sked-tape__event-row{
+        border-color: var(--border-color);
+        background-color: var(--border-color);
+        &:nth-child(odd){
+            background-color: var(--card-color);
+        }
+    }
+    .sked-tape__grid{
+        >li{
+            background-image: linear-gradient(to right, var(--border-color) 1px, var(--border-color) 1px),linear-gradient(to right, var(--border-color) 1px, var(--border-color) 1px),linear-gradient(to right, var(--border-color) 1px, var(--border-color) 1px),linear-gradient(to right, var(--border-color) 1px, var(--border-color) 1px),linear-gradient(to right, var(--border-color) 1px, var(--border-color) 1px);
+        }
+    }
+}

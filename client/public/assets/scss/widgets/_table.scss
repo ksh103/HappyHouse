@@ -1,0 +1,77 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+table.dataTable.dtr-inline.collapsed{
+    >tbody>tr[role="row"]>{
+        td:first-child,
+        th:first-child{
+            padding-left: 40px;
+            &::before{
+                top: 14px !important;
+                left: 10px !important;
+                height: 15px;
+                width: 15px;
+                line-height: 16px !important;
+                background-color: var(--primary-color) !important;
+            }
+        }
+    }
+    &.d-row{
+        >tbody>tr[role="row"]>{
+            td:first-child,
+            th:first-child{
+                &::before{
+                    top: 22px !important;
+                }
+            }   
+        }
+    }
+}
+.table{
+    &.dataTable{
+        &.dtr-inline{
+            &.collapsed{
+                >tbody{
+                    >tr{
+                        .odd,
+                        .even{
+                            >td,
+                            >th{
+                                &:first-child{
+                                    padding-left: 26px;
+                                    &::before{
+                                        @include transition(ease .1s);
+                                        background-color: var(--secondary-color);
+                                        color: $dark;
+                                        font-family: 'FontAwesome';
+                                        content: '\f105';
+                                        text-align: center;
+                                        position: absolute;
+                                        left: 0;
+                                        top: 16px;
+                                        width: 16px;
+                                        height: 16px;
+                                        line-height: 16px;
+                                    }
+                                }
+                            }
+                        }
+                        &.parent{
+                            >td,
+                            >th{
+                                &:first-child:before{
+                                    content: '\f107';
+                                    background-color: var(--primary-color);
+                                    color: $white;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,16 @@
+<svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="600" height="400" fill="white"/>
+<path d="M600 2C600 0.89543 599.105 0 598 0H2C0.895429 0 0 0.895431 0 2V117C0 118.105 0.895431 119 2 119H598C599.105 119 600 118.105 600 117V2Z" fill="#D3DBDF"/>
+<path d="M575 81C575 79.8954 574.105 79 573 79H24C22.8954 79 22 79.8954 22 81V388C22 389.105 22.8954 390 24 390H573C574.105 390 575 389.105 575 388V81Z" fill="#F3F3F3"/>
+<rect opacity="0.5" x="51" y="19" width="114" height="13" rx="3" fill="white"/>
+<circle cx="28" cy="25" r="6" fill="white"/>
+<circle cx="571" cy="25" r="4" fill="white"/>
+<circle cx="551" cy="25" r="4" fill="white"/>
+<circle cx="531" cy="25" r="4" fill="white"/>
+<rect x="22" y="55" width="23" height="5" fill="white"/>
+<rect x="62" y="55" width="23" height="5" fill="white"/>
+<rect x="102" y="55" width="23" height="5" fill="white"/>
+<rect x="142" y="55" width="23" height="5" fill="white"/>
+<rect x="182" y="55" width="23" height="5" fill="white"/>
+<rect x="222" y="55" width="23" height="5" fill="white"/>
+</svg>

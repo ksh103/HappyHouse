@@ -1,0 +1,169 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+@import "../global/variables";
+@import "../global/themes";
+@import "../global/mixins";
+
+body{
+	@include c_overflow(scroll);
+}
+
+// main layout scss
+#layout-d{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    /* -webkit-box-orient: vertical; */
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+// main header
+.header {
+    background-color: var(--color-fff);
+
+    .navbar-nav{
+        .nav-item{
+            &:hover{
+                .dropdown-menu{
+                    display: block;
+                    &.ui-dropdown-link{
+                        display: flex;
+                    }
+                }
+            }
+            .dropdown-menu{
+                margin: 0;
+
+                &.ui-dropdown-link{
+                    width: 240px;
+                    flex-wrap: wrap;
+                    li{
+                        width: 50%;
+                        a.dropdown-item{
+                            min-width: auto;
+                        }
+                    }
+                }
+            }
+            @media only screen and (max-width: $break-1280) {
+                .fa{
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .nav-link{
+        font-size: 15px;
+        color: var(--color-600);
+        &.active{
+            color: var(--primary-color);
+        }
+    }
+    
+    #main-search{
+        position: absolute;
+        top: 55px;
+        width: 100%;
+        left: 0;
+        .form-control{
+            &::placeholder{
+                color: $white;
+                opacity: 0.5;
+            }
+            &:focus{
+                box-shadow: none;
+                color: $white;
+                &::placeholder{
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    @media only screen and (max-width: $break-medium - 1px) {
+        .navbar-toggler{
+            position: fixed;
+            right: 1rem;
+            &:focus{
+                box-shadow: none;
+            }
+        }
+        #mainHeader{
+            background-color: var(--color-fff);
+            position: fixed;
+            top: 55px;
+            left: 0;
+            width: 100%;
+            padding: 1rem 1.5rem;
+        }
+    }
+    @media only screen and (max-width: $break-small) {
+        #mainHeader{
+            height: calc(100vh - 55px);
+            overflow-y: auto;
+            
+            .shadow {
+                box-shadow: none !important;
+            }
+        }
+        .navbar-collapse{
+            display: block;
+            opacity: 0;
+            visibility: hidden;
+            &.show{
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+}
+
+// project main body part
+.main {
+    background-color: var(--body-color);
+    overflow-y: auto;
+    margin-top: 55px;
+    height: auto;
+    -webkit-box-ordinal-group: 4;
+    -ms-flex-order: 3;
+    order: 0;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+
+    .body{
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+        flex-flow: column;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        min-width: 0;
+        min-height: calc(100vh - 220px);
+    }
+    
+    .card-chat,
+    .card-chat-body{
+        height: calc(100vh - 55px);
+    }
+}
+
+// theme setting
+.setting-img,
+.gradient-switch{
+    display: none;
+}

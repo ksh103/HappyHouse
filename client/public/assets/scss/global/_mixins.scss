@@ -1,0 +1,78 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+@mixin transition($transition) {
+    -moz-transition: $transition;
+    -o-transition: $transition;
+    -webkit-transition: $transition;
+    transition: $transition;
+}
+
+@mixin fadeInAnimation($fadeInAnimation) {
+    animation: fadeInAnimation ease 2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+
+    @keyframes fadeInAnimation {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+         }
+    }
+}
+
+@mixin overflow($scroll) {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none; // Firefox
+    -ms-overflow-style: none;  // IE 10+
+
+    &::-webkit-scrollbar { // WebKit 
+        width: 3px;
+       // background-color: var(--primary-color)
+    }
+    &::-webkit-scrollbar-thumb {
+       // background: var(--primary-color)
+    }
+}
+
+@mixin c_overflow($scroll) {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;  // IE 10+
+    scrollbar-width: none; // Firefox
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+    &:hover {
+        &::-webkit-scrollbar-thumb{
+            visibility: visible;
+        }
+        &::-webkit-scrollbar-track {
+            visibility: visible;
+        }    
+    }
+    
+    // Track /
+    &::-webkit-scrollbar-track {
+        visibility: hidden;
+        background: transparent;
+    }    
+    // Handle /
+    &::-webkit-scrollbar-thumb {
+        visibility: hidden;
+        opacity: 0.2;
+        background: var(--secondary-color);
+        //background: linear-gradient(-45deg, var(--secondary-color), var(--primary-color));
+        border-radius: 5px;
+        &:hover{
+            opacity: 1;
+        }
+    }
+}

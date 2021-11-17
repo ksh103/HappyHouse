@@ -1,0 +1,17 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+.swal2-modal{
+    .swal2-actions{
+        .swal2-confirm{
+            background-color: var(--primary-color);
+            &:focus{
+                box-shadow: none;
+                outline: none;
+            }
+        }
+    }
+}

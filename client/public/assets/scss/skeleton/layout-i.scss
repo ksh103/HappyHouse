@@ -1,0 +1,223 @@
+// Admin Layout (ALUI)
+// @author: WrapTheme ( https://themeforest.net/user/wrraptheme )
+// @design by: ThemeMakker Infotech LLP.
+// @event-namespace: ALUI
+// Copyright 2021 WrapTheme
+
+@import "../global/variables";
+@import "../global/themes";
+@import "../global/mixins";
+
+// main layout scss
+#layout-i{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    /* -webkit-box-orient: vertical; */
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+.menu-toggle{
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+}
+
+// sidebar main div
+.sidebar{
+    @include transition(ease .1s);
+    @include c_overflow(scroll);
+    background: var(--card-color);
+    height: 100vh;
+    width: 300px;
+    -webkit-box-flex: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+
+    @media only screen and (max-width: $break-1280 - 1px) {
+        position: fixed;
+        z-index: 9;
+        left: -400px;
+    }
+
+    .menu-list{
+        list-style: none;
+        padding: 0;
+
+        a[aria-expanded="true"]{
+            .m-link{
+                color: var(--secondary-color);
+            }
+            .arrow:before{
+                content: "\f068";
+            }
+        }
+        > li:last-child{
+            margin-bottom: 70px;
+        }
+
+        .m-link,
+        .ms-link{
+            display: flex;
+            &:hover,
+            &.active{
+                color: var(--primary-color);
+
+                &::before{
+                    display: block;
+                }
+
+                svg{
+                    fill: var(--primary-color);
+                }
+            }
+        }
+        .m-link{
+            color: var(--color-800);
+            padding: 10px 0;
+            position: relative;
+
+            svg{
+                width: 20px;
+                height: 20px;
+                fill: var(--color-600);
+            }
+        }
+        .ms-link{
+            color: var(--color-500);
+            position: relative;
+            padding: 5px 0;
+
+            &::before{
+                background-color: var(--primary-color);
+                content: "";
+                display: none;
+                position: absolute;
+                height: 5px;
+                width: 5px;
+                left: -14px;
+                top: 13px;
+            }
+        }
+
+        .fa {
+            width: 30px;
+        }
+        .arrow{
+            color: var(--color-500);
+            opacity: 0.3;
+            position: absolute;
+            right: 0;
+            top: 15px;
+        }
+        .divider{
+            color: var(--color-500);
+            border-color: rgba($white, 0.3) !important;
+            opacity: 0.5;
+        }
+
+        .sub-menu{
+            list-style: none;
+            position: relative;
+            padding-left: 20px;
+            margin-left: 20px;
+
+            &::before{
+                background-color: var(--color-200);
+                content: "";
+                position: absolute;
+                height: 100%;
+                width: 1px;
+                left: 8px;
+                top: 0;
+            }
+        }
+    }
+
+    .menu-footer{
+        background-color: var(--card-color);
+    }
+    
+    &.open{
+        left: 0;
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+    }
+}
+
+// project main body part
+.main{
+    @include c_overflow(scroll);
+    background-color: var(--card-color);
+    height: 100vh;
+    -webkit-box-ordinal-group: 4;
+    -ms-flex-order: 3;
+    order: 3;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    z-index: 8;
+
+    .body{
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+        flex-flow: column;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        min-width: 0;
+        min-height: calc(100vh - 180px);
+    }
+}
+
+// theme setting
+.setting-img,
+.gradient-switch{
+    display: none;
+}
+
+// dark theme border color 
+[data-theme="dark"] {
+    .modal {
+        .border, .border-left, .border-top, .border-right, .border-bottom{
+            border-color: #efefef !important;
+        }
+    }
+}
+
+// RTL mode css
+.rtl_mode{
+
+    .sidebar{
+        .menu-list {
+            .sub-menu{
+                padding-right: 30px;
+                padding-left: 0;
+                &::before{
+                    right: 8px;
+                    left: auto;
+                }
+            }
+            .ms-link::before{
+                right: -24px;
+                left: auto;
+            }
+            .arrow{
+                left: 0;
+                right: auto;
+            }
+        }
+    }
+}
