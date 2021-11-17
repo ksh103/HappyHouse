@@ -85,7 +85,7 @@ export default {
         .then(response => {
           let $this = this;
           if (response.result == 1) {
-            this.$alertify.alert('가입이 완료되었습니다. 로그인 페이지로 이동합니다.', function() {
+            $this.$alertify.alert('가입이 완료되었습니다. 로그인 페이지로 이동합니다.', function() {
               $this.$router.push('/user/login/');
             });
           }

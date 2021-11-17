@@ -32,8 +32,18 @@ export default new Vuex.Store({
     },
     SET_USER_LOGOUT(state){
       state.user.isAuth = false;
-      state.user = {};
-    }
+      state.user.seq: 0,
+      state.user.id: '',
+      state.user.level: 0,
+      state.user.password: '',
+      state.user.name: '',
+      state.user.email: '',
+    },
+    SET_USER_MODIFY(state, payload) {
+      state.user.name = payload.name;
+      state.user.password = payload.password;
+      state.user.email = payload.email;
+    },
   },
   actions: {
     login(context, { userId, userPassword }) {
