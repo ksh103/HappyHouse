@@ -18,7 +18,7 @@
       
       <div class="collapse navbar-collapse justify-content-between" id="navbar-collapse">
         <ul class="navbar-nav">
-          <li class="ms-lg-2 ms-md-1 nav-item active"><router-link class="nav-link" to="/board/notice">공지사항</router-link></li>
+          <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="/board/notice">공지사항</router-link></li>
           <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="/user/login">메뉴1</router-link></li>
           <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="/user/join">메뉴2</router-link></li>
           <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="/user/modify">메뉴3</router-link></li>
@@ -31,10 +31,9 @@
               <img alt="Image" :src="profileImg" class="avatar rounded-circle">
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow border-0 m-0 p-3">
-              <li><a class="dropdown-item py-2 rounded" href="#"><i class="fa fa-cog me-3"></i>내 정보</a></li>
+              <li><a class="dropdown-item py-2 rounded" href="#"><i class="fa fa-user me-3"></i>프로필</a></li>
+              <li><a class="dropdown-item py-2 rounded" href="#"><i class="fa fa-cog me-3"></i>프로필 수정</a></li>
               <li><a class="dropdown-item py-2 rounded" href="#"><i class="fa fa-info-circle me-3"></i>로그아웃</a></li>
-              <li><a class="dropdown-item py-2 rounded" href="#"><i class="fa fa-user me-3"></i>메뉴</a></li>
-              <li><a class="dropdown-item py-2 rounded" href="#"><i class="fa fa-sign-out me-3"></i>메뉴</a></li>
             </ul>
           </div>
         </div>
