@@ -28,6 +28,11 @@ export default new Vuex.Store({
   mutations: {
     SET_USER(state, payload) {
       state.user = payload;
+    },
+    SET_USER_MODIFY(state, payload) {
+      state.user.name = payload.name;
+      state.user.password = payload.password;
+      state.user.email = payload.email;
     }
   },
   actions: {
