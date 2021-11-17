@@ -9,7 +9,7 @@ Vue.use(VueAlertify);
 
 export default new Vuex.Store({
   state: {
-    // userinfo
+    // 유저 정보
     user: {
       isAuth: false,
       seq: 0,
@@ -27,7 +27,12 @@ export default new Vuex.Store({
   },
   mutations: {
     SET_USER(state, payload) {
+      state.user.isAuth = true;
       state.user = payload;
+    },
+    SET_USER_LOGOUT(state){
+      state.user.isAuth = false;
+      state.user = {};
     }
   },
   actions: {
@@ -69,7 +74,16 @@ export default new Vuex.Store({
           //   this.$alertify.error('Opps!! 서버에 문제가 발생했습니다.');
           // }
         });
+    },
+    logout(context){
+      context.commit("SET_USER_LOGOUT");
     }
+
   },
   modules: {},
+  getters: {
+    isAuth : function(state){
+      return state.user.isAuth;
+    },
+  }
 });
