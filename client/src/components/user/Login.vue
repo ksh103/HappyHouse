@@ -42,7 +42,12 @@
 </template>
 
 <script>
+
+import Vue from "vue";
 import { mapActions } from 'vuex';
+import VueAlertify from 'vue-alertify';
+
+Vue.use(VueAlertify);
 
 export default {
   name: 'Login',
@@ -56,6 +61,11 @@ export default {
     ...mapActions(['login']),
     validateForm() {
       // TODO : id, password validation
+      // let err = true;  // eslint-disable-line no-unused-vars
+      // let msg = "";  // eslint-disable-line no-unused-vars
+
+      // !this.userId && (( msg = "아이디를 입력해주세요. ")), (err = false), this.$store.userId.focuse();
+    
       alert('validate form 후 로그인 호출')
       this.login({
         userId: this.userId,

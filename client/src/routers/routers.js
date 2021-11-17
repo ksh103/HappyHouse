@@ -34,7 +34,7 @@ export default new VueRouter({
           path: 'login',
           name: 'Login',
           component: Login
-        },
+        },        
         {
           path: 'join',
           name: 'Join',

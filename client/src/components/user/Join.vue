@@ -22,6 +22,12 @@
         </div>
         <div class="col-12">
           <div class="mb-2">
+            <label class="form-label">이메일</label>
+            <input v-model="userEmail" type="email" class="form-control" placeholder="이메일을 입력하세요." />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="mb-2">
             <label class="form-label">비밀번호</label>
             <input v-model="userPassword" type="password" class="form-control" placeholder="비밀번호를 입력하세요."/>
           </div>
@@ -32,12 +38,7 @@
             <input v-model="userRePassword" type="password" class="form-control" placeholder="비밀번호를 다시 입력하세요." />
           </div>
         </div>
-        <div class="col-12">
-          <div class="mb-2">
-            <label class="form-label">이메일</label>
-            <input v-model="userEmail" type="email" class="form-control" placeholder="이메일을 입력하세요." />
-          </div>
-        </div>
+        
         <div class="col-12 text-center mt-4">
           <a @click="join" href="#" class="btn btn-dark lift text-uppercase">join us</a>
         </div>

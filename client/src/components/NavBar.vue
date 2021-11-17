@@ -19,21 +19,28 @@
       <div class="collapse navbar-collapse justify-content-between" id="navbar-collapse">
         <ul class="navbar-nav">
           <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="/board/notice">공지사항</router-link></li>
-          <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="/user/login">메뉴1</router-link></li>
-          <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="/user/join">메뉴2</router-link></li>
-          <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="/user/modify">메뉴3</router-link></li>
+          <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="">메뉴1</router-link></li>
+          <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="">메뉴2</router-link></li>
+          <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="">메뉴3</router-link></li>
         </ul>
       </div>
       <div class="d-flex align-items-center">
         <div class="d-flex profile-dropdown">
-          <div class="dropdown">
+          <div class="dropdown" v-show="isAuthGetters">
+            {{ $store.state.user.name }}
             <a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" >
               <img alt="Image" :src="profileImg" class="avatar rounded-circle">
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow border-0 m-0 p-3">
               <li><a class="dropdown-item py-2 rounded" href="#"><i class="fa fa-user me-3"></i>프로필</a></li>
-              <li><a class="dropdown-item py-2 rounded" href="#"><i class="fa fa-cog me-3"></i>프로필 수정</a></li>
-              <li><a class="dropdown-item py-2 rounded" href="#"><i class="fa fa-info-circle me-3"></i>로그아웃</a></li>
+              <li><router-link class="dropdown-item py-2 rounded" to="/user/modify"><i class="fa fa-cog me-3"></i>프로필 수정</router-link></li>
+              <li><a class="dropdown-item py-2 rounded" @click="onClickLogout"><i class="fa fa-info-circle me-3"></i>로그아웃</a></li>
+            </ul>
+          </div>
+          <div class="isNotAuth" v-show="!isAuthGetters">
+            <ul class="navbar-nav">
+              <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="/user/login">로그인</router-link></li>
+              <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="/user/join">회원가입</router-link></li>
             </ul>
           </div>
         </div>
@@ -43,9 +50,28 @@
 </template>
 
 <script>
+
+import Vue from "vue";
+import { mapActions } from 'vuex';
+import VueAlertify from 'vue-alertify';
+
+Vue.use(VueAlertify);
+
 export default {
   name: 'NavBar',
+  methods: {
+    ...mapActions(["logout"]),
+
+    onClickLogout(){
+      this.$store.dispatch("logout");
+      this.$router.push("/user/login");
+      this.$alertify.alert("로그아웃 완료");
+    }
+  },
   computed: {
+    isAuthGetters(){
+      return this.$store.getters.isAuth;
+    },
     profileImg: function() {
       return require('../assets/images/noProfile.png')
     }
