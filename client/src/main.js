@@ -5,10 +5,12 @@ import router from './routers/routers.js'
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
+import store from './store/store.js'
 
 Vue.config.productionTip = false
 
 new Vue({
+  router,
+  store,
   render: h => h(App),
-  router
 }).$mount('#app')
