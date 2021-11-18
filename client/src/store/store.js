@@ -1,11 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import createPersistedState from 'vuex-persistedstate';
 import http from "@/common/axios.js";
 import router from '@/routers/routers.js'
 import VueAlertify from 'vue-alertify';
 
 Vue.use(Vuex);
 Vue.use(VueAlertify);
+
+const SUCCESS = 1;
 
 export default new Vuex.Store({
   state: {
@@ -43,9 +46,6 @@ export default new Vuex.Store({
       state.user.name = payload.name;
       state.user.password = payload.password;
       state.user.email = payload.email;
-    },
-    SET_FIND_PASSWORD(state, payload) {
-      state.user = payload;
     },
   },
   actions: {
@@ -89,38 +89,17 @@ export default new Vuex.Store({
         });
     },
     logout(context){
-      context.commit("SET_USER_LOGOUT");
-    },
-    findpassword(context, { userId, userName, userEmail }){
-      http.post(
-        "/user/findpassword",
-        {
-          userId,
-          userName,
-          userEmail
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-
-        const { 
-          dto: {
-            userId: id,
-            userLevel: level,
-            userSeq: seq,
-            userName: name,
-            userPassword: password,
-            userEmail: email,
+      http.get('/user/logout')
+        .then(response => {
+          if (response.data.result == SUCCESS) {
+            context.commit("SET_USER_LOGOUT");
+            router.push('/');
+          } else {
+            // this.$alertify.error('서버에서 문제 발생했습니다');
           }
-        } = response.data;
-
-        context.commit('SET_FIND_PASSWORD', {isAuth: false, seq, id, level, password, name, email });
-        
-        router.push("/")
-      })
-      .catch( error => {
-        console.log(error);
-      });
+        }).catch(error => {
+          console.log(error);
+        })
     },
   },
   modules: {},
@@ -128,5 +107,8 @@ export default new Vuex.Store({
     isAuth : function(state){
       return state.user.isAuth;
     },
-  }
+  },
+  plugins: [
+    createPersistedState()
+  ]
 });

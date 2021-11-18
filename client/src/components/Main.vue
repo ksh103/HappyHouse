@@ -1,6 +1,22 @@
 <template>
   <div>
-    <Header name="홈!!" desc="Welcome back to your dashboard, if need a help Contact us." />
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner" style="background-color: rgb(54, 54, 54);">
+        <div class="carousel-item active">
+          <img src="../assets/images/mainHeaderImg.jpg" style="object-fit: cover" class="d-block w-100" height="10%" alt="header image">
+          <div class="carousel-caption d-flex flex-column align-items-center d-md-block text-shadow">
+            <div>
+            <h1>Happy House</h1>
+
+            </div>
+            <div class="input-group w-75">
+              <input id="inputSearchWord" type="text" class="form-control form-control-lg" placeholder="원하시는 아파트, 동명을 입력해주세요">
+              <button id="btnSearchWord" class="btn btn-warning" type="button">검색</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Main Content -->
     <div class="body_area py-4 py-md-5">
       <div class="container">
@@ -75,7 +91,7 @@
                         <small class="color-400">Team</small>
                       </li>
                       <!-- <li><img class="avatar sm rounded-circle border" src="../../assets/images/xs/avatar5.jpg" alt=""></li>
-                                        <li><img class="avatar sm rounded-circle border" src="../../assets/images/xs/avatar6.jpg" alt=""></li> -->
+                        <li><img class="avatar sm rounded-circle border" src="../../assets/images/xs/avatar6.jpg" alt=""></li> -->
                     </ul>
                   </div>
                 </li>
@@ -121,16 +137,31 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
+// import Header from '@/components/Header.vue';
 
 export default {
   name: 'Main',
   components: {
-    Header,
+    // Header,
   }
 }
 </script>
 
 <style>
+.carousel-item {
+  height: 500px;
+}
+
+.carousel-item img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 500px;
+}
+
+.text-shadow {
+  color: white;
+  text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+}
 
 </style>
