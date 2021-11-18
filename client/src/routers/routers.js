@@ -5,6 +5,7 @@ Vue.use(VueRouter);
 
 import Main from '@/components/Main.vue';
 import User from '@/components/User.vue';
+import FindPassword from '@/components/user/FindPassword.vue';
 import Login from '@/components/user/Login.vue';
 import Join from '@/components/user/Join.vue';
 import ModifyInfo from '@/components/user/ModifyInfo.vue';
@@ -34,7 +35,12 @@ export default new VueRouter({
           path: 'login',
           name: 'Login',
           component: Login
-        },        
+        },
+        {
+          path: 'findpassword',
+          name: 'FindPassword',
+          component: FindPassword
+        },       
         {
           path: 'join',
           name: 'Join',

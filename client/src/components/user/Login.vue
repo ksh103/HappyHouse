@@ -16,7 +16,7 @@
                   <div class="form-label">
                       <span class="d-flex justify-content-between align-items-center"> 
                       비밀번호
-                      <a class="text-primary" href="auth-password-reset.html">비밀번호 찾기</a>
+                      <router-link class="nav-link" to="/user/findpassword">비밀번호 찾기</router-link>
                       </span>
                   </div>
                   <input v-model="userPassword" type="password" class="form-control" placeholder="***************">
@@ -61,12 +61,8 @@ export default {
     ...mapActions(['login']),
     validateForm() {
       // TODO : id, password validation
-      // let err = true;  // eslint-disable-line no-unused-vars
-      // let msg = "";  // eslint-disable-line no-unused-vars
-
-      // !this.userId && (( msg = "아이디를 입력해주세요. ")), (err = false), this.$store.userId.focuse();
-    
-      alert('validate form 후 로그인 호출')
+      this.$alertify.message("로그인 완료");
+      // alert('validate form 후 로그인 호출')
       this.login({
         userId: this.userId,
         userPassword: this.userPassword

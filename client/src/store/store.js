@@ -44,6 +44,9 @@ export default new Vuex.Store({
       state.user.password = payload.password;
       state.user.email = payload.email;
     },
+    SET_FIND_PASSWORD(state, payload) {
+      state.user = payload;
+    },
   },
   actions: {
     login(context, { userId, userPassword }) {
@@ -87,8 +90,38 @@ export default new Vuex.Store({
     },
     logout(context){
       context.commit("SET_USER_LOGOUT");
-    }
+    },
+    findpassword(context, { userId, userName, userEmail }){
+      http.post(
+        "/user/findpassword",
+        {
+          userId,
+          userName,
+          userEmail
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
 
+        const { 
+          dto: {
+            userId: id,
+            userLevel: level,
+            userSeq: seq,
+            userName: name,
+            userPassword: password,
+            userEmail: email,
+          }
+        } = response.data;
+
+        context.commit('SET_FIND_PASSWORD', {isAuth: false, seq, id, level, password, name, email });
+        
+        router.push("/")
+      })
+      .catch( error => {
+        console.log(error);
+      });
+    },
   },
   modules: {},
   getters: {

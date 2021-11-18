@@ -38,7 +38,6 @@
             <input v-model="userRePassword" type="password" class="form-control" placeholder="비밀번호를 다시 입력하세요." />
           </div>
         </div>
-        
         <div class="col-12 text-center mt-4">
           <a @click="join" href="#" class="btn btn-dark lift text-uppercase">join us</a>
         </div>
