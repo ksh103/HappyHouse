@@ -57,10 +57,10 @@ export default {
     ...mapActions(['login']),
     join() {
       http.post('/user', {
-          userName: this.userName,
-          userId: this.userId,
-          userPassword: this.userPassword,
-          userEmail: this.userEmail,
+        userName: this.userName,
+        userId: this.userId,
+        userPassword: this.userPassword,
+        userEmail: this.userEmail,
         })
         .then(({ data }) => {
           let $this = this;
@@ -77,9 +77,9 @@ export default {
             this.$alertify.error('Opps!! 서버에 문제가 발생했습니다.');          
           }
         })
+      }
     }
-  }
-};
+  };
 </script>
 
 <style></style>

@@ -79,8 +79,6 @@ export default {
     ...mapActions(['login']),
     validateForm() {
       // TODO : id, password validation
-      this.$alertify.message("로그인 완료");
-      // alert('validate form 후 로그인 호출')
       this.login({
         userId: this.userId,
         userPassword: this.userPassword

@@ -19,7 +19,6 @@
       <div class="collapse navbar-collapse justify-content-between" id="navbar-collapse">
         <ul class="navbar-nav">
           <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="">부동산 매물 조회</router-link></li>
-          <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="">매물 등록</router-link></li>
           <li class="ms-lg-2 ms-md-1 nav-item"><router-link class="nav-link" to="/board/notice">공지사항</router-link></li>
           
         </ul>

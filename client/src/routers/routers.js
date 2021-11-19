@@ -5,12 +5,15 @@ Vue.use(VueRouter);
 
 import Main from '@/components/Main.vue';
 import User from '@/components/User.vue';
+import BoardNotice from '@/components/BoardNotice.vue';
 import FindPassword from '@/components/user/FindPassword.vue';
 import Login from '@/components/user/Login.vue';
 import Join from '@/components/user/Join.vue';
 import ModifyInfo from '@/components/user/ModifyInfo.vue';
-import BoardNotice from '@/components/BoardNotice.vue';
-
+import BoardNoticeList from '@/components/notice/BoardNoticeList.vue';
+import BoardNoticeInsert from '@/components/notice/BoardNoticeInsert.vue';
+import BoardNoticeModify from '@/components/notice/BoardNoticeModify.vue';
+import BoardNoticeDetail from '@/components/notice/BoardNoticeDetail.vue';
 
 export default new VueRouter({
   mode: "history",
@@ -21,11 +24,33 @@ export default new VueRouter({
       component: Main
     },
     {
-      path: '/board/notice',
-      name: 'Notice',
-      component: BoardNotice
+      path: '/board',
+      name: 'BoardNotice',
+      component: BoardNotice,
+      children:[
+        {
+          path: 'notice',
+          name: 'BoardNoticeList',
+          component: BoardNoticeList,
+        },
+        {
+          path: 'insert',
+          name: 'BoardNoticeInsert',
+          component: BoardNoticeInsert,
+        },
+        {
+          path: 'modify',
+          name: 'BoardNoticeModify',
+          component: BoardNoticeModify,
+        },
+        {
+          path: 'detail',
+          name: 'BoardNoticeDetail',
+          component: BoardNoticeDetail,
+        },
+      ]
     },
-
+    
     {
       path: '/user',
       name: 'User',
@@ -37,7 +62,7 @@ export default new VueRouter({
           component: Login
         },
         {
-          path: 'findpassword',
+          path: 'password',
           name: 'FindPassword',
           component: FindPassword
         },       

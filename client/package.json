@@ -8,6 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^31.0.0",
+    "@ckeditor/ckeditor5-vue2": "^1.0.5",
     "@fancyapps/fancybox": "^3.2.5",
     "@popperjs/core": "^2.10.2",
     "apexcharts": "^3.27.3",
