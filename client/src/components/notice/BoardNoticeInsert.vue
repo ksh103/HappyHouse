@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <Header name="공지사항 작성" desc="Welcome back to your dashboard, if need a help Contact us." />
-  <form class="row g-3 basic-form" method="post" novalidate="">
+  <!-- <form class="row g-3 basic-form"> -->
     <div class="col-md-12">
         <label class="form-label">제목 </label>
         <input v-model="title" type="text" class="form-control" required="">
@@ -13,9 +13,9 @@
         </span>
     </div>
     <div class="col-12">
-        <button @click="boardInsert" type="submit" class="btn btn-primary">확인</button>
+        <button @click="boardInsert" class="btn btn-primary">확인</button>
     </div>
-</form>
+<!-- </form> -->
 </div>
 </template>
 
@@ -49,7 +49,7 @@ export default {
         console.log(data);
         if (data === "login") {
           this.$router.push('/user/login');
-        }else{
+        } else{
           this.$alertify.success('글이 등록되었습니다.');
           this.$router.push('/board/notice');
         }

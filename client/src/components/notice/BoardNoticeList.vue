@@ -24,7 +24,7 @@
     </table>
     <pagination v-on:call-parent="movePage"></pagination>
     <div id="paginationWrapper"></div>
-      <router-link class="btn btn-sm btn-primary" to="/board/insert">글쓰기</router-link>
+      <router-link class="btn btn-sm btn-primary" to="/board/notice/insert">글쓰기</router-link>
     </div>
     <div class="col-1"></div>
     </div>
@@ -88,7 +88,7 @@ export default {
             }
           );
 
-          this.$router.push("/board/detail");
+          this.$router.push("/board/notice/detail");
         }
       })
       .catch((error) => {

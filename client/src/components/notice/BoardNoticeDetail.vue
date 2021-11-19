@@ -25,9 +25,8 @@
         </table>
       </div>
       <div class="footer">
-        <router-link class="btn btn-sm btn-primary" to="/board/modify">글 수정</router-link>
-         <button class="btn btn-sm btn-danger" @click="deleteNotice($store.state.board.noticeId)">글삭제</button
-        >
+        <router-link class="btn btn-sm btn-primary" to="/board/notice/modify">글 수정</router-link>
+        <button class="btn btn-sm btn-danger" @click="deleteNotice($store.state.board.noticeId)">글삭제</button>
       </div>
   </div>
 </template>

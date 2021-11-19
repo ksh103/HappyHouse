@@ -204,7 +204,6 @@ export default new Vuex.Store({
         return true;
       }
     }
-  }
   },
   plugins: [
     createPersistedState()

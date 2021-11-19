@@ -24,12 +24,13 @@ export default new VueRouter({
       component: Main
     },
     {
-      path: '/board',
+      path: '/board/notice',
       name: 'BoardNotice',
       component: BoardNotice,
+      redirect: '/board/notice/list',
       children:[
         {
-          path: 'notice',
+          path: 'list',
           name: 'BoardNoticeList',
           component: BoardNoticeList,
         },

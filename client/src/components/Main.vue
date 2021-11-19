@@ -77,25 +77,13 @@
               </tbody>
             </table>
           </div>
-          <div class="col-lg-4 col-md-12">
+          <div class="overflow-hidden col-lg-4 col-md-12">
             <h4>부동산 관련 뉴스</h4>
             <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
               <tbody>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
+                <tr v-for="(item, index) in news" @click="newsDetail" :key="index">
+                    <td class="text-nowrap" v-html="item.title"></td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -138,6 +126,11 @@ export default {
       latestTradeData: { },
       news: { },
       notice: { }
+    }
+  },
+  methods: {
+    newsDetail() {
+      alert('기사 새 창/탭에 열기 기능 구현하기')
     }
   },
   components: {
