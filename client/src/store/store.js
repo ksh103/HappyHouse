@@ -8,7 +8,7 @@ import VueAlertify from 'vue-alertify';
 Vue.use(Vuex);
 Vue.use(VueAlertify);
 
-const SUCCESS = 1;
+// const SUCCESS = 1;
 
 export default new Vuex.Store({
   state: {
@@ -73,32 +73,30 @@ export default new Vuex.Store({
           } = response.data;
 
           context.commit('SET_USER', { isAuth: true, seq, id, level, password, name, email });
-          
-          // 메인 페이지로 이동
+
           router.push("/")
         })
         .catch( error => {
           console.log("LoginVue: error : ");
           console.log(error);
 
-          // if( error.response.status == '404'){
-          //   this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
-          // }else{
-          //   this.$alertify.error('Opps!! 서버에 문제가 발생했습니다.');
-          // }
+          if (error.response.status == '404'){
+            alert('아이디 또는 비밀번호를 확인하세요.')
+            // this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
+          } else {
+            alert('Opps!! 서버에 문제가 발생했습니다.');
+          }
         });
-    },
+      },
     logout(context){
       http.get('/user/logout')
-        .then(response => {
-          if (response.data.result == SUCCESS) {
-            context.commit("SET_USER_LOGOUT");
-            router.push('/');
-          } else {
-            // this.$alertify.error('서버에서 문제 발생했습니다');
-          }
+      .then(() => {
+        context.commit("SET_USER_LOGOUT");
+        router.push('/');
         }).catch(error => {
-          console.log(error);
+          console.log(error)
+          alert('Opps!! 서버에 문제가 발생했습니다.');
+          //this.$alertify.error('서버에서 문제 발생했습니다');
         })
     },
   },

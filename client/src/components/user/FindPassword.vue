@@ -43,15 +43,22 @@ export default {
           userEmail: this.userEmail
         }
       )
-      .then((response) => {
+      .then(response => {
         console.log(response.data);
-        // 올바른 데이터 -> mem29238@gmail.com(으)로 임시비밀번호를 보냈습니다. 로그인 후 비밀번호를 변경해주세요. 메시지 띄우기
-
+        alert(`${this.userEmail}(으)로 임시비밀번호를 보냈습니다. 로그인 후 비밀번호를 변경해주세요.`)
         // 잘못된 정보 메시지 처리
         this.$router.push("/")
       })
       .catch( error => {
+        console.log("FindPW: error : ");
         console.log(error);
+
+        if (error.response.status == '404'){
+          alert('요청하신 사용자 정보가 서버에 없습니다. 정보를 다시 한 번 확인하세요.')
+          // this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
+        } else {
+          alert('Opps!! 서버에 문제가 발생했습니다.');
+        }
       });
       this.findPassword();
     }

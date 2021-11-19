@@ -20,115 +20,106 @@
     <!-- Main Content -->
     <div class="body_area py-4 py-md-5">
       <div class="container">
-        <div class="row g-3">
+        <div class="row g-3 row-deck">
+          <div class="col-lg-3 col-md-6 col-sm-6 text-center">
+						<div class="card border-0">
+							<div class="card-body">
+								<h3>25</h3>
+								<span>Active Projects</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6 col-sm-6 text-center">
+						<div class="card border-0">
+							<div class="card-body">
+								<h3>40</h3>
+								<span>Today Tasks</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6 col-sm-6 text-center">
+						<div class="card border-0">
+							<div class="card-body">
+								<h3>05</h3>
+								<span>Today Expenses</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6 col-sm-6 text-center">
+						<div class="card border-0">
+							<div class="card-body">
+								<h3>03</h3>
+								<span>Today Invoices</span>
+							</div>
+						</div>
+					</div>
+        </div>
+        <div class="row g-3 mt-4">
           <div class="col-lg-4 col-md-12">
-            <h4>Planned</h4>
-            <div class="dd planned_task" data-plugin="nestable">
-              <ol class="dd-list">
-                <li class="dd-item card p-3" data-id="1">
-                  <div class="dd-handle">
-                    <h6>Dashbaord</h6>
-                    <span class="text-muted"
-                      >Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.</span
-                    >
-                    <ul class="list-unstyled avatars d-flex mt-3">
-                      <li class="me-3">
-                        <small class="color-400">Team</small>
-                      </li>
-                      <!-- <li><img class="avatar sm rounded-circle border" src="../../assets/images/xs/avatar1.jpg" alt=""></li>
-                                        <li><img class="avatar sm rounded-circle border" src="../../assets/images/xs/avatar4.jpg" alt=""></li>
-                                        <li><img class="avatar sm rounded-circle border" src="../../assets/images/xs/avatar8.jpg" alt=""></li> -->
-                    </ul>
-                  </div>
-                </li>
-                <li class="dd-item card p-3" data-id="2">
-                  <div class="dd-handle">
-                    <h6>New project</h6>
-                    <span class="text-muted"
-                      >It is a long established fact that a reader will be
-                      distracted.</span
-                    >
-                  </div>
-                </li>
-                <li class="dd-item card p-3" data-id="3">
-                  <div class="dd-handle">
-                    <h6>Feed Details</h6>
-                    <span class="text-muted"
-                      >here are many variations of passages of Lorem Ipsum
-                      available, but the majority have suffered.</span
-                    >
-                  </div>
-                </li>
-              </ol>
-            </div>
+            <h4>최근 매물</h4>
+            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
+              <tbody>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+              </tbody>
+            </table>
           </div>
-
           <div class="col-lg-4 col-md-12">
-            <h4>In progress</h4>
-            <div class="dd in_progress" data-plugin="nestable">
-              <ol class="dd-list">
-                <li class="dd-item card p-3" data-id="1">
-                  <div class="dd-handle">
-                    <h6>New Code Update</h6>
-                    <span class="text-muted"
-                      >Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.</span
-                    >
-                  </div>
-                </li>
-                <li class="dd-item card p-3" data-id="2">
-                  <div class="dd-handle">
-                    <h6>Meeting</h6>
-                    <span class="text-muted"
-                      >The standard chunk of Lorem Ipsum used since the 1500s is
-                      reproduced below for those interested. Sections 1.10.32
-                      and 1.10.33 from "de Finibus Bonorum et Malorum" by
-                      Cicero</span
-                    >
-                    <ul class="list-unstyled avatars d-flex mt-3">
-                      <li class="me-3">
-                        <small class="color-400">Team</small>
-                      </li>
-                      <!-- <li><img class="avatar sm rounded-circle border" src="../../assets/images/xs/avatar5.jpg" alt=""></li>
-                        <li><img class="avatar sm rounded-circle border" src="../../assets/images/xs/avatar6.jpg" alt=""></li> -->
-                    </ul>
-                  </div>
-                </li>
-              </ol>
-            </div>
+            <h4>부동산 관련 뉴스</h4>
+            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
+              <tbody>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+              </tbody>
+            </table>
           </div>
-
           <div class="col-lg-4 col-md-12">
-            <h4>Completed</h4>
-            <div class="dd completed_task" data-plugin="nestable">
-              <ol class="dd-list">
-                <li class="dd-item card p-3" data-id="1">
-                  <div class="dd-handle">
-                    <h6>Job title</h6>
-                    <span class="text-muted"
-                      >If you are going to use a passage of Lorem Ipsum, you
-                      need to be sure there isn't anything embarrassing hidden
-                      in the middle of text.</span
-                    >
-                    <ul class="list-unstyled avatars d-flex mt-3">
-                      <li class="me-3">
-                        <small class="color-400">Team</small>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="dd-item card p-3" data-id="2">
-                  <div class="dd-handle">
-                    <h6>Event Done</h6>
-                    <span class="text-muted"
-                      >Contrary to popular belief, Lorem Ipsum is not simply
-                      random text. It has roots in a piece of classical</span
-                    >
-                  </div>
-                </li>
-              </ol>
-            </div>
+            <h4>공지사항</h4>
+            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
+              <tbody>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+                  <tr>
+                      <td>Ava Alexander</td>
+                  </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -137,12 +128,26 @@
 </template>
 
 <script>
+import http from '@/common/axios.js'
 // import Header from '@/components/Header.vue';
 
 export default {
   name: 'Main',
+  data() {
+    return {
+      latestTradeData: { },
+      news: { },
+      notice: { }
+    }
+  },
   components: {
     // Header,
+  },
+  created() {
+    http.get( "/info/news")
+      .then(({ data }) => {
+        this.news = data.newsDto;
+      })
   }
 }
 </script>
