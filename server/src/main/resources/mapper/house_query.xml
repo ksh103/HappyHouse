@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.ssafy.happyhouse.dao.HouseDao">
+	<select id="getHouseDetail" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseDetailDto">
+		SELECT no AS houseNo, dong AS dongName, aptname AS aptName, buildyear AS buildYear, jibun AS jiBun, lat, lng FROM houseinfo
+		WHERE dong like #{dong}
+	</select>
+	<select id="getHouseDeal" resultType="com.ssafy.happyhouse.dto.HouseDealDto">
+		SELECT no AS houseNo, house_no, dong AS dongName, aptname, dealamount AS dealAmount, dealyear AS dealYear, dealmonth AS dealMonth, dealday AS dealDay, area, floor
+		FROM happyhouse_rf.housedeal where house_no=#{houseNo}
+	</select>
+</mapper>
