@@ -67,7 +67,7 @@
 import http from "@/common/axios.js";
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
-import {  mapMutations } from 'vuex';
+import { mapMutations } from 'vuex';
 
 Vue.use(VueAlertify);
 

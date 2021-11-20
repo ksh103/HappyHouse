@@ -1,35 +1,38 @@
 <template>
-  <div class="container">
-    <div class="d-flex flex-column align-items-center">
-      <h2>Happy House 가입을 환영합니다!</h2>
-      <form class="row g-1 p-0 p-md-4 w-100">
-        <table>
-          <tr>
-            <td style="width: 15%;" class="px-4 border-top border-dark"><label class="form-label" for="userName">이름 <span class="text-danger">*</span></label></td>
-            <td class="px-4"><input v-model="userName" id="userName" type="text" class="form-control form-control-lg"></td>
-          </tr>
-          <tr>
-            <td class="px-4 border-top border-dark"><label class="form-label" for="userId">아이디 <span class="text-danger">*</span></label></td>
-            <td class="px-4"><input v-model="userId" id="userId" type="text" class="form-control form-control-lg"></td>
-          </tr>
-          <tr>
-            <td class="px-4 border-top border-dark"><label class="form-label" for="userPassword">비밀번호 <span class="text-danger">*</span></label></td>
-            <td class="px-4"><input v-model="userPassword" id="userPassword" type="password" class="form-control form-control-lg"></td>
-          </tr>
-          <tr>
-            <td class="px-4 border-top border-dark"><label class="form-label" for="userRePassword">비밀번호 확인<span class="text-danger">*</span></label></td>
-            <td class="px-4"><input v-model="userRePassword" id="userRePassword" type="password" class="form-control form-control-lg"></td>
-          </tr>
-          <tr>
-            <td class="px-4 border-top border-dark"><label class="form-label" for="userId">이메일 <span class="text-danger">*</span></label></td>
-            <td class="px-4"><input v-model="userEmail" id="userEmail" type="email" class="form-control form-control-lg"></td>
-          </tr>
-        </table>
-        <div class="col-12 text-center mt-4">
-          <router-link to="/user/login" class="btn btn-lg px-5 btn-block btn-secondary lift text-uppercase">로그인 이동</router-link>&nbsp;
-          <a @click="join" class="btn btn-lg px-5 btn-block btn-primary lift text-uppercase">회원가입</a>
-        </div>
-      </form>
+  <div>
+    <BasicHeader name="회원가입" />
+    <div class="container my-5">
+      <div class="d-flex flex-column align-items-center">
+        <h2>Happy House 가입을 환영합니다!</h2>
+        <form class="row g-1 p-0 p-md-4 w-100">
+          <table>
+            <tr>
+              <td style="width: 15%;" class="px-4 border-top border-dark"><label class="form-label" for="userName">이름 <span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userName" id="userName" type="text" class="form-control form-control-lg"></td>
+            </tr>
+            <tr>
+              <td class="px-4 border-top border-dark"><label class="form-label" for="userId">아이디 <span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userId" id="userId" type="text" class="form-control form-control-lg"></td>
+            </tr>
+            <tr>
+              <td class="px-4 border-top border-dark"><label class="form-label" for="userPassword">비밀번호 <span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userPassword" id="userPassword" type="password" class="form-control form-control-lg"></td>
+            </tr>
+            <tr>
+              <td class="px-4 border-top border-dark"><label class="form-label" for="userRePassword">비밀번호 확인<span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userRePassword" id="userRePassword" type="password" class="form-control form-control-lg"></td>
+            </tr>
+            <tr>
+              <td class="px-4 border-top border-dark"><label class="form-label" for="userId">이메일 <span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userEmail" id="userEmail" type="email" class="form-control form-control-lg"></td>
+            </tr>
+          </table>
+          <div class="col-12 text-center mt-4">
+            <router-link to="/user/login" class="btn btn-lg px-5 btn-block btn-secondary lift text-uppercase">로그인 이동</router-link>&nbsp;
+            <a @click="join" class="btn btn-lg px-5 btn-block btn-primary lift text-uppercase">회원가입</a>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +42,7 @@ import http from "@/common/axios.js";
 import Vue from 'vue';
 import VueAlertify from 'vue-alertify';
 import { mapActions } from 'vuex';
+import BasicHeader from '@/components/layout/BasicHeader.vue';
 
 Vue.use(VueAlertify);
 
@@ -52,6 +56,9 @@ export default {
       userName: '',
       userEmail: '',
     }
+  },
+  components: {
+    BasicHeader
   },
   methods: {
     ...mapActions(['login']),

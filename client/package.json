@@ -80,7 +80,7 @@
       "parser": "babel-eslint"
     },
     "globals": {
-	    "kakao": false
+      "kakao": false
     },
     "rules": {}
   },

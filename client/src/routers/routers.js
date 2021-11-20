@@ -3,9 +3,9 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-import Main from '@/components/Main.vue';
-import User from '@/components/User.vue';
-import BoardNotice from '@/components/BoardNotice.vue';
+import Main from '@/views/Main.vue';
+import User from '@/views/User.vue';
+import BoardNotice from '@/views/BoardNotice.vue';
 import FindPassword from '@/components/user/FindPassword.vue';
 import Login from '@/components/user/Login.vue';
 import Join from '@/components/user/Join.vue';
@@ -14,6 +14,7 @@ import BoardNoticeList from '@/components/notice/BoardNoticeList.vue';
 import BoardNoticeInsert from '@/components/notice/BoardNoticeInsert.vue';
 import BoardNoticeModify from '@/components/notice/BoardNoticeModify.vue';
 import BoardNoticeDetail from '@/components/notice/BoardNoticeDetail.vue';
+import DealInfo from '@/views/DealInfo.vue';
 
 export default new VueRouter({
   mode: "history",
@@ -22,6 +23,10 @@ export default new VueRouter({
     {
       path: '/',
       component: Main
+    },
+    {
+      path: '/dealInfo',
+      component: DealInfo
     },
     {
       path: '/board/notice',
@@ -51,7 +56,6 @@ export default new VueRouter({
         },
       ]
     },
-    
     {
       path: '/user',
       name: 'User',
@@ -78,7 +82,7 @@ export default new VueRouter({
           component: ModifyInfo
         },
       ]
-    }
+    },
     // {
     //   name: 'User',
     //   path: '/user',

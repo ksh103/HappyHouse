@@ -1,25 +1,6 @@
 <template>
   <div>
-    <div class="block-header py-4 py-lg-5">
-      <div class="container">
-        <div class="row mb-4">
-          <div class="col">
-            <ul class="breadcrumb bg-transparent mb-0">
-              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-              <li class="breadcrumb-item active">로그인</li>
-            </ul>
-          </div>
-        </div>
-        <!-- .row end-->
-        <div class="row">
-          <div class="col-xl-8 col-lg-7 col-md-12">
-            <div class="welcome-text mb-4">
-              <h1 class="fs-3 mb-1">로그인</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <BasicHeader name="로그인" />
     <div class="container my-5">
       <div class="d-flex flex-column align-items-center">
         <h2>아이디와 비밀번호를 입력해 로그인해주세요.</h2>
@@ -51,7 +32,7 @@
           <div class="d-flex col-12 text-center mt-2">
             <router-link to="/user/join" class="flex-grow-1 btn btn-lg btn-block btn-secondary lift fs-6 text-uppercase">회원가입</router-link>
             &nbsp;&nbsp;
-            <router-link to="/user/findpassword" class="flex-grow-1 btn btn-lg btn-block btn-secondary lift fs-6 text-uppercase">비밀번호 찾기</router-link>
+            <router-link to="/user/password" class="flex-grow-1 btn btn-lg btn-block btn-secondary lift fs-6 text-uppercase">비밀번호 찾기</router-link>
           </div>
         </form>
       </div>
@@ -64,6 +45,7 @@
 import Vue from "vue";
 import { mapActions } from 'vuex';
 import VueAlertify from 'vue-alertify';
+import BasicHeader from '@/components/layout/BasicHeader.vue';
 
 Vue.use(VueAlertify);
 
@@ -75,8 +57,11 @@ export default {
       userPassword: '',
     }
   },
+  components: {
+    BasicHeader,
+  },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions('userStore', ['login']),
     validateForm() {
       // TODO : id, password validation
       this.login({

@@ -1,101 +1,77 @@
 <template>
-  <div>
-    <Header name="공지사항" desc="Welcome back to your dashboard, if need a help Contact us." />
-    <div class="container text-center">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>제목</th>
-          <th>작성자</th>
-          <th>작성일시</th>
-          <th>조회수</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="cursor:pointer" v-for="(board, index) in listGetters" @click="boardDetail(board.noticeId)" v-bind:key="index">
-          <td>{{ board.noticeId }}</td>
-          <td>{{ board.title }}</td>
-          <td>{{ board.userName }}</td>          
-          <td>{{ makeDateStr(board.regDt.date.year, board.regDt.date.month, board.regDt.date.day, '.') }}</td>            
-          <td>{{ board.readCount }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <pagination v-on:call-parent="movePage"></pagination>
-    <div id="paginationWrapper"></div>
-      <router-link class="btn btn-sm btn-primary" to="/board/notice/insert">글쓰기</router-link>
+  <div class="container my-5">
+    <div class="card bg-transparent border-0 mt-4">
+      <table id="dataTable" class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable text-center w-100">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일시</th>
+            <th>조회수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(board, index) in getBoardList" v-bind:key="index">
+            <td>
+              <span class="badge bg-success">{{ board.noticeId }}</span>
+            </td>
+            <td class="w-50 text-start">
+              <h6 class="mb-0"><a @click="boardDetail(board.noticeId)" class="color-700 text-decoration-none">{{ board.title }}</a></h6>
+            </td>
+            <td>
+              <div class="dropdown">
+                <button class="btn btn-sm text-decoration-none" role="button" data-bs-toggle="dropdown">{{ board.userName }}</button>
+                <ul class="dropdown-menu border-0 shadow p-3">
+                  <li><a class="dropdown-item py-2 rounded" href="#">친구 추가</a></li>
+                  <li><a class="dropdown-item py-2 rounded" href="#">Another action</a></li>
+                  <li><a class="dropdown-item py-2 rounded" href="#">Something else here</a></li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <span class="d-block">{{ makeDateStr(board.regDt.date.year, board.regDt.date.month, board.regDt.date.day, '.') }}</span>
+            </td>
+            <td>
+              <span class="d-block">{{ board.readCount }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination class="mt-3" v-on:call-parent="movePage"></pagination>
+      <router-link class="btn btn-primary" to="/board/notice/insert">글쓰기</router-link>
     </div>
-    <div class="col-1"></div>
-    </div>
+  </div>
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
 import Pagination from '@/components/Pagination.vue';
 
-import http from "@/common/axios.js";
 import util from "@/common/util.js";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'BoardNoticeList',
   components: {
-    Header, Pagination
+    Pagination
   },
   computed :{
-    listGetters(){
-      return this.$store.getters.getBoardList; 
-    },
+    ...mapGetters('boardNoticeStore', ['getBoardList']),
   },
   methods : {
-    boardList(){
-      this.$store.dispatch('boardList');      
-    },
+    ...mapActions('boardNoticeStore', ['boardList', 'boardDetail']),
+    ...mapMutations('boardNoticeStore', ['SET_BOARD_MOVE_PAGE']),
     // pagination
     movePage(pageIndex){
       console.log("BoardMainVue : movePage : pageIndex : " + pageIndex );
-      this.$store.commit( 'SET_BOARD_MOVE_PAGE', pageIndex );
-
+      // this.$store.commit( 'SET_BOARD_MOVE_PAGE', pageIndex );
+      this.SET_BOARD_MOVE_PAGE(pageIndex);
       this.boardList();
+      console.log(this.$store._modules.root.state.userStore)
     },
 
     makeDateStr : util.makeDateStr,
 
-    boardDetail(noticeId){
-      alert("확인")
-
-      http.get(
-      '/notices/' + noticeId, // props variable
-      )
-      .then(({ data }) => {
-        console.log("DetailVue: data : ");
-        console.log(data);
-        
-        if( data.result == 'login' ){
-          this.$router.push("/login")
-        }else{
-          this.$store.commit(
-            'SET_BOARD_DETAIL',
-            { 
-              noticeId: data.dto.noticeId,
-              title: data.dto.title,
-              content: data.dto.content,
-              userName: data.dto.userName,
-              readCount : data.dto.readCount,
-              regDt: this.makeDateStr(data.dto.regDt.date.year, data.dto.regDt.date.month, data.dto.regDt.date.day, '.'),
-              fileList: data.dto.fileList,
-              sameUser: data.dto.sameUser, // not data.dto.sameUser
-            }
-          );
-
-          this.$router.push("/board/notice/detail");
-        }
-      })
-      .catch((error) => {
-        console.log("DetailVue: error ");
-        console.log(error);
-      });
-    }
   },
   created() {
     this.boardList();
