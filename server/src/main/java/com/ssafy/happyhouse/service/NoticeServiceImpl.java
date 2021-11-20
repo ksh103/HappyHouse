@@ -22,9 +22,9 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	@Autowired
 	NoticeDao dao;
-	
+	//C:\apps\happyhouse\server
 	private static final String uploadFolder = "upload";
-	private static final String uploadPath = "C:" + File.separator + "Users" + File.separator + "park" + File.separator + "git" + File.separator + "HappyHouse_Vue"
+	private static final String uploadPath = "C:" + File.separator + "apps" + File.separator + "happyhouse"
             + File.separator + "server" 
             + File.separator + "src" 
             + File.separator + "main"
@@ -222,6 +222,23 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 	
 	@Override
+	public NoticeResultDto noticeLimitList(NoticeParamDto noticeParamDto) {
+		NoticeResultDto noticeResultDto = new NoticeResultDto();
+	    
+	    try {
+	        List<NoticeDto> list = dao.noticeList(noticeParamDto);           
+	        noticeResultDto.setList(list);
+	        noticeResultDto.setResult(SUCCESS);
+	        
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        noticeResultDto.setResult(FAIL);
+	    }
+	    
+	    return noticeResultDto;
+	}
+	
+	@Override
 	public NoticeResultDto noticeListSearchWord(NoticeParamDto noticeParamDto) {
 
 		NoticeResultDto noticeResultDto = new NoticeResultDto();
@@ -242,4 +259,6 @@ public class NoticeServiceImpl implements NoticeService {
 	    
 	    return noticeResultDto;
 	}
+
+
 }

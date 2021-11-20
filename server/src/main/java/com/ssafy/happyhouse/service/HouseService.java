@@ -1,8 +1,22 @@
 package com.ssafy.happyhouse.service;
 
+import com.ssafy.happyhouse.dto.HouseOnGoingDto;
+import com.ssafy.happyhouse.dto.HouseOnGoingParamDto;
+import com.ssafy.happyhouse.dto.HouseOnGoingResultDto;
 import com.ssafy.happyhouse.dto.HouseResultDto;
 
 public interface HouseService {
-	public HouseResultDto getHouseDetail(String dongString);
-	public HouseResultDto getHouseDeal(int houseNo);
+	public HouseResultDto getHouseDongDetail(String dongString); // 매물 검색 (동이름)
+	public HouseResultDto getHouseSearchDetail(String searchWord); // 매물 검색 (아파트 이름)
+	
+	public HouseResultDto getHouseDeal(int houseNo); // 매물 실거래가 조회
+	
+	public HouseOnGoingResultDto houseOnGoingRegister(HouseOnGoingDto houseOnGoingDto); // 매물 등록(현재 진행 중)
+	
+	public HouseOnGoingResultDto houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(전체)
+	public HouseOnGoingResultDto houseNoOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(특정 매물 클릭)
+	public HouseOnGoingResultDto houseOnGoingLimitList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(5개)
+	
+	public HouseOnGoingResultDto houseOnGoingDetail(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 보기
+	
 }

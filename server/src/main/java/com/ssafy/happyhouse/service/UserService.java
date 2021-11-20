@@ -10,4 +10,5 @@ public interface UserService {
 	public UserResultDto login(UserDto UserDto);
 	public UserResultDto findPassword(UserDto UserDto);
 	public UserResultDto updatePassword(UserDto userDto);
+	public UserResultDto userProfileImage(UserDto userDto);
 }

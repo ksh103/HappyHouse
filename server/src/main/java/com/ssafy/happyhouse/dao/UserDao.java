@@ -12,4 +12,6 @@ public interface UserDao {
 	public UserDto login(String userId);
 	public UserDto findPassword(String userId);
 	public int updatePassword(UserDto userDto);
+	public int userProfileImage(UserDto userDto);
+	public UserDto userInfo(String userId);
 }

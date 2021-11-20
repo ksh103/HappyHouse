@@ -186,4 +186,21 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+	@Override
+	public UserResultDto userProfileImage(UserDto userDto) {
+		UserResultDto userResultDto = new UserResultDto();
+		try {
+			if (userDao.userProfileImage(userDto) == 1) {
+				userResultDto.setDto(userDto);
+				userResultDto.setResult(SUCCESS);
+			} else {
+				userResultDto.setResult(FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			userResultDto.setResult(FAIL);
+		}
+		return userResultDto;
+	}
 }

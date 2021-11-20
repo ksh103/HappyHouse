@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -104,4 +105,16 @@ public class UserController {
 			return new ResponseEntity<UserResultDto>(userResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@PutMapping(value = "/user/profileImg")
+	public ResponseEntity<UserResultDto> userProfileImage(@RequestBody UserDto dto) {
+		UserResultDto userResultDto = userService.userProfileImage(dto);
+		System.out.println("userProfileImage result  " + userResultDto);
+		if (userResultDto.getResult() == SUCCESS) {
+			return new ResponseEntity<UserResultDto>(userResultDto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<UserResultDto>(userResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 }

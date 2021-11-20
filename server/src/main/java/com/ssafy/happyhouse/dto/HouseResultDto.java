@@ -33,7 +33,9 @@ public class HouseResultDto {
 
 	@Override
 	public String toString() {
-		return "HouseResultDto [result=" + result + ", houseDetailDto=" + houseDetailDto + ", houseDealDto="
-				+ houseDealDto + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("HouseResultDto [result=").append(result).append(", houseDetailDto=").append(houseDetailDto)
+				.append(", houseDealDto=").append(houseDealDto).append("]");
+		return builder.toString();
 	}
 }

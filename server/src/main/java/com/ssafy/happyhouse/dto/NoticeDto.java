@@ -11,7 +11,7 @@ public class NoticeDto {
 	private String userName;
 	private String title;
 	private String content;
-	private int userLevel; // 권한 분류 
+	private int code; // 권한 분류 
 	
 	private LocalDateTime regDt;
 	private int readCount;
@@ -21,11 +21,11 @@ public class NoticeDto {
 	private List<NoticeFileDto> fileList;
 	
 	public NoticeDto() {}
-	public NoticeDto(int userSeq, String title, String content, int userLevel) {
+	public NoticeDto(int userSeq, String title, String content, int code) {
 		this.userSeq = userSeq;
 		this.title = title;
 		this.content = content;
-		this.userLevel = userLevel;
+		this.code = code;
 	}
 
 	public int getNoticeId() {
@@ -72,11 +72,11 @@ public class NoticeDto {
 	public void setReadCount(int readCount) {
 		this.readCount = readCount;
 	}
-	public int getUserLevel() {
-		return userLevel;
+	public int getCode() {
+		return code;
 	}
-	public void setUserLevel(int userLevel) {
-		this.userLevel = userLevel;
+	public void setCode(int code) {
+		this.code = code;
 	}
 	public List<NoticeFileDto> getFileList() {
 		return fileList;
@@ -97,7 +97,7 @@ public class NoticeDto {
 		StringBuilder builder = new StringBuilder();
 		builder.append("NoticeDto [noticeId=").append(noticeId).append(", userSeq=").append(userSeq)
 				.append(", userName=").append(userName).append(", title=").append(title).append(", content=")
-				.append(content).append(", userLevel=").append(userLevel).append(", regDt=").append(regDt)
+				.append(content).append(", userLevel=").append(code).append(", regDt=").append(regDt)
 				.append(", readCount=").append(readCount).append("]");
 		return builder.toString();
 	}

@@ -6,17 +6,20 @@ public class UserDto {
 	private String userName;
 	private String userPassword;
 	private String userEmail;
-	private int userLevel;
+	private String userProfileimage;
+	private char code;
 	
-	public UserDto() { }
-	public UserDto(int userSeq, String userId, String userName, String userPassword, String userEmail, int userLevel) {
+	public UserDto() {}
+	public UserDto(int userSeq, String userId, String userName, String userPassword, String userEmail, String userProfileimage, char code) {
 		this.userSeq = userSeq;
 		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
 		this.userEmail = userEmail;
-		this.userLevel = userLevel;
+		this.userProfileimage = userProfileimage;
+		this.code = code;
 	}
+	
 	public int getUserSeq() {
 		return userSeq;
 	}
@@ -47,11 +50,17 @@ public class UserDto {
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
-	public int getUserLevel() {
-		return userLevel;
+	public String getUserProfileimage() {
+		return userProfileimage;
 	}
-	public void setUserLevel(int userLevel) {
-		this.userLevel = userLevel;
+	public void setUserProfileimage(String userProfileimage) {
+		this.userProfileimage = userProfileimage;
+	}
+	public char getCode() {
+		return code;
+	}
+	public void setCode(char code) {
+		this.code = code;
 	}
 	
 	@Override
@@ -59,7 +68,8 @@ public class UserDto {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UserDto [userSeq=").append(userSeq).append(", userId=").append(userId).append(", userName=")
 				.append(userName).append(", userPassword=").append(userPassword).append(", userEmail=")
-				.append(userEmail).append(", userLevel=").append(userLevel).append("]");
+				.append(userEmail).append(", userProfileimage=").append(userProfileimage).append(", code=").append(code)
+				.append("]");
 		return builder.toString();
 	}
 }
