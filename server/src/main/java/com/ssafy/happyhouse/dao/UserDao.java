@@ -1,17 +1,30 @@
 package com.ssafy.happyhouse.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.happyhouse.dto.UserDto;
+import com.ssafy.happyhouse.dto.UserFileDto;
 
 @Mapper
 public interface UserDao {
 	public int userRegister(UserDto userDto);
+	
 	public int userModify(UserDto userDto);
+	public int userPasswordModify(UserDto userDto);
+	
 	public int userDelete(UserDto userDto);
+	
 	public UserDto login(String userId);
+	
 	public UserDto findPassword(String userId);
 	public int updatePassword(UserDto userDto);
+	
 	public int userProfileImage(UserDto userDto);
+	public int userFileInsert(UserFileDto dto);
+	public int userFileDelete(String userId);
+	public List<String> userFileUrlDeleteList(String userId);
+	
 	public UserDto userInfo(String userId);
 }

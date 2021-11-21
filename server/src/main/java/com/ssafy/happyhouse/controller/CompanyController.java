@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dto.CompanyDto;
 import com.ssafy.happyhouse.dto.CompanyResultDto;
+import com.ssafy.happyhouse.dto.UserDto;
 import com.ssafy.happyhouse.service.CompanyService;
 
 @CrossOrigin(
@@ -35,7 +37,7 @@ public class CompanyController {
 	private static final int INCORRECT_INFO = 2;
 	
 	
-	@PostMapping(value="/company")
+	@PostMapping(value="/company/register")
 	public ResponseEntity<CompanyResultDto> register(@RequestBody CompanyDto companyDto) {
 		System.out.println("register " + companyDto);
 		CompanyResultDto companyResultDto = companyService.companyRegister(companyDto);
@@ -46,9 +48,20 @@ public class CompanyController {
 		}
 	}
 	
-	@PutMapping(value="/company")
+	@PutMapping(value="/company/modify")
 	public ResponseEntity<CompanyResultDto> modify(@RequestBody CompanyDto companyDto) {
 		System.out.println("modify " + companyDto);
+		CompanyResultDto companyResultDto = companyService.companyModify(companyDto);
+		if (companyResultDto.getResult() == SUCCESS) {
+			return new ResponseEntity<>(companyResultDto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(companyResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PutMapping(value="/company/password")
+	public ResponseEntity<CompanyResultDto> passwordModify(@RequestBody CompanyDto companyDto) {
+		System.out.println("passwordModify " + companyDto);
 		CompanyResultDto companyResultDto = companyService.companyModify(companyDto);
 		if (companyResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<>(companyResultDto, HttpStatus.OK);
@@ -70,8 +83,8 @@ public class CompanyController {
 	}
 
 	@PostMapping(value = "/company/login")
-	public ResponseEntity<CompanyResultDto> login(@RequestBody CompanyDto dto, HttpSession session, HttpServletRequest request) {
-		CompanyResultDto companyResultDto = companyService.login(dto);
+	public ResponseEntity<CompanyResultDto> login(@RequestBody CompanyDto companyDto, HttpSession session, HttpServletRequest request) {
+		CompanyResultDto companyResultDto = companyService.login(companyDto);
 		System.out.println("result  " + companyResultDto);
 		if (companyResultDto.getResult() == SUCCESS) {
 			session.setAttribute("companyDto", companyResultDto.getDto());
@@ -90,8 +103,8 @@ public class CompanyController {
 	}
 	
 	@PostMapping(value = "/company/password")
-	public ResponseEntity<CompanyResultDto> findPassword(@RequestBody CompanyDto dto, HttpServletRequest request) {
-		CompanyResultDto companyResultDto = companyService.findPassword(dto);
+	public ResponseEntity<CompanyResultDto> findPassword(@RequestBody CompanyDto companyDto, HttpServletRequest request) {
+		CompanyResultDto companyResultDto = companyService.findPassword(companyDto);
 		System.out.println("controller result  " + companyResultDto);
 		if (companyResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<CompanyResultDto>(companyResultDto, HttpStatus.OK);
@@ -104,9 +117,13 @@ public class CompanyController {
 	
 	// 프로필 이미지 등록
 	@PutMapping(value = "/company/profileImg")
-	public ResponseEntity<CompanyResultDto> userProfileImage(@RequestBody CompanyDto dto) {
-		CompanyResultDto companyResultDto = companyService.companyProfileImage(dto);
-		System.out.println("companyProfileImage result  " + companyResultDto);
+	public ResponseEntity<CompanyResultDto> companyProfileImage(@RequestBody CompanyDto companyDto, MultipartHttpServletRequest request) {
+		HttpSession session = request.getSession();
+		companyDto = (CompanyDto) session.getAttribute("companyDto");
+	    System.out.println("companyProfileImage " + companyDto);
+		
+		CompanyResultDto companyResultDto = companyService.companyProfileImage(companyDto, request);
+		
 		if (companyResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<CompanyResultDto>(companyResultDto, HttpStatus.OK);
 		} else {

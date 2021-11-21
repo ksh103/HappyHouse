@@ -1,5 +1,6 @@
 package com.ssafy.happyhouse.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,11 @@ import com.ssafy.happyhouse.dto.HouseResultDto;
 import com.ssafy.happyhouse.dto.HouseReviewDto;
 import com.ssafy.happyhouse.dto.HouseReviewParamDto;
 import com.ssafy.happyhouse.dto.HouseReviewResultDto;
-import com.ssafy.happyhouse.dto.NoticeParamDto;
 import com.ssafy.happyhouse.dto.NoticeResultDto;
 import com.ssafy.happyhouse.dto.UserDto;
+import com.ssafy.happyhouse.dto.UserResultDto;
 import com.ssafy.happyhouse.service.HouseService;
+import com.ssafy.happyhouse.service.UserService;
 
 @CrossOrigin(
 		origins = "http://localhost:5500",
@@ -83,9 +85,16 @@ public class HouseController {
 	
 	// 리뷰 등록
 	@PostMapping(value="/house/review")
-	public ResponseEntity<HouseReviewResultDto> houseReviewRegister(@RequestBody HouseReviewDto houseReviewDto) {
+	public ResponseEntity<HouseReviewResultDto> houseReviewRegister(@RequestBody HouseReviewDto houseReviewDto, HttpServletRequest request) {
+	    HttpSession session = request.getSession();
+	    UserDto userDto = (UserDto) session.getAttribute("userDto");
+	    
+	    userDto.setUserSeq(userDto.getUserSeq());
+	            
+	    HouseReviewResultDto houseReviewResultDto = houseService.houseReviewRegister(houseReviewDto, request);
+		
 		System.out.println("register " + houseReviewDto);
-		HouseReviewResultDto houseReviewResultDto = houseService.houseReviewRegister(houseReviewDto);
+
 		if (houseReviewResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<>(houseReviewResultDto, HttpStatus.OK);
 		} else {

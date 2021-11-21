@@ -1,31 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.ssafy.happyhouse.dao.UserDao">
+
 	<insert id="userRegister" parameterType="com.ssafy.happyhouse.dto.UserDto">
 		insert into user(user_name, user_id, user_password, user_email, reg_dt, code) 
 		values ( #{userName}, #{userId}, #{userPassword}, #{userEmail}, now(), #{code} )
 	</insert>
+	
 	<update id="userModify" parameterType="com.ssafy.happyhouse.dto.UserDto">
-		update user set user_name = #{userName}, user_password = #{userPassword}, user_email = #{userEmail}, user_profileimage = #{userProfileimage}
-		where user_id = #{userId}
+    	update user
+	    <set>
+	        <if test="userName != null">user_name=#{userName},</if>
+	        <if test="user_email != null">user_email=#{userEmail},</if>
+	        <if test="userProfileimage != null">user_profileimage=#{userProfileimage},</if>
+	    </set>
+    	where user_id = #{userId}
 	</update>
+	
+	<update id="userPasswordModify" parameterType="com.ssafy.happyhouse.dto.UserDto">
+    	update user set user_password = #{userPassword}
+    	where user_id = #{userId}
+	</update>
+	
 	<delete id="userDelete" parameterType="com.ssafy.happyhouse.dto.UserDto">
 		delete from user where user_id = #{userId}
 	</delete>
+	
 	<select id="login" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
 		select user_seq, user_name, user_id, user_password, user_email, reg_dt, user_profileimage, code
 		from user where user_id = #{userId}
 	</select>
+	
 	<select id="findPassword" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
 		select user_name, user_id
 		from user where user_id = #{userId}
 	</select>
+	
 	<update id="updatePassword" parameterType="com.ssafy.happyhouse.dto.UserDto">
 		update user set user_password = #{userPassword}
 		where user_id = #{userId}
 	</update>
+	
 	<update id="userProfileImage" parameterType="com.ssafy.happyhouse.dto.UserDto">
 		update user set user_profileimage = #{userProfileimage}
 		where user_id = #{userId}
 	</update>
+	
+	<insert id="userFileInsert" parameterType="com.ssafy.happyhouse.dto.UserDto">
+		insert into user_file ( user_id, file_name, file_size, file_content_type, file_url )
+		            values ( #{userId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl} )
+	</insert>
+	
+	<delete id="userFileDelete" parameterType="int">
+		delete from user_file where user_id = #{userId}
+	</delete>
+	
+	<select id="userFileUrlDeleteList" parameterType="int" resultType="string">
+		select file_url from user_file where user_id = #{userId}
+	</select>
 </mapper>

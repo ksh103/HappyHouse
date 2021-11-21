@@ -1,14 +1,22 @@
 package com.ssafy.happyhouse.service;
 
+import java.io.File;
+import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dao.CompanyDao;
 import com.ssafy.happyhouse.dto.CompanyDto;
+import com.ssafy.happyhouse.dto.CompanyFileDto;
 import com.ssafy.happyhouse.dto.CompanyResultDto;
+import com.ssafy.happyhouse.dto.UserFileDto;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -18,6 +26,15 @@ public class CompanyServiceImpl implements CompanyService {
 	private static final int SUCCESS = 1;
 	private static final int INCORRECT_INFO = 2;
 	private static final int FAIL = -1;
+	
+	private static final String uploadFolder = "companyProfileImage";
+	private static final String uploadPath = "C:" + File.separator + "apps" + File.separator + "happyhouse"
+            + File.separator + "server" 
+            + File.separator + "src" 
+            + File.separator + "main"
+            + File.separator + "resources"
+            + File.separator + "static"
+            + File.separator + "upload";
 
 	@Override
 	public CompanyResultDto companyRegister(CompanyDto companyDto) {
@@ -41,6 +58,23 @@ public class CompanyServiceImpl implements CompanyService {
 		CompanyResultDto companyResultDto = new CompanyResultDto();
 		try {
 			if (companyDao.companyModify(companyDto) == 1) {
+				companyResultDto.setDto(companyDto);
+				companyResultDto.setResult(SUCCESS);
+			} else {
+				companyResultDto.setResult(FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			companyResultDto.setResult(FAIL);
+		}
+		return companyResultDto;
+	}
+	
+	@Override
+	public CompanyResultDto companyPasswordModify(CompanyDto companyDto) {
+		CompanyResultDto companyResultDto = new CompanyResultDto();
+		try {
+			if (companyDao.companyPasswordModify(companyDto) == 1) {
 				companyResultDto.setDto(companyDto);
 				companyResultDto.setResult(SUCCESS);
 			} else {
@@ -188,15 +222,56 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
 	@Override
-	public CompanyResultDto companyProfileImage(CompanyDto companyDto) {
+	public CompanyResultDto companyProfileImage(CompanyDto companyDto, MultipartHttpServletRequest request) {
 		CompanyResultDto companyResultDto = new CompanyResultDto();
 		try {
-			if (companyDao.companyProfileImage(companyDto) == 1) {
-				companyResultDto.setDto(companyDto);
-				companyResultDto.setResult(SUCCESS);
-			} else {
-				companyResultDto.setResult(FAIL);
-			}
+			List<MultipartFile> fileList = request.getFiles("file");
+			
+			// 파일 경로 찾기
+	        File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+	        if (!uploadDir.exists()) uploadDir.mkdir();
+	        
+	        // 물리 파일 삭제, 첨부파일 여러개 고려
+	        List<String> fileUrlList = companyDao.companyFileUrlDeleteList(companyDto.getCompId());    
+	        for(String fileUrl : fileUrlList) {    
+	            File file = new File(uploadPath + File.separator, fileUrl);
+	            if(file.exists()) {
+	                file.delete();
+	            }
+	        }
+	        
+	        companyDao.companyFileDelete(companyDto.getCompId()); // 테이블 파일 삭제
+	        
+	        for (MultipartFile part : fileList) {
+	            String compId = companyDto.getCompId();
+	            
+	            String fileName = part.getOriginalFilename();
+	            
+	            //Random File Id
+	            UUID uuid = UUID.randomUUID();
+	            
+	            //file extension
+	            String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
+	        
+	            String savingFileName = uuid + "." + extension;
+	        
+	            File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+	            
+	            System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+	            part.transferTo(destFile);
+	        
+	            // Table Insert
+	            CompanyFileDto companyFileDto = new CompanyFileDto();
+	            companyFileDto.setCompId(compId);
+	            companyFileDto.setFileName(fileName);
+	            companyFileDto.setFileSize(part.getSize());
+	            companyFileDto.setFileContentType(part.getContentType());
+	            String companyFileUrl = "/" + uploadFolder + "/" + savingFileName;
+	            companyFileDto.setFileUrl(companyFileUrl);
+	            
+	            companyDao.companyFileInsert(companyFileDto);
+	        }
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			companyResultDto.setResult(FAIL);

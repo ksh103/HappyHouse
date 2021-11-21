@@ -61,6 +61,7 @@ public class UserDto {
 	public void setRegDt(Date regDt) {
 		this.regDt = LocalDateTime.ofInstant(
 				regDt.toInstant(), ZoneId.systemDefault()
+				
 		);
 	}
 	public String getUserProfileimage() {

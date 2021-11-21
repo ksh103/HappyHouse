@@ -2,6 +2,8 @@ package com.ssafy.happyhouse.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -176,7 +178,7 @@ public class HouseServiceImpl implements HouseService {
 	
 	// 리뷰 등록
 	@Override
-	public HouseReviewResultDto houseReviewRegister(HouseReviewDto houseReviewDto) {
+	public HouseReviewResultDto houseReviewRegister(HouseReviewDto houseReviewDto, HttpServletRequest request) {
 		 HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
 		try {
 			if (houseDao.houseReviewRegister(houseReviewDto) == 1) {

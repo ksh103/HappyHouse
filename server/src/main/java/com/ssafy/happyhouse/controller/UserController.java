@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dto.UserDto;
 import com.ssafy.happyhouse.dto.UserResultDto;
@@ -39,7 +40,7 @@ public class UserController {
 	private static final int INCORRECT_INFO = 2;
 	
 	
-	@PostMapping(value="/user")
+	@PostMapping(value="/user/register")
 	public ResponseEntity<UserResultDto> register(@RequestBody UserDto userDto) {
 		System.out.println("register " + userDto);
 		UserResultDto userResultDto = userService.userRegister(userDto);
@@ -50,10 +51,21 @@ public class UserController {
 		}
 	}
 	
-	@PutMapping(value="/user")
+	@PutMapping(value="/user/modify")
 	public ResponseEntity<UserResultDto> modify(@RequestBody UserDto userDto) {
 		System.out.println("modify " + userDto);
 		UserResultDto userResultDto = userService.userModify(userDto);
+		if (userResultDto.getResult() == SUCCESS) {
+			return new ResponseEntity<>(userResultDto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(userResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PutMapping(value="/user/password")
+	public ResponseEntity<UserResultDto> passwordModify(@RequestBody UserDto userDto) {
+		System.out.println("pwdmodify " + userDto);
+		UserResultDto userResultDto = userService.userPasswordModify(userDto);
 		if (userResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<>(userResultDto, HttpStatus.OK);
 		} else {
@@ -108,14 +120,20 @@ public class UserController {
 	
 	// 프로필 이미지 등록
 	@PutMapping(value = "/user/profileImg")
-	public ResponseEntity<UserResultDto> userProfileImage(@RequestBody UserDto dto) {
-		UserResultDto userResultDto = userService.userProfileImage(dto);
-		System.out.println("userProfileImage result  " + userResultDto);
+	public ResponseEntity<UserResultDto> userProfileImage(@RequestBody UserDto userDto, MultipartHttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+	    userDto = (UserDto) session.getAttribute("userDto");
+	    System.out.println("userProfileImage " + userDto);
+	    
+	    userDto.setUserSeq(userDto.getUserSeq());
+		
+		UserResultDto userResultDto = userService.userProfileImage(userDto, request);
+		
 		if (userResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<UserResultDto>(userResultDto, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<UserResultDto>(userResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
 }

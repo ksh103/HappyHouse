@@ -1,31 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.ssafy.happyhouse.dao.UserDao">
+
 	<insert id="companyRegister" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
 		insert into company(comp_name, comp_id, comp_password, comp_email, comp_address, reg_dt, code) 
 		values ( #{compName}, #{compId}, #{compPassword}, #{compEmail}, #{compAddress}, now(), 3)
 	</insert>
+	
 	<update id="companyModify" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
-		update company set comp_name = #{compName}, comp_password = #{compPassword}, comp_email = #{compEmail}, comp_profileimage = #{compProfileimage}
-		where comp_id = #{compId}
+    	update company
+	    <set>
+	        <if test="compName != null">comp_name=#{compName},</if>
+	        <if test="compEmail != null">comp_email=#{compEmail},</if>
+	        <if test="compProfileimage != null">comp_profileimage=#{compProfileimage},</if>
+	    </set>
+    	where comp_id = #{compId}
 	</update>
+	
+	<update id="companyPasswordModify" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
+    	update company set comp_password = #{compPassword}
+    	where comp_id = #{compId}
+	</update>
+	
 	<delete id="companyDelete" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
 		delete from company where comp_id = #{compId}
 	</delete>
+	
 	<select id="login" parameterType="string" resultType="com.ssafy.happyhouse.dto.CompanyDto">
 		select comp_seq, comp_name, comp_id, comp_password, comp_email, comp_address, reg_dt, comp_profileimage, code
 		from company where comp_id = #{compId}
 	</select>
+	
 	<select id="findPassword" parameterType="string" resultType="com.ssafy.happyhouse.dto.CompanyDto">
 		select comp_name, comp_id
 		from company where comp_id = #{compId}
 	</select>
+	
 	<update id="updatePassword" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
 		update company set comp_password = #{compPassword}
 		where comp_id = #{compId}
 	</update>
+	
 	<update id="companyProfileImage" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
 		update company set comp_profileimage = #{compProfileimage}
 		where comp_id = #{compId}
 	</update>
+	
+	<insert id="companyFileInsert" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
+		insert into company_file ( comp_id, file_name, file_size, file_content_type, file_url )
+		            values ( #{compId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl} )
+	</insert>
+	
+	<delete id="companyFileDelete" parameterType="int">
+		delete from company_file where comp_id = #{compId}
+	</delete>
+	
+	<select id="companyFileUrlDeleteList" parameterType="int" resultType="string">
+		select file_url from company_file where comp_id = #{compId}
+	</select>
 </mapper>

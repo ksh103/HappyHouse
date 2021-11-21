@@ -1,13 +1,21 @@
 package com.ssafy.happyhouse.service;
 
+import java.io.File;
+import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dao.UserDao;
+import com.ssafy.happyhouse.dto.NoticeFileDto;
 import com.ssafy.happyhouse.dto.UserDto;
+import com.ssafy.happyhouse.dto.UserFileDto;
 import com.ssafy.happyhouse.dto.UserResultDto;
 
 @Service
@@ -18,6 +26,15 @@ public class UserServiceImpl implements UserService {
 	private static final int SUCCESS = 1;
 	private static final int INCORRECT_INFO = 2;
 	private static final int FAIL = -1;
+	
+	private static final String uploadFolder = "userProfileImage";
+	private static final String uploadPath = "C:" + File.separator + "apps" + File.separator + "happyhouse"
+            + File.separator + "server" 
+            + File.separator + "src" 
+            + File.separator + "main"
+            + File.separator + "resources"
+            + File.separator + "static"
+            + File.separator + "upload";
 
 	@Override
 	public UserResultDto userRegister(UserDto userDto) {
@@ -53,6 +70,23 @@ public class UserServiceImpl implements UserService {
 		return userResultDto;
 	}
 
+	@Override
+	public UserResultDto userPasswordModify(UserDto userDto) {
+		UserResultDto userResultDto = new UserResultDto();
+		try {
+			if (userDao.userPasswordModify(userDto) == 1) {
+				userResultDto.setDto(userDto);
+				userResultDto.setResult(SUCCESS);
+			} else {
+				userResultDto.setResult(FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			userResultDto.setResult(FAIL);
+		}
+		return userResultDto;
+	}
+	
 	@Override
 	public UserResultDto userDelete(UserDto userDto) {
 		UserResultDto userResultDto = new UserResultDto();
@@ -188,15 +222,56 @@ public class UserServiceImpl implements UserService {
     }
 
 	@Override
-	public UserResultDto userProfileImage(UserDto userDto) {
+	public UserResultDto userProfileImage(UserDto userDto, MultipartHttpServletRequest request) {
 		UserResultDto userResultDto = new UserResultDto();
 		try {
-			if (userDao.userProfileImage(userDto) == 1) {
-				userResultDto.setDto(userDto);
-				userResultDto.setResult(SUCCESS);
-			} else {
-				userResultDto.setResult(FAIL);
-			}
+			
+			List<MultipartFile> fileList = request.getFiles("file");
+			
+			// 파일 경로 찾기
+	        File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+	        if (!uploadDir.exists()) uploadDir.mkdir();
+	        
+	        // 물리 파일 삭제, 첨부파일 여러개 고려
+	        List<String> fileUrlList = userDao.userFileUrlDeleteList(userDto.getUserId());    
+	        for(String fileUrl : fileUrlList) {    
+	            File file = new File(uploadPath + File.separator, fileUrl);
+	            if(file.exists()) {
+	                file.delete();
+	            }
+	        }
+	        
+	        userDao.userFileDelete(userDto.getUserId()); // 테이블 파일 삭제
+			
+	        for (MultipartFile part : fileList) {
+	            String userId = userDto.getUserId();
+	            
+	            String fileName = part.getOriginalFilename();
+	            
+	            //Random File Id
+	            UUID uuid = UUID.randomUUID();
+	            
+	            //file extension
+	            String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
+	        
+	            String savingFileName = uuid + "." + extension;
+	        
+	            File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+	            
+	            System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+	            part.transferTo(destFile);
+	        
+	            // Table Insert
+	            UserFileDto userFileDto = new UserFileDto();
+	            userFileDto.setUserId(userId);
+	            userFileDto.setFileName(fileName);
+	            userFileDto.setFileSize(part.getSize());
+	            userFileDto.setFileContentType(part.getContentType());
+	            String userFileUrl = "/" + uploadFolder + "/" + savingFileName;
+	            userFileDto.setFileUrl(userFileUrl);
+	            
+	            userDao.userFileInsert(userFileDto);
+	        }
 		} catch (Exception e) {
 			e.printStackTrace();
 			userResultDto.setResult(FAIL);
