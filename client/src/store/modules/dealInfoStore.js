@@ -46,7 +46,7 @@ const dealInfoStore = {
         })
     },
     getHouseListByDong({ commit }, dongName) {
-      http.get(`/house/detail/${dongName}`)
+      http.get(`/house/detail/dong/${dongName}`)
         .then(response => {
           console.log(response.data)
           commit('SET_HOUSE_LIST', response.data.houseDetailDto);

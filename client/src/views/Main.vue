@@ -91,21 +91,21 @@
             <h4>공지사항</h4>
             <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
               <tbody>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
+                <tr>
+                  <td>Ava Alexander</td>
+                </tr>
+                <tr>
+                  <td>Ava Alexander</td>
+                </tr>
+                <tr>
+                  <td>Ava Alexander</td>
+                </tr>
+                <tr>
+                  <td>Ava Alexander</td>
+                </tr>
+                <tr>
+                  <td>Ava Alexander</td>
+                </tr>
               </tbody>
             </table>
           </div>

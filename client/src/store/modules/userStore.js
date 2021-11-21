@@ -40,7 +40,6 @@ const userStore = {
     },
     SET_USER_MODIFY(state, payload) {
       state.name = payload.name;
-      state.password = payload.password;
       state.email = payload.email;
     },
   },

@@ -63,6 +63,7 @@
           </a>
         </div>
         <button @click="toggleList" class="btn btn-primary" type="button">결과 리스트</button>
+        <button @click="showReviewInsertModal" class="btn btn-primary" type="button">test</button>
       </div>
       <div v-if="listVisible" id="showList" class="card p-0 bg-secondary">
         <div class="text-center text-white py-3"><h4>현재 매물 개수 : 0개</h4></div>
@@ -87,7 +88,10 @@
         </div>
         <!-- 거주민 리뷰 -->
         <div class="bg-white mb-2">
-          <div class="border-bottom"><h4 class="p-3 m-0">거주민 리뷰</h4></div>
+          <div class="border-bottom d-flex justify-content-between align-items-center">
+            <h4 class="p-3 m-0">거주민 리뷰</h4>
+            <button @click="showReviewInsertModal" style="font-size: 14px;" class="btn px-2 py-1">리뷰 남기기</button>
+          </div>
 
           <!-- <div class="p-3">
             <div>등록된 리뷰가 없습니다.</div>
@@ -186,6 +190,7 @@
         </div>
       </div>
     </div>
+    <review-insert-modal v-on:parent-modal-close="reviewInsertModalClose" buildingName="은마아파트" />
   </div>
 </template>
 
@@ -194,6 +199,8 @@ import { mapState, mapActions, mapMutations } from "vuex";
 import http from "@/common/axios.js";
 import BasicHeader from '@/components/layout/BasicHeader.vue';
 import StarRating from 'vue-star-rating';
+import ReviewInsertModal from '@/components/housedeal/ReviewInsertModal.vue';
+import { Modal } from 'bootstrap';
 
 const storeName = 'dealInfoStore';
 
@@ -201,7 +208,8 @@ export default {
   name: 'DealInfo',
   components: {
     BasicHeader,
-    StarRating
+    StarRating,
+    ReviewInsertModal
   },
   data() {
     return {
@@ -215,7 +223,9 @@ export default {
       infoWindows: [],
       curIndex: -1,
       dealInfo: [],
-      trafficScore: 3
+      trafficScore: 3,
+
+      reviewInsertModal: null,
     }
   },
   computed: {
@@ -290,6 +300,16 @@ export default {
       this.listVisible = !this.listVisible;
       // this.addMarker(37.56666, 126.97800);
     },
+
+    // Modal 관련 메소드
+    showReviewInsertModal() {
+      this.reviewInsertModal.show();
+    },
+    reviewInsertModalClose() {
+      this.reviewInsertModal.hide();
+    },
+
+    // 지도 관련 메소드
     addMarkerByOne(markerPosition, index) {
       let marker = new kakao.maps.Marker({
         position: markerPosition
@@ -363,6 +383,7 @@ export default {
     },
   },
   mounted() {
+    // kakao map 초기화
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
@@ -371,6 +392,9 @@ export default {
       script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=8abe79c672729ad9f23c1abc169bb162';
       document.head.appendChild(script);
     }
+    // Modal 초기화
+    this.reviewInsertModal = new Modal(document.getElementById('reviewInsertModal'));
+
   },
 }
 </script>

@@ -3,28 +3,28 @@
     <BasicHeader name="회원가입" />
     <div class="container my-5">
       <div class="d-flex flex-column align-items-center">
-        <h2>Happy House 가입을 환영합니다!</h2>
+        <h2 class="mb-4">Happy House 가입을 환영합니다!</h2>
         <form class="row g-1 p-0 p-md-4 w-100">
           <table>
             <tr>
-              <td style="width: 15%;" class="px-4 border-top border-dark"><label class="form-label" for="userName">이름 <span class="text-danger">*</span></label></td>
-              <td class="px-4"><input v-model="userName" id="userName" type="text" class="form-control form-control-lg"></td>
+              <td style="width: 15%;" class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userName">이름 <span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userName" id="userName" type="text" class="mb-4 form-control form-control-lg"></td>
             </tr>
             <tr>
-              <td class="px-4 border-top border-dark"><label class="form-label" for="userId">아이디 <span class="text-danger">*</span></label></td>
-              <td class="px-4"><input v-model="userId" id="userId" type="text" class="form-control form-control-lg"></td>
+              <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userId">아이디 <span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userId" id="userId" type="text" class="mb-4 form-control form-control-lg"></td>
             </tr>
             <tr>
-              <td class="px-4 border-top border-dark"><label class="form-label" for="userPassword">비밀번호 <span class="text-danger">*</span></label></td>
-              <td class="px-4"><input v-model="userPassword" id="userPassword" type="password" class="form-control form-control-lg"></td>
+              <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userPassword">비밀번호 <span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userPassword" id="userPassword" type="password" class="mb-4 form-control form-control-lg"></td>
             </tr>
             <tr>
-              <td class="px-4 border-top border-dark"><label class="form-label" for="userRePassword">비밀번호 확인<span class="text-danger">*</span></label></td>
-              <td class="px-4"><input v-model="userRePassword" id="userRePassword" type="password" class="form-control form-control-lg"></td>
+              <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userRePassword">비밀번호 확인<span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userRePassword" id="userRePassword" type="password" class="mb-4 form-control form-control-lg"></td>
             </tr>
             <tr>
-              <td class="px-4 border-top border-dark"><label class="form-label" for="userId">이메일 <span class="text-danger">*</span></label></td>
-              <td class="px-4"><input v-model="userEmail" id="userEmail" type="email" class="form-control form-control-lg"></td>
+              <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userEmail">이메일 <span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userEmail" id="userEmail" type="email" class="mb-4 form-control form-control-lg"></td>
             </tr>
           </table>
           <div class="col-12 text-center mt-4">
@@ -40,11 +40,11 @@
 <script>
 import http from "@/common/axios.js";
 import Vue from 'vue';
-import VueAlertify from 'vue-alertify';
+import VueSwal from 'vue-swal'
 import { mapActions } from 'vuex';
 import BasicHeader from '@/components/layout/BasicHeader.vue';
 
-Vue.use(VueAlertify);
+Vue.use(VueSwal);
 
 export default {
   name: 'Join',
@@ -72,16 +72,15 @@ export default {
         .then(({ data }) => {
           let $this = this;
           if (data.result == 1) {
-            this.$alertify.alert('가입이 완료되었습니다. 로그인 페이지로 이동합니다.', function() {
-              $this.$router.push('/user/login/');
-            });
+            this.$swal('회원 가입이 완료되었습니다.', '환영합니다. 로그인 페이지로 이동합니다.', { icon: 'success' })
+              .then(() => $this.$router.push('/user/login/'));
           }
         })
         .catch(error => {
           console.log("RegisterVue: error : ");
           console.log(error);
           if( error.response.status == '404'){
-            this.$alertify.error('Opps!! 서버에 문제가 발생했습니다.');          
+            this.$swal('서버에 문제가 발생하였습니다.');
           }
         })
       }
