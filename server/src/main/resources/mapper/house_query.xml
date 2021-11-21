@@ -28,7 +28,7 @@
 		values ( #{houseNo}, #{compSeq}, #{title}, #{content}, #{dealAmount}, #{floor}, #{area}, #{direction}, #{type}, #{fee}, #{room}, #{bathroom} )
 	</insert>
 	
-	<select id="HouseOnGoingDetail" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+	<select id="houseOnGoingDetail" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
 		select h.register_id, h.no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
 		from house_ongoing h, company c
 		where h.register_id = #{registerId}
@@ -64,5 +64,19 @@
 		from house_ongoing
 		where no = #{houseNo}
 	</select>
+	
+	<insert id="houseReviewRegister" parameterType="com.ssafy.happyhouse.dto.HouseReviewDto">
+		insert into review(no, user_seq, title, content, traffic_score, surrounding_score, living_score, recommend_score) 
+					values(#{houseNo}, #{userSeq}, #{title}, #{content}, #{trafficScore} , #{surroundingScore}, #{livingScore}, #{recommendScore});
+	</insert>
+	
+	<select id="houseReviewDetail" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">
+		select review_id, no, user_seq, title, content, traffic_score, surrounding_score, living_score, recommend_score
+		from review r, user u
+		where r.review_id = #{reviewId}
+		and r.user_seq = u.user_seq;
+	</select>
+	
+
 	
 </mapper>

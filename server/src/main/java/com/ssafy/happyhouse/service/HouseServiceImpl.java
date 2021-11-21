@@ -12,8 +12,9 @@ import com.ssafy.happyhouse.dto.HouseOnGoingDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingParamDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingResultDto;
 import com.ssafy.happyhouse.dto.HouseResultDto;
-import com.ssafy.happyhouse.dto.NoticeDto;
-import com.ssafy.happyhouse.dto.NoticeResultDto;
+import com.ssafy.happyhouse.dto.HouseReviewDto;
+import com.ssafy.happyhouse.dto.HouseReviewParamDto;
+import com.ssafy.happyhouse.dto.HouseReviewResultDto;
 
 @Service
 public class HouseServiceImpl implements HouseService {
@@ -78,7 +79,7 @@ public class HouseServiceImpl implements HouseService {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
 		try {
 			if (houseDao.houseOnGoingRegister(houseDto) == 1) {
-				houseOnGoingResultDto.setHouseOnGoingDto(houseDto);
+				houseOnGoingResultDto.setDto(houseDto);
 				houseOnGoingResultDto.setResult(SUCCESS);
 			} else {
 				houseOnGoingResultDto.setResult(FAIL);
@@ -96,13 +97,13 @@ public class HouseServiceImpl implements HouseService {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
 		
 		try {
-			HouseOnGoingDto houseOnGoingDto = houseDao.HouseOnGoingDetail(houseOnGoingParamDto);
+			HouseOnGoingDto houseOnGoingDto = houseDao.houseOnGoingDetail(houseOnGoingParamDto);
 			if(houseOnGoingDto.getCompSeq() != 0 && houseOnGoingDto.getCompSeq() == houseOnGoingParamDto.getCompSeq()){
 				houseOnGoingDto.setSameUser(true);
 			}else {
 				houseOnGoingDto.setSameUser(false);
 			}			
-			houseOnGoingResultDto.setHouseOnGoingDto(houseOnGoingDto);
+			houseOnGoingResultDto.setDto(houseOnGoingDto);
 			houseOnGoingResultDto.setResult(SUCCESS);
 			
 		} catch (Exception e) {
@@ -121,7 +122,6 @@ public class HouseServiceImpl implements HouseService {
 	        List<HouseOnGoingDto> list = houseDao.houseOnGoingList(houseOnGoingParamDto);
 
 	        houseOnGoingResultDto.setList(list);
-	        
 	        houseOnGoingResultDto.setResult(SUCCESS);
 	        
 	    }catch(Exception e) {
@@ -169,5 +169,43 @@ public class HouseServiceImpl implements HouseService {
 	        houseOnGoingResultDto.setResult(FAIL);
 	    }
 	    return houseOnGoingResultDto;
+	}
+
+	@Override
+	public HouseReviewResultDto houseReviewRegister(HouseReviewDto houseReviewDto) {
+		 HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
+		try {
+			if (houseDao.houseReviewRegister(houseReviewDto) == 1) {
+				houseReviewResultDto.setDto(houseReviewDto);
+				houseReviewResultDto.setResult(SUCCESS);
+			} else {
+				houseReviewResultDto.setResult(FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			houseReviewResultDto.setResult(FAIL);
+		}
+		return houseReviewResultDto;
+	}
+
+	@Override
+	public HouseReviewResultDto houseReviewDetail(HouseReviewParamDto houseReviewParamDto) {
+		HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
+		
+		try {
+			HouseReviewDto houseReviewDto = houseDao.houseReviewDetail(houseReviewParamDto);
+			if(houseReviewDto.getUserSeq() != 0 && houseReviewDto.getUserSeq() == houseReviewParamDto.getUserSeq()){
+				houseReviewDto.setSameUser(true);
+			}else {
+				houseReviewDto.setSameUser(false);
+			}			
+			houseReviewResultDto.setDto(houseReviewDto);
+			houseReviewResultDto.setResult(SUCCESS);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			houseReviewResultDto.setResult(FAIL);
+		}
+		return houseReviewResultDto;
 	}
 }

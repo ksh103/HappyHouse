@@ -8,8 +8,12 @@ import com.ssafy.happyhouse.dto.HouseDealDto;
 import com.ssafy.happyhouse.dto.HouseDetailDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingParamDto;
+import com.ssafy.happyhouse.dto.HouseReviewDto;
+import com.ssafy.happyhouse.dto.HouseReviewParamDto;
+import com.ssafy.happyhouse.dto.HouseReviewResultDto;
 import com.ssafy.happyhouse.dto.NoticeDto;
 import com.ssafy.happyhouse.dto.NoticeParamDto;
+import com.ssafy.happyhouse.dto.NoticeResultDto;
 
 @Mapper
 public interface HouseDao {
@@ -26,5 +30,8 @@ public interface HouseDao {
 	
 	public int houseNoOnGoingListTotalCount(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트 수 (특정 매물 개수)
 	
-	public HouseOnGoingDto HouseOnGoingDetail(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 보기
+	public HouseOnGoingDto houseOnGoingDetail(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 보기
+	
+	public int houseReviewRegister(HouseReviewDto houseReviewDto); // 리뷰 등록
+	public HouseReviewDto houseReviewDetail(HouseReviewParamDto houseReviewParamDto); // 리뷰 데이터 조회
 }

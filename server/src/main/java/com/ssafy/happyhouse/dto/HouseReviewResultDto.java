@@ -1,11 +1,10 @@
 package com.ssafy.happyhouse.dto;
-
 import java.util.List;
 
-public class HouseOnGoingResultDto {
+public class HouseReviewResultDto {
 	private int result; // success
-	private HouseOnGoingDto dto; // 상세 
-	private List<HouseOnGoingDto> list; // 목록
+	private HouseReviewDto dto; // 상세 
+	private List<HouseReviewDto> list; // 목록
 	private int count; // 글 개수
 	
 	public int getResult() {
@@ -14,16 +13,16 @@ public class HouseOnGoingResultDto {
 	public void setResult(int result) {
 		this.result = result;
 	}
-	public HouseOnGoingDto getDto() {
+	public HouseReviewDto getDto() {
 		return dto;
 	}
-	public void setDto(HouseOnGoingDto dto) {
+	public void setDto(HouseReviewDto dto) {
 		this.dto = dto;
 	}
-	public List<HouseOnGoingDto> getList() {
+	public List<HouseReviewDto> getList() {
 		return list;
 	}
-	public void setList(List<HouseOnGoingDto> list) {
+	public void setList(List<HouseReviewDto> list) {
 		this.list = list;
 	}
 	public int getCount() {
