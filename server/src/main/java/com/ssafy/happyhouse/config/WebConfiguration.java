@@ -22,7 +22,6 @@ public class WebConfiguration implements WebMvcConfigurer{
     	.excludePathPatterns("/info/**", "/house/**", "/dealinfo/**", "/notices/**")	// 주소 (구/동) 정보, 공지사항, 실거래가 조회 허용
     	.excludePathPatterns("/user/login", "/user/logout", "/user/password")		// 로그인, 로그아웃 허용
     	.excludePathPatterns("/notice")							// 공지사항 접속 주소 허용
-    	.excludePathPatterns("/boards")
-    	.excludePathPatterns("/swagger-resources/**", "/swagger-ui/index.html/**", "/v3/api-docs", "/webjars/**");
+    	.excludePathPatterns("/boards");
     }
 }

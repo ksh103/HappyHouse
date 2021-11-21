@@ -222,11 +222,11 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 	
 	@Override
-	public NoticeResultDto noticeLimitList(NoticeParamDto noticeParamDto) {
+	public NoticeResultDto noticeLatestList(NoticeParamDto noticeParamDto) {
 		NoticeResultDto noticeResultDto = new NoticeResultDto();
 	    
 	    try {
-	        List<NoticeDto> list = dao.noticeList(noticeParamDto);           
+	        List<NoticeDto> list = dao.noticeLatestList(noticeParamDto);           
 	        noticeResultDto.setList(list);
 	        noticeResultDto.setResult(SUCCESS);
 	        

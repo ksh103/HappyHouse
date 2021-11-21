@@ -41,7 +41,7 @@ public class HouseServiceImpl implements HouseService {
 		return houseResultDto;
 	}
 	
-	// 매물 검색 (아파트 이름)
+	// 매물 검색 (동 + 아파트 이름)
 	@Override
 	public HouseResultDto getHouseSearchDetail(String searchWord) {
 		HouseResultDto houseResultDto = new HouseResultDto();
@@ -120,8 +120,10 @@ public class HouseServiceImpl implements HouseService {
 	    
 	    try {
 	        List<HouseOnGoingDto> list = houseDao.houseOnGoingList(houseOnGoingParamDto);
+	        int count = houseDao.houseOnGoingListTotalCount();
 
 	        houseOnGoingResultDto.setList(list);
+	        houseOnGoingResultDto.setCount(count);
 	        houseOnGoingResultDto.setResult(SUCCESS);
 	        
 	    }catch(Exception e) {
@@ -133,12 +135,12 @@ public class HouseServiceImpl implements HouseService {
 	
 	// 등록된 매물 리스트(특정 매물 클릭)
 	@Override
-	public HouseOnGoingResultDto houseNoOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto) {
+	public HouseOnGoingResultDto houseNoOnGoingList(int houseNo) {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
 	    
 	    try {
-	        List<HouseOnGoingDto> list = houseDao.houseNoOnGoingList(houseOnGoingParamDto);
-	        int count = houseDao.houseNoOnGoingListTotalCount(houseOnGoingParamDto);   
+	        List<HouseOnGoingDto> list = houseDao.houseNoOnGoingList(houseNo);
+	        int count = houseDao.houseNoOnGoingListTotalCount(houseNo);   
 	        
 	        houseOnGoingResultDto.setList(list);
 	        houseOnGoingResultDto.setCount(count);
@@ -151,6 +153,8 @@ public class HouseServiceImpl implements HouseService {
 	    }
 	    return houseOnGoingResultDto;
 	}
+	
+
 
 	// 등록된 매물 리스트(5개)
 	@Override
@@ -161,7 +165,6 @@ public class HouseServiceImpl implements HouseService {
 	        List<HouseOnGoingDto> list = houseDao.houseOnGoingLimitList(houseOnGoingParamDto);
 
 	        houseOnGoingResultDto.setList(list);
-	        
 	        houseOnGoingResultDto.setResult(SUCCESS);
 	        
 	    }catch(Exception e) {
@@ -170,7 +173,8 @@ public class HouseServiceImpl implements HouseService {
 	    }
 	    return houseOnGoingResultDto;
 	}
-
+	
+	// 리뷰 등록
 	@Override
 	public HouseReviewResultDto houseReviewRegister(HouseReviewDto houseReviewDto) {
 		 HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
@@ -188,17 +192,20 @@ public class HouseServiceImpl implements HouseService {
 		return houseReviewResultDto;
 	}
 
+	// 리뷰 조회
 	@Override
 	public HouseReviewResultDto houseReviewDetail(HouseReviewParamDto houseReviewParamDto) {
 		HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
 		
 		try {
 			HouseReviewDto houseReviewDto = houseDao.houseReviewDetail(houseReviewParamDto);
+			
 			if(houseReviewDto.getUserSeq() != 0 && houseReviewDto.getUserSeq() == houseReviewParamDto.getUserSeq()){
 				houseReviewDto.setSameUser(true);
 			}else {
 				houseReviewDto.setSameUser(false);
-			}			
+			}
+			
 			houseReviewResultDto.setDto(houseReviewDto);
 			houseReviewResultDto.setResult(SUCCESS);
 			

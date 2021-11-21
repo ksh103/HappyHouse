@@ -54,8 +54,8 @@ public class NoticeController {
 	}
     
 	// 최근 등록 매물 5개까지
-    @GetMapping(value="/notices/limit")
-    public ResponseEntity<NoticeResultDto> noticeLimitList(NoticeParamDto noticeParamDto){
+    @GetMapping(value="/notices/latest")
+    public ResponseEntity<NoticeResultDto> noticeLatestList(NoticeParamDto noticeParamDto){
     	NoticeResultDto noticeResultDto;
     	System.out.println(noticeParamDto);
     	

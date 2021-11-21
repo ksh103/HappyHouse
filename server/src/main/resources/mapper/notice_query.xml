@@ -20,7 +20,7 @@
 		 LIMIT #{limit} OFFSET #{offset}
 	</select>
 	
-	<select id="noticeLimitList" parameterType="map" resultType="com.ssafy.happyhouse.dto.NoticeDto">
+	<select id="noticeLatestList" parameterType="map" resultType="com.ssafy.happyhouse.dto.NoticeDto">
 		SELECT NOTICE_ID, TITLE
 		FROM NOTICE
 		ORDER BY NOTICE_ID DESC

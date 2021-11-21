@@ -17,6 +17,8 @@ import com.ssafy.happyhouse.dto.HouseResultDto;
 import com.ssafy.happyhouse.dto.HouseReviewDto;
 import com.ssafy.happyhouse.dto.HouseReviewParamDto;
 import com.ssafy.happyhouse.dto.HouseReviewResultDto;
+import com.ssafy.happyhouse.dto.NoticeParamDto;
+import com.ssafy.happyhouse.dto.NoticeResultDto;
 import com.ssafy.happyhouse.dto.UserDto;
 import com.ssafy.happyhouse.service.HouseService;
 
@@ -50,7 +52,7 @@ public class HouseController {
 	}
 	
 	// 매물 검색 (동+아파트)
-	@GetMapping("/house/detail/keyword/{searchName}")
+	@GetMapping("/house/detail/keyword/{searchWord}")
 	public ResponseEntity<HouseResultDto> getHouseSearchDetail(@PathVariable String searchWord) {
 		System.out.println("house detail " + searchWord);
 		HouseResultDto houseResultDto;
@@ -91,13 +93,14 @@ public class HouseController {
 		}
 	}
 	
-	// 리뷰 상세 조회
-	@GetMapping("/house/review/{houseNo}")
-	public ResponseEntity<HouseReviewResultDto> houseReviewDetail(@PathVariable int HouseNo, HttpSession session){
+	// 리뷰 상세 조회 
+	@GetMapping(value="/house/review/{houseNo}")
+	public ResponseEntity<HouseReviewResultDto> noticeDetail(@PathVariable int houseNo, HttpSession session){
 	
-	   	HouseReviewParamDto houseReviewParamDto = new HouseReviewParamDto();
-	   	houseReviewParamDto.setHouseNo(HouseNo);
+		HouseReviewParamDto houseReviewParamDto = new HouseReviewParamDto();
+		houseReviewParamDto.setHouseNo(houseNo);
 	    UserDto userDto = (UserDto) session.getAttribute("userDto");
+	    
 	    if (userDto != null) houseReviewParamDto.setUserSeq(userDto.getUserSeq());
 	    
 	    HouseReviewResultDto houseReviewResultDto = houseService.houseReviewDetail(houseReviewParamDto);

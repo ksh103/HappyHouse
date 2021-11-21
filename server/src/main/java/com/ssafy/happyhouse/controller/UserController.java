@@ -106,6 +106,7 @@ public class UserController {
 		}
 	}
 	
+	// 프로필 이미지 등록
 	@PutMapping(value = "/user/profileImg")
 	public ResponseEntity<UserResultDto> userProfileImage(@RequestBody UserDto dto) {
 		UserResultDto userResultDto = userService.userProfileImage(dto);

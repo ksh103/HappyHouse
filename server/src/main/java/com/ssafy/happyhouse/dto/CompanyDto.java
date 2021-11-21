@@ -1,5 +1,9 @@
 package com.ssafy.happyhouse.dto;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
 public class CompanyDto {
 	private int compSeq;
 	private String compId;
@@ -7,12 +11,13 @@ public class CompanyDto {
 	private String compPassword;
 	private String compEmail;
 	private String compAddress;
+	private LocalDateTime regDt;
 	private String compProfileimage;
-	private char code;
+	private int code;
 	
 	public CompanyDto() {}
 	public CompanyDto(int compSeq, String compId, String compName, String compPassword, String compEmail,
-			String compAddress, String compProfileimage, char code) {
+			String compAddress, String compProfileimage, int code) {
 		super();
 		this.compSeq = compSeq;
 		this.compId = compId;
@@ -60,16 +65,24 @@ public class CompanyDto {
 	public void setCompAddress(String compAddress) {
 		this.compAddress = compAddress;
 	}
+	public LocalDateTime getRegDt() {
+		return regDt;
+	}
+	public void setRegDt(Date regDt) {
+		this.regDt = LocalDateTime.ofInstant(
+				regDt.toInstant(), ZoneId.systemDefault()
+		);
+	}
 	public String getCompProfileimage() {
 		return compProfileimage;
 	}
 	public void setCompProfileimage(String compProfileimage) {
 		this.compProfileimage = compProfileimage;
 	}
-	public char getCode() {
+	public int getCode() {
 		return code;
 	}
-	public void setCode(char code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 	
@@ -78,8 +91,8 @@ public class CompanyDto {
 		StringBuilder builder = new StringBuilder();
 		builder.append("CompanyDto [compSeq=").append(compSeq).append(", compId=").append(compId).append(", compName=")
 				.append(compName).append(", compPassword=").append(compPassword).append(", compEmail=")
-				.append(compEmail).append(", compAddress=").append(compAddress).append(", compProfileimage=")
-				.append(compProfileimage).append(", code=").append(code).append("]");
+				.append(compEmail).append(", compAddress=").append(compAddress).append(", regDt=").append(regDt)
+				.append(", compProfileimage=").append(compProfileimage).append(", code=").append(code).append("]");
 		return builder.toString();
 	}
 }

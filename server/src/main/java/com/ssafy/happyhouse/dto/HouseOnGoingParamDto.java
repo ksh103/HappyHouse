@@ -1,19 +1,19 @@
 package com.ssafy.happyhouse.dto;
 
-// 글 목록을 가지고 올 때 서버쪽으로 보내는 데이터
 public class HouseOnGoingParamDto {
 
 	private int limit;
 	private int offset;
 	private String searchWord;
-	
+
 	// 특정 게시글에 대한 상세가 들어가기 위해
 	private int registerId;
 	private int houseNo;
 	private int compSeq;
 	
 	public HouseOnGoingParamDto() {}
-	public HouseOnGoingParamDto(int limit, int offset, String searchWord, int registerId, int houseNo, int compSeq) {
+	public HouseOnGoingParamDto(int limit, int offset, String searchWord, int registerId, int houseNo,
+			int compSeq) {
 		super();
 		this.limit = limit;
 		this.offset = offset;
@@ -64,8 +64,8 @@ public class HouseOnGoingParamDto {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("HouseOnGoingParamDto [limit=").append(limit).append(", offset=").append(offset)
-				.append(", searchWord=").append(searchWord).append(", registerId=").append(registerId)
-				.append(", houseNo=").append(houseNo).append(", compSeq=").append(compSeq).append("]");
+				.append(", searchWord=").append(searchWord).append(", registerId=").append(registerId).
+				append(", houseNo=").append(houseNo).append(", compSeq=").append(compSeq).append("]");
 		return builder.toString();
 	}
 }

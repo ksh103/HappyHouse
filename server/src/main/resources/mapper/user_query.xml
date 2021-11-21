@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.ssafy.happyhouse.dao.UserDao">
 	<insert id="userRegister" parameterType="com.ssafy.happyhouse.dto.UserDto">
-		insert into user(user_name, user_id, user_password, user_email, code) 
-		values ( #{userName}, #{userId}, #{userPassword}, #{userEmail}, #{code} )
+		insert into user(user_name, user_id, user_password, user_email, reg_dt, code) 
+		values ( #{userName}, #{userId}, #{userPassword}, #{userEmail}, now(), #{code} )
 	</insert>
 	<update id="userModify" parameterType="com.ssafy.happyhouse.dto.UserDto">
 		update user set user_name = #{userName}, user_password = #{userPassword}, user_email = #{userEmail}, user_profileimage = #{userProfileimage}
@@ -13,7 +13,7 @@
 		delete from user where user_id = #{userId}
 	</delete>
 	<select id="login" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
-		select user_seq, user_name, user_id, user_password, user_email, user_profileimage, code
+		select user_seq, user_name, user_id, user_password, user_email, reg_dt, user_profileimage, code
 		from user where user_id = #{userId}
 	</select>
 	<select id="findPassword" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
@@ -24,8 +24,8 @@
 		update user set user_password = #{userPassword}
 		where user_id = #{userId}
 	</update>
-	<insert id="userProfileImage" parameterType="com.ssafy.happyhouse.dto.UserDto">
-		insert into user(user_id, user_profileimage) 
-		values ( #{userId},  #{userProfileimage} )
-	</insert>
+	<update id="userProfileImage" parameterType="com.ssafy.happyhouse.dto.UserDto">
+		update user set user_profileimage = #{userProfileimage}
+		where user_id = #{userId}
+	</update>
 </mapper>

@@ -1,16 +1,21 @@
 package com.ssafy.happyhouse.dto;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
 public class UserDto {
 	private int userSeq;
 	private String userId;
 	private String userName;
 	private String userPassword;
 	private String userEmail;
+	private LocalDateTime regDt;
 	private String userProfileimage;
-	private char code;
+	private int code;
 	
 	public UserDto() {}
-	public UserDto(int userSeq, String userId, String userName, String userPassword, String userEmail, String userProfileimage, char code) {
+	public UserDto(int userSeq, String userId, String userName, String userPassword, String userEmail, String userProfileimage, int code) {
 		this.userSeq = userSeq;
 		this.userId = userId;
 		this.userName = userName;
@@ -50,26 +55,34 @@ public class UserDto {
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
+	public LocalDateTime getRegDt() {
+		return regDt;
+	}
+	public void setRegDt(Date regDt) {
+		this.regDt = LocalDateTime.ofInstant(
+				regDt.toInstant(), ZoneId.systemDefault()
+		);
+	}
 	public String getUserProfileimage() {
 		return userProfileimage;
 	}
 	public void setUserProfileimage(String userProfileimage) {
 		this.userProfileimage = userProfileimage;
 	}
-	public char getCode() {
+	public int getCode() {
 		return code;
 	}
-	public void setCode(char code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
-	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UserDto [userSeq=").append(userSeq).append(", userId=").append(userId).append(", userName=")
 				.append(userName).append(", userPassword=").append(userPassword).append(", userEmail=")
-				.append(userEmail).append(", userProfileimage=").append(userProfileimage).append(", code=").append(code)
-				.append("]");
+				.append(userEmail).append(", regDt=").append(regDt).append(", userProfileimage=")
+				.append(userProfileimage).append(", code=").append(code).append("]");
 		return builder.toString();
 	}
+	
 }

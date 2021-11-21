@@ -19,11 +19,11 @@ public interface HouseService {
 	public HouseOnGoingResultDto houseOnGoingRegister(HouseOnGoingDto houseOnGoingDto); // 매물 등록(현재 진행 중)
 	
 	public HouseOnGoingResultDto houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(전체)
-	public HouseOnGoingResultDto houseNoOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(특정 매물 클릭)
+	public HouseOnGoingResultDto houseNoOnGoingList(int houseNo); // 등록된 매물 리스트(특정 매물 클릭)
 	public HouseOnGoingResultDto houseOnGoingLimitList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(5개)
 	
 	public HouseOnGoingResultDto houseOnGoingDetail(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 보기
-	
+
 	public HouseReviewResultDto houseReviewRegister(HouseReviewDto houseReviewDto); // 리뷰 등록
 	public HouseReviewResultDto houseReviewDetail(HouseReviewParamDto houseReviewParamDto); // 리뷰 데이터 조회
 }

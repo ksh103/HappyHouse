@@ -2,23 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.ssafy.happyhouse.dao.HouseDao">
 	<select id="getHouseDongDetail" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseDetailDto">
-		select no, dong, aptname, buildyear, jibun, lat, lng 
+		select no as house_no, dong as dong_name, aptname as apt_name, buildyear as buildYear, jibun, lat, lng 
 		from houseinfo
 		where dong like concat(#{dongName}, '%');
 	</select>
 	
 	<select id="getHouseSearchDetail" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseDetailDto">
-		(select no, dong, aptname, buildyear, jibun, lat, lng 
+		(select no as house_no, dong as dong_name, aptname as apt_name, buildyear as buildYear, jibun, lat, lng 
 		from houseinfo
 		where aptname like concat(#{aptName}, '%'))
 		union all
-		(select no, dong, aptname, buildyear, jibun, lat, lng 
+		(select no as house_no, dong as dong_name, aptname as apt_name, buildyear as buildYear, jibun, lat, lng 
 		from houseinfo
 		where dong like concat(#{dongName}, '%'))
+	
 	</select>
 	
 	<select id="getHouseDeal" resultType="com.ssafy.happyhouse.dto.HouseDealDto">
-		select no as houseNo, house_no, dong as dongName, aptname, dealamount as dealAmount, dealyear as dealYear, dealmonth as dealMonth, dealday as dealDay, area, floor
+		select no as house_no, house_no, dong as dongName, aptname as apt_name, dealamount as dealAmount, dealyear as dealYear, dealmonth as dealMonth, dealday as dealDay, area, floor
 		from housedeal 
 		where house_no=#{houseNo}
 	</select>
@@ -28,15 +29,15 @@
 		values ( #{houseNo}, #{compSeq}, #{title}, #{content}, #{dealAmount}, #{floor}, #{area}, #{direction}, #{type}, #{fee}, #{room}, #{bathroom} )
 	</insert>
 	
-	<select id="houseOnGoingDetail" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
-		select h.register_id, h.no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+	<select id="houseOnGoingDetail" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+		select h.register_id, h.no as house_no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
 		from house_ongoing h, company c
 		where h.register_id = #{registerId}
 		and h.comp_seq = c.comp_seq
 	</select>
 	
 	<select id="houseOnGoingList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
-		select h.register_id, h.no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		select h.register_id, h.no as house_no, c.comp_name, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
 		from house_ongoing h, company c
 		where h.comp_seq = c.comp_seq
 		order by h.register_id desc
@@ -44,7 +45,7 @@
 	</select>
 	
 	<select id="houseNoOnGoingList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
-		select h.register_id, h.no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		select h.register_id, h.no as house_no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
 		from house_ongoing h, company c
 		where h.comp_seq = c.comp_seq
 		and h.no = #{houseNo}
@@ -53,13 +54,18 @@
 	</select>
 	
 	<select id="houseOnGoingLimitList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
-		select register_id, no, title
+		select register_id, no as house_no, title
 		from house_ongoing
 		order by register_id desc
 		limit 5
 	</select>
 	
-	<select id="houseNoOnGoingListTotalCount" parameterType="string" resultType="int">
+	<select id="houseOnGoingListTotalCount" parameterType="int" resultType="int">
+		select count(*)
+		from house_ongoing
+	</select>
+
+	<select id="houseNoOnGoingListTotalCount" parameterType="int" resultType="int">
 		select count(*)
 		from house_ongoing
 		where no = #{houseNo}
@@ -70,13 +76,11 @@
 					values(#{houseNo}, #{userSeq}, #{title}, #{content}, #{trafficScore} , #{surroundingScore}, #{livingScore}, #{recommendScore});
 	</insert>
 	
-	<select id="houseReviewDetail" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">
-		select review_id, no, user_seq, title, content, traffic_score, surrounding_score, living_score, recommend_score
+	<select id="houseReviewDetail" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">
+		select r.review_id, r.no as house_no, u.user_name, r.title, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score
 		from review r, user u
-		where r.review_id = #{reviewId}
+		where r.no = #{houseNo}
 		and r.user_seq = u.user_seq;
 	</select>
-	
 
-	
 </mapper>

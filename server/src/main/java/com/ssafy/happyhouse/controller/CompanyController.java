@@ -102,6 +102,7 @@ public class CompanyController {
 		}
 	}
 	
+	// 프로필 이미지 등록
 	@PutMapping(value = "/company/profileImg")
 	public ResponseEntity<CompanyResultDto> userProfileImage(@RequestBody CompanyDto dto) {
 		CompanyResultDto companyResultDto = companyService.companyProfileImage(dto);

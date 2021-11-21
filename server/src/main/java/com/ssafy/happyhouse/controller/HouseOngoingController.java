@@ -37,7 +37,7 @@ public class HouseOngoingController {
 	
 	private static final int SUCCESS = 1;
 	
-	// 매물 등록(현재 진행 중)
+	// 매물 등록
 	@PostMapping(value="/house/deal/ongoing/register")
 	public ResponseEntity<HouseOnGoingResultDto> houseOnGoingRegister(@RequestBody HouseOnGoingDto houseOnGoingDto) {
 		System.out.println("register " + houseOnGoingDto);
@@ -49,7 +49,7 @@ public class HouseOngoingController {
 		}
 	}
 	
-	// 매물 자세히 보기 (현재 진행 중)
+	// 매물 자세히 보기 
 	@GetMapping(value="/house/deal/ongoing/{registerId}")
 	public ResponseEntity<HouseOnGoingResultDto> HouseOnGoingDetail(@PathVariable int registerId, HttpSession session){
 	
@@ -68,17 +68,12 @@ public class HouseOngoingController {
 	    }         
 	}
 	
-	// 등록된 매물 리스트
+	// 등록된 매물 리스트 (전체)
     @GetMapping(value="/house/deal/ongoing")
     public ResponseEntity<HouseOnGoingResultDto> houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto){
     	HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
-    	
-    	if( houseOnGoingParamDto.getHouseNo() == 0) {
-    		houseOnGoingResultDto = houseService.houseOnGoingList(houseOnGoingParamDto);
-    	}else {
-    		houseOnGoingResultDto = houseService.houseNoOnGoingList(houseOnGoingParamDto); // 특정 매물 클릭
-    	}
-    	
+    	houseOnGoingResultDto = houseService.houseOnGoingList(houseOnGoingParamDto);
+    
 	    if( houseOnGoingResultDto.getResult() == SUCCESS ) {
 	        return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.OK);
 	    }else {
@@ -86,22 +81,34 @@ public class HouseOngoingController {
 	    }
 	}
     
-    // 등록된 매물 리스트 수 (특정 매물 개수)
-    @GetMapping(value="/house/deal/ongoing/count")
-    public int houseNoOnGoingListTotalCount(){
+    // 등록된 특정 매물 리스트 
+    @GetMapping(value="/house/deal/ongoing/list/{houseNo}")
+    public ResponseEntity<HouseOnGoingResultDto> houseNoOnGoingList(@PathVariable int houseNo){
     	HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
-    	
-    	int totalCount = houseOnGoingResultDto.getCount();
+    	houseOnGoingResultDto = houseService.houseNoOnGoingList(houseNo);
     	
     	if( houseOnGoingResultDto.getResult() == SUCCESS ) {
-	        return totalCount;
-	    }else {
-	    	return 0;
-	    }
+    		return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.OK);
+    	}else {
+    		return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
+    }
+    
+    // 등록된 매물 리스트 수 (특정 매물 개수)
+    @GetMapping(value="/house/deal/ongoing/count/{houseNo}")
+    public int houseNoOnGoingListTotalCount(@PathVariable int houseNo){
+    	HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
+    	houseOnGoingResultDto = houseService.houseNoOnGoingList(houseNo);
+
+    	if( houseOnGoingResultDto.getResult() == SUCCESS ) {
+    		return houseOnGoingResultDto.getCount();
+    	}else {
+    		return 0;
+    	}
     }
     
 	// 최근 등록 매물 5개까지
-    @GetMapping(value="/house/deal/ongoing/limit")
+    @GetMapping(value="/house/deal/ongoing/latest")
     public ResponseEntity<HouseOnGoingResultDto> houseOnGoingLimitList(HouseOnGoingParamDto houseOnGoingParamDto){
     	HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
     	
@@ -113,5 +120,4 @@ public class HouseOngoingController {
 	        return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}
-    
 }

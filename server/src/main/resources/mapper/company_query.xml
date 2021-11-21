@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.ssafy.happyhouse.dao.UserDao">
-	<insert id="userRegister" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
-		insert into company(comp_name, comp_id, comp_password, comp_email, comp_address, code) 
-		values ( #{compName}, #{compId}, #{compPassword}, #{compEmail}, #{compAddress}, #{code} )
+	<insert id="companyRegister" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
+		insert into company(comp_name, comp_id, comp_password, comp_email, comp_address, reg_dt, code) 
+		values ( #{compName}, #{compId}, #{compPassword}, #{compEmail}, #{compAddress}, now(), 3)
 	</insert>
-	<update id="userModify" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
+	<update id="companyModify" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
 		update company set comp_name = #{compName}, comp_password = #{compPassword}, comp_email = #{compEmail}, comp_profileimage = #{compProfileimage}
 		where comp_id = #{compId}
 	</update>
-	<delete id="userDelete" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
+	<delete id="companyDelete" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
 		delete from company where comp_id = #{compId}
 	</delete>
 	<select id="login" parameterType="string" resultType="com.ssafy.happyhouse.dto.CompanyDto">
-		select comp_seq, comp_name, comp_id, comp_password, comp_email, comp_address, comp_profileimage, code
+		select comp_seq, comp_name, comp_id, comp_password, comp_email, comp_address, reg_dt, comp_profileimage, code
 		from company where comp_id = #{compId}
 	</select>
 	<select id="findPassword" parameterType="string" resultType="com.ssafy.happyhouse.dto.CompanyDto">
@@ -24,8 +24,8 @@
 		update company set comp_password = #{compPassword}
 		where comp_id = #{compId}
 	</update>
-	<insert id="compProfileimage" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
-		insert into company(comp_id, comp_profileimage) 
-		values ( #{compId},  #{compProfileimage} )
-	</insert>
+	<update id="companyProfileImage" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
+		update company set comp_profileimage = #{compProfileimage}
+		where comp_id = #{compId}
+	</update>
 </mapper>
