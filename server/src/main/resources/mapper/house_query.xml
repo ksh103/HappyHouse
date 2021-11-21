@@ -23,7 +23,7 @@
 		where house_no=#{houseNo}
 	</select>
 	
-	<insert id="houseOnGoingRegister" parameterType="com.ssafy.happyhouse.dto.HouseRegisterDto">
+	<insert id="houseOnGoingRegister" parameterType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
 		insert into house_ongoing(no, comp_seq, title, content, deal_amount, floor, area, direction, type, fee, room, bathroom) 
 		values ( #{houseNo}, #{compSeq}, #{title}, #{content}, #{dealAmount}, #{floor}, #{area}, #{direction}, #{type}, #{fee}, #{room}, #{bathroom} )
 	</insert>
