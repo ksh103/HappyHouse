@@ -30,9 +30,9 @@
 	</insert>
 	
 	<select id="houseOnGoingDetail" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
-		select h.ongoing_id, h.houseinfo_no as house_no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		select h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
 		from house_ongoing h, company c
-		where h.ongoing_id = #{registerId}
+		where h.ongoing_id = #{ongoingId}
 		and h.comp_seq = c.comp_seq
 	</select>
 	
@@ -69,6 +69,25 @@
 		select count(*)
 		from house_ongoing
 		where houseinfo_no = #{houseNo}
+	</select>
+	
+	<insert id="houseOnGoingFileInsert" parameterType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+		insert into house_ongoing_file ( ongoing_id, file_name, file_size, file_content_type, file_url, reg_dt )
+		            VALUES ( #{ongoingId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl}, now() )
+	</insert>
+	
+	<delete id="houseOnGoingFileDelete" parameterType="int">
+		delete from house_ongoing_file where ongoing_id = #{ongoingId}
+	</delete>
+	
+	<select id="houseOnGoingFileUrlDeleteList" parameterType="int" resultType="string">
+		select file_url from house_ongoing_file where ongoing_id = #{ongoingId}
+	</select>
+	
+	<select id="houseOnGoingDetailFileList" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+		select ongoing_id, file_id, file_name, file_size, file_content_type, file_url, reg_dt
+		from house_ongoing_file
+		where ongoing_id = #{ongoingId}
 	</select>
 	
 	<insert id="houseReviewRegister" parameterType="com.ssafy.happyhouse.dto.HouseReviewDto">

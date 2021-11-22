@@ -2,6 +2,8 @@ package com.ssafy.happyhouse.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.ssafy.happyhouse.dto.HouseOnGoingDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingParamDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingResultDto;
@@ -17,7 +19,7 @@ public interface HouseService {
 	
 	public HouseResultDto getHouseDeal(int houseNo); // 매물 실거래가 조회
 	
-	public HouseOnGoingResultDto houseOnGoingRegister(HouseOnGoingDto houseOnGoingDto); // 매물 등록(현재 진행 중)
+	public HouseOnGoingResultDto houseOnGoingRegister(HouseOnGoingDto houseOnGoingDto, MultipartHttpServletRequest request); // 매물 등록(현재 진행 중)
 	
 	public HouseOnGoingResultDto houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(전체)
 	public HouseOnGoingResultDto houseNoOnGoingList(int houseNo, UserDto userDto); // 등록된 매물 리스트(특정 매물 클릭)
@@ -27,4 +29,5 @@ public interface HouseService {
 
 	public HouseReviewResultDto houseReviewRegister(HouseReviewDto houseReviewDto, HttpServletRequest request); // 리뷰 등록
 	public HouseReviewResultDto houseReviewList(HouseReviewParamDto houseReviewParamDto); // 리뷰 데이터 조회
+
 }

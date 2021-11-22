@@ -7,21 +7,9 @@ public class HouseOnGoingParamDto {
 	private String searchWord;
 
 	// 특정 게시글에 대한 상세가 들어가기 위해
-	private int registerId;
+	private int ongoingId;
 	private int houseNo;
 	private int compSeq;
-	
-	public HouseOnGoingParamDto() {}
-	public HouseOnGoingParamDto(int limit, int offset, String searchWord, int registerId, int houseNo,
-			int compSeq) {
-		super();
-		this.limit = limit;
-		this.offset = offset;
-		this.searchWord = searchWord;
-		this.registerId = registerId;
-		this.houseNo = houseNo;
-		this.compSeq = compSeq;
-	}
 	
 	public int getLimit() {
 		return limit;
@@ -41,11 +29,11 @@ public class HouseOnGoingParamDto {
 	public void setSearchWord(String searchWord) {
 		this.searchWord = searchWord;
 	}
-	public int getRegisterId() {
-		return registerId;
+	public int getOngoingId() {
+		return ongoingId;
 	}
-	public void setRegisterId(int registerId) {
-		this.registerId = registerId;
+	public void setOngoingId(int ongoingId) {
+		this.ongoingId = ongoingId;
 	}
 	public int getHouseNo() {
 		return houseNo;
@@ -60,12 +48,5 @@ public class HouseOnGoingParamDto {
 		this.compSeq = compSeq;
 	}
 	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("HouseOnGoingParamDto [limit=").append(limit).append(", offset=").append(offset)
-				.append(", searchWord=").append(searchWord).append(", registerId=").append(registerId).
-				append(", houseNo=").append(houseNo).append(", compSeq=").append(compSeq).append("]");
-		return builder.toString();
-	}
+	
 }

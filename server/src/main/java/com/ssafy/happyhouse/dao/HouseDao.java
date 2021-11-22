@@ -7,9 +7,11 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.happyhouse.dto.HouseDealDto;
 import com.ssafy.happyhouse.dto.HouseDetailDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingDto;
+import com.ssafy.happyhouse.dto.HouseOnGoingFileDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingParamDto;
 import com.ssafy.happyhouse.dto.HouseReviewDto;
 import com.ssafy.happyhouse.dto.HouseReviewParamDto;
+import com.ssafy.happyhouse.dto.NoticeFileDto;
 
 @Mapper
 public interface HouseDao {
@@ -31,4 +33,9 @@ public interface HouseDao {
 	
 	public int houseReviewRegister(HouseReviewDto houseReviewDto); // 리뷰 등록
 	public List<HouseReviewDto> houseReviewList(HouseReviewParamDto houseReviewParamDto); // 리뷰 데이터 조회
+
+	public List<HouseOnGoingFileDto> houseOnGoingDetailFileList(int ongoingId);
+	public int houseOnGoingFileInsert(HouseOnGoingFileDto dto);
+	public int houseOnGoingFileDelete(int ongoingId);
+	public List<String> houseOnGoingFileUrlDeleteList(int ongoingId);
 }

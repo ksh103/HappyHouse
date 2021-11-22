@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dto.CompanyDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingDto;
@@ -36,9 +37,16 @@ public class HouseOngoingController {
 	
 	// 매물 등록
 	@PostMapping(value="/house/deal/ongoing/register")
-	public ResponseEntity<HouseOnGoingResultDto> houseOnGoingRegister(@RequestBody HouseOnGoingDto houseOnGoingDto) {
-		System.out.println("register " + houseOnGoingDto);
-		HouseOnGoingResultDto houseOnGoingResultDto = houseService.houseOnGoingRegister(houseOnGoingDto);
+	public ResponseEntity<HouseOnGoingResultDto> houseOnGoingRegister(@RequestBody HouseOnGoingDto houseOnGoingDto, MultipartHttpServletRequest request) {
+		HttpSession session = request.getSession();
+	    CompanyDto companyDto = (CompanyDto) session.getAttribute("CompanyDto");
+	    
+	    houseOnGoingDto.setCompSeq(companyDto.getCompSeq());
+		
+		System.out.println("houseOnGoingRegister " + houseOnGoingDto);
+		
+		HouseOnGoingResultDto houseOnGoingResultDto = houseService.houseOnGoingRegister(houseOnGoingDto, request);
+		
 		if (houseOnGoingResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<>(houseOnGoingResultDto, HttpStatus.OK);
 		} else {
@@ -47,11 +55,11 @@ public class HouseOngoingController {
 	}
 	
 	// 매물 자세히 보기 
-	@GetMapping(value="/house/deal/ongoing/{registerId}")
-	public ResponseEntity<HouseOnGoingResultDto> HouseOnGoingDetail(@PathVariable int registerId, HttpSession session){
+	@GetMapping(value="/house/deal/ongoing/{ongoingId}")
+	public ResponseEntity<HouseOnGoingResultDto> HouseOnGoingDetail(@PathVariable int ongoingId, HttpSession session){
 	
 	    HouseOnGoingParamDto houseOnGoingParamDto = new HouseOnGoingParamDto();
-	    houseOnGoingParamDto.setRegisterId(registerId);
+	    houseOnGoingParamDto.setOngoingId(ongoingId);
 	    
 	    CompanyDto companyDto = (CompanyDto) session.getAttribute("companyDto");
 	    if (companyDto != null) houseOnGoingParamDto.setCompSeq(companyDto.getCompSeq());
@@ -68,8 +76,11 @@ public class HouseOngoingController {
 	// 등록된 매물 리스트 (전체)
     @GetMapping(value="/house/deal/ongoing")
     public ResponseEntity<HouseOnGoingResultDto> houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto){
-    	HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
+    	HouseOnGoingResultDto houseOnGoingResultDto;
+    	
     	houseOnGoingResultDto = houseService.houseOnGoingList(houseOnGoingParamDto);
+    	
+    	System.out.println(houseOnGoingParamDto);
     
 	    if( houseOnGoingResultDto.getResult() == SUCCESS ) {
 	        return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.OK);
