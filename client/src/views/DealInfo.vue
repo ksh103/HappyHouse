@@ -1,84 +1,69 @@
 <template>
   <div>
-    <BasicHeader name="거래가 조회" />
     <div id="wrapper">
       <div id="map" style="width: 100%; height: 1200px;"></div>
       <div id="searchBox" class="card">
         <div>
-          <h6>검색 방법을 선택하세요</h6>
-          <!-- <label class="form-label">With OptGroups</label> -->
-          <div class="d-flex">
-            <div class="form-check">
-                <input value="D" v-model="searchType" class="form-check-input" type="radio" id="searchByDong">
-                <label class="form-check-label" for="searchByDong">동 검색</label>
+          <div class="p-2">
+            <div class="d-flex">
+              <i class="fa fa-search"></i>
+              <h6 class="ps-2">검색 방법을 선택하세요</h6>
             </div>
-            <div class="form-check">
-                <input value="K" v-model="searchType" class="form-check-input" type="radio" id="searchByKeyword">
-                <label class="form-check-label" for="searchByKeyword">키워드 검색</label>
-            </div>
-          </div>
-          <div v-if="searchType == 'D'" class="dropdown mt-4">
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary dropdown-toggle"
-                data-bs-toggle="dropdown">서울시</button>
-            </div>
-            <div class="btn-group">
-              <button type="button" id="guBtn"
-                class="btn btn-primary dropdown-toggle"
-                data-bs-toggle="dropdown">{{ selectGuNme }}</button>
-              <ul id="guMenu" class="dropdown-menu overflow-auto" style="max-height: 500px;">
-                <li v-for="(item, index) in gu" :key="index" @click="onGuMenuChange($event, item.guCode)" class="guItem" data-guCode=${elem.guCode}><a class="dropdown-item" href="#">{{ item.guName }}</a></li>
-              </ul>
-            </div>
-            <div class="btn-group">
-              <button type="button" id="dongBtn"
-                class="btn btn-primary dropdown-toggle"
-                data-bs-toggle="dropdown">{{ selectDongName }}</button>
-              <ul id="dongMenu" class="dropdown-menu overflow-auto" style="max-height: 500px;">
-                <li v-for="(item, index) in dong" :key="index" @click="onDongMenuChange" class="guItem" data-guCode=${elem.guCode}><a class="dropdown-item" href="#">{{ item.dongName }}</a></li>
-              </ul>
+            <!-- <label class="form-label">With OptGroups</label> -->
+            <div class="py-1 px-2 d-flex">
+              <div class="form-check pe-3">
+                  <input value="D" v-model="searchType" class="form-check-input" type="radio" id="searchByDong">
+                  <label class="form-check-label" for="searchByDong">동 검색</label>
+              </div>
+              <div class="form-check">
+                  <input value="K" v-model="searchType" class="form-check-input" type="radio" id="searchByKeyword">
+                  <label class="form-check-label" for="searchByKeyword">키워드 검색{{ listVisible }}</label>
+              </div>
             </div>
           </div>
-          <div v-if="searchType == 'K'" class="input-group w-75">
-            <input id="inputSearchWord" type="text" class="form-control" placeholder="원하시는 아파트, 동명을 입력해주세요">
-            <button id="btnSearchWord" class="btn btn-primary" type="button">검색</button>
+          <div v-if="searchType == 'D'" class="pb-2 d-flex justify-content-evenly">
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary">서울시</button>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+              <fieldset>
+                  <select v-model="selectGuName" @change="onGuMenuChange" class="array-select form-control form-select" aria-label="example">
+                      <option value="default" selected>구 선택</option>
+                      <option v-for="(item, index) in gu" :key="index" :value="item.guCode">{{ item.guName }}</option>
+                  </select>
+              </fieldset>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+              <fieldset>
+                  <select v-model="selectDongName" @change="onDongMenuChange" class="array-select form-control form-select" aria-label="example">
+                      <option value="default" selected>동 선택</option>
+                      <option v-for="(item, index) in dong" :key="index" :value="item.dongName">{{ item.dongName }}</option>
+                  </select>
+              </fieldset>
+            </div>
+          </div>
+          <div v-if="searchType == 'K'" class="input-group w-75 d-flex pb-2">
+            <input type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="원하시는 아파트, 동명을 입력해주세요">
+            <button @click="onKeywordSearch" class="btn btn-primary d-inline-block" type="button">검색</button>
           </div>
         </div>
-        <div class="list-group">
-          <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small>3 days ago</small>
-            </div>
-            <p class="mb-1">Some placeholder content in a paragraph.</p>
-            <small>And some small print.</small>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small class="text-muted">3 days ago</small>
-            </div>
-            <p class="mb-1">Some placeholder content in a paragraph.</p>
-            <small class="text-muted">And some muted small print.</small>
-          </a>
-        </div>
-        <button @click="toggleList" class="btn btn-primary" type="button">결과 리스트</button>
-        <button @click="showReviewInsertModal" class="btn btn-primary" type="button">test</button>
+        <!-- <button @click="toggleList" class="btn btn-primary" type="button">결과 리스트</button> -->
+        <!-- <button @click="showReviewInsertModal" class="btn btn-primary" type="button">test</button> -->
       </div>
       <div v-if="listVisible" id="showList" class="card p-0 bg-secondary">
-        <div class="text-center text-white py-3"><h4>현재 매물 개수 : 0개</h4></div>
-        <div class="text-center text-primary py-3 bg-warning" style="cursor: pointer;">
-          <h4>현재 매물 개수 : 4개</h4>
+        <div class="text-center text-white py-2"><h5>현재 매물 개수 : 0개</h5></div>
+        <div class="text-center text-primary py-2 bg-warning" style="cursor: pointer;">
+          <h5>현재 매물 개수 : 4개</h5>
           <h5>(보러 가기)</h5>
         </div>
         <!-- 아파트 정보 요약 -->
         <div class="bg-white mb-2">
-          <div class="border-bottom"><h2 class="p-3 m-0">{{ houseList[curIndex].aptName }}</h2></div>
+          <div class="border-bottom"><h4 class="p-3 m-0">{{ houseList[curIndex].aptName }}</h4></div>
           <!-- contents -->
           <div class="px-3">
             <div class="border-bottom d-flex py-2">
               <div class="text-secondary w-25">주소</div>
-              <div>{{ selectDongName }} {{ houseList[curIndex].jiBun }}</div>
+              <div>{{ houseList[curIndex].dongName }} {{ houseList[curIndex].jiBun }}</div>
             </div>
             <div class="d-flex py-2">
               <div class="text-secondary w-25">건축년도</div>
@@ -88,62 +73,61 @@
         </div>
         <!-- 거주민 리뷰 -->
         <div class="bg-white mb-2">
-          <div class="border-bottom d-flex justify-content-between align-items-center">
-            <h4 class="p-3 m-0">거주민 리뷰</h4>
-            <button @click="showReviewInsertModal" style="font-size: 14px;" class="btn px-2 py-1">리뷰 남기기</button>
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="p-3 m-0">거주민 리뷰</h5>
+            <button @click="showReviewInsertModal" style="font-size: 14px;" class="btn px-2 py-1 btn-animate-2 fill">리뷰 남기기</button>
           </div>
 
-          <!-- <div class="p-3">
+          <div v-if="reviewList.length==0" class="p-3 border-top">
             <div>등록된 리뷰가 없습니다.</div>
-          </div> -->
+          </div>
           <!-- 등록 리뷰 있을 때 v-for 속성 추가-->
-          <div>
-            <div class="border-bottom d-flex align-items-center p-2">
+          <div v-else v-for="(review, index) in reviewList" :key="index">
+            <div class="border-top border-bottom d-flex align-items-center p-2">
               <div class="text-secondary ps-2 pe-3"><img class="avatar rounded-circle" width=25px src="../assets/images/profile_av.png"></div>
               <div class="d-flex flex-column">
-                <h5 class="m-0">닉네임입니다</h5>
-                <div class="text-secondary">2021-09-02 가입</div>
+                <h6 class="m-0">{{ review.userName }}</h6>
+                <div class="text-secondary">{{ review.regDt }} 가입</div>
               </div>
             </div>
             <div class="px-3">
               <div class="border-bottom d-flex py-2 text-danger">
                 <div class="w-25">추천점수</div>
                 <div>
-                  <StarRating v-model="trafficScore" active-color="#dc3545" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
+                  <StarRating v-model="review.recommendScore" active-color="#dc3545" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
                 </div>
               </div>
               <div class="border-bottom d-flex py-2">
                 <div class="text-secondary w-25">교통요건</div>
                 <div>
-                  <StarRating v-model="trafficScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
+                  <StarRating v-model="review.trafficScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
                 </div>
               </div>
               <div class="border-bottom d-flex py-2">
                 <div class="text-secondary w-25">거주환경</div>
                 <div>
-                  <StarRating v-model="trafficScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
+                  <StarRating v-model="review.livingScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
                 </div>
               </div>
               <div class="border-bottom d-flex py-2">
                 <div class="text-secondary w-25">주변환경</div>
                 <div>
-                  <StarRating v-model="trafficScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
-
+                  <StarRating v-model="review.surroundingScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
                 </div>
               </div>
               <div class="pt-2 text-secondary">종합의견</div>
-              <div class="py-2">도산 공원이 가장 큰 장점이고요 인근 맛집. 예쁜 숍. 또한 핫플레이스 압구정 로데오. 가로수길이 인근에 있어 살기 좋아요.</div>
+              <div class="py-2">{{ review.content }}</div>
             </div>
           </div>
-        </div>
+        </div> 
         <!-- 실거래가 -->
         <div class="bg-white mb-2">
-          <div class="border-bottom"><h4 class="p-3 m-0">실거래가</h4></div>
+          <div class="border-bottom"><h5 class="p-3 m-0">실거래가</h5></div>
           <div>
             <table class="w-100">
               <thead class="bg-secondary text-white">
                 <tr>
-                  <td class="ps-3 py-2">거래일</td>
+                  <td class="ps-3 py-1">거래일</td>
                   <td>거래가격</td>
                   <td>면적</td>
                   <td>층수</td>
@@ -160,7 +144,7 @@
                   <td class="ps-3 py-2">2222</td>
                   <td>2222</td>
                   <td>2222</td>
-                  <td>2222</td>
+                  <td>2222</td> 
                 </tr> -->
               </tbody>
             </table>
@@ -168,12 +152,12 @@
         </div>
         <!-- 매물정보 -->
         <div class="bg-white mb-2">
-          <div class="border-bottom"><h4 class="p-3 m-0">매물 정보</h4></div>
+          <div class="border-bottom"><h5 class="p-3 m-0">매물 정보</h5></div>
           <div>
             <table class="w-100">
               <thead class="bg-secondary text-white">
                 <tr>
-                  <td class="ps-3 py-2">타입</td>
+                  <td class="ps-3 py-1">타입</td>
                   <td class="w-50">제목</td>
                   <td>거래가격</td>
                 </tr>
@@ -190,14 +174,13 @@
         </div>
       </div>
     </div>
-    <review-insert-modal v-on:parent-modal-close="reviewInsertModalClose" buildingName="은마아파트" />
+    <review-insert-modal v-if="listVisible" v-on:parent-modal-close="reviewInsertModalClose" :index="curIndex"/>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
 import http from "@/common/axios.js";
-import BasicHeader from '@/components/layout/BasicHeader.vue';
 import StarRating from 'vue-star-rating';
 import ReviewInsertModal from '@/components/housedeal/ReviewInsertModal.vue';
 import { Modal } from 'bootstrap';
@@ -207,7 +190,7 @@ const storeName = 'dealInfoStore';
 export default {
   name: 'DealInfo',
   components: {
-    BasicHeader,
+    // eslint-disable-next-line vue/no-unused-components
     StarRating,
     ReviewInsertModal
   },
@@ -215,15 +198,19 @@ export default {
     return {
       map: '',
       searchType: 'D',
-      selectGuNme: '동 선택',
-      selectDongName: '구 선택',
+      selectGuName: 'default',
+      selectDongName: 'default',
+      inputKeyword: '',
       listVisible: false,
       markers: [],
+      eventFrom: '',
       // curInfoWindow: {},
       infoWindows: [],
+      curInfoWindow: null,
       curIndex: -1,
       dealInfo: [],
-      trafficScore: 3,
+      reviewList: [],
+      trafficScore: 2.0,
 
       reviewInsertModal: null,
     }
@@ -253,13 +240,17 @@ export default {
       if (this.houseList.length) {
         this.addMarkers(this.houseList);
         console.log(this.houseList)
+        this.$swal(`총 ${this.houseList.length}건의 데이터가 검색되었습니다.`, { icon: 'success'});
       } else {
-        alert('없습니다')
+        if (this.eventFrom === 'dong')
+          this.$swal(`${this.selectDongName}에 등록된 건물 정보가 없습니다.`, { icon: 'error'});
+        else if (this.eventFrom === 'keyword')
+          this.$swal(`키워드 '${this.inputKeyword}'에 대한 정보가 없습니다.`, { icon: 'error'});
       }
-    }
+    },
   },
   methods: {
-    ...mapActions(storeName, ['getGu', 'getDong', 'getHouseListByDong']),
+    ...mapActions(storeName, ['getGu', 'getDong', 'getHouseListByDong', 'getHouseListByKeyword']),
     initMap() {
       const mapContainer = document.getElementById('map');
       const mapOption = {
@@ -272,19 +263,34 @@ export default {
     initSearchByDongBox() {
       this.getGu(11);
     },
-    onGuMenuChange(e, value) {
-      this.getDong(value)
-      this.selectGuNme = e.target.outerText
+    onGuMenuChange() {
+      if (this.selectGuName !== 'default') {
+        this.selectDongName = 'default';
+        this.getDong(this.selectGuName);
+      }
     },
-    onDongMenuChange(e) {
-      this.selectDongName = e.target.outerText;
-      this.getHouseListByDong(e.target.outerText);
+    onDongMenuChange() {
+      if (this.selectDongName !== 'default') {
+        this.eventFrom = 'dong';
+        this.getHouseListByDong(this.selectDongName);
+      }
+    },
+    onKeywordSearch() {
+      // alert(this.inputKeyword)
+      if (this.inputKeyword == '') {
+        this.$swal('키워드를 입력하세요.', { icon: 'error' });
+      } else {
+        this.eventFrom = 'keyword';
+        this.getHouseListByKeyword(this.inputKeyword);
+      }
     },
     showHouseDetail(index) {
       this.curIndex = index;
       console.log(index)
       console.log(this.houseList[index]);
       this.getHouseDeal(this.houseList[index].houseNo);
+
+      this.getHouseReview(this.houseList[index].houseNo);
       if (!this.listVisible) this.listVisible = true;
     },
     getHouseDeal(houseNo) {
@@ -293,7 +299,17 @@ export default {
           this.dealInfo = response.data.houseDealDto;
         })
         .catch(error => {
-          alert('서버에 에러 발생')
+          this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+        })
+    },
+    getHouseReview(houseNo) {
+      http.get(`/house/review/${houseNo}`)
+        .then(({ data }) => {
+          this.reviewList = data.list;
+          console.log(data)
+        })
+        .catch(error => {
+          this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         })
     },
     toggleList() {
@@ -344,40 +360,42 @@ export default {
     addInfoWindow() {
       console.log('addiw')
       this.markers.forEach((marker, index) => {
-        console.log(index)
         let item = this.houseList[index];
         let infoContents = `<div style="width:150px;text-align:center;padding:6px 0;">${item.aptName}</div>`;
 
         let infoWindow = new kakao.maps.InfoWindow({
             content: infoContents
         });
-        infoWindow.open(this.map, marker);
-        // kakao.maps.event.addListener(marker, 'mouseover', function() {
-        //   console.log(1)
-        //   console.log(this.curInfoWindow)
-        //   if (this.curInfoWindow) {
-        //     if (this.curInfoWindow.name != item.aptName) {
-        //       infoWindow.open(this.map, marker);
-        //     }
-        //   } else {
-        //     console.log('ttt')
-        //     infoWindow.open(this.map, marker);
-        //   }
-        // });
-        // kakao.maps.event.addListener(marker, 'mouseout', function() {
-        //   console.log(2)
-        //   infoWindow.close();
-        // });
+        // infoWindow.open(this.map, marker);
+        // this.infoWindows.push(infoWindow);
+        let $this = this;
+        kakao.maps.event.addListener(marker, 'mouseover', function() {
+          // console.log(1)
+          // console.log(this.curInfoWindow)
+          // if ($this.curInfoWindow) {
+          //   if ($this.curInfoWindow.name != item.aptName) {
+          //     $this.curInfoWindow.close();
+          //     infoWindow.open(this.map, marker);
+          //   }
+          // } else {
+          //   console.log('ttt')
+            infoWindow.open($this.map, marker);
+            // $this.curInfoWindow = infoWindow;
+          }
+        );
+        kakao.maps.event.addListener(marker, 'mouseout', function() {
+          infoWindow.close();
+        });
       });
     },
     removeMarkers() {
       // if (this.curInfoWindow) {
       //   this.curInfoWindow.close();
-      //   this.curInfoWindow.name = '';
+      //   this.curInfoWindow = null;
       // }
       
-      this.infoWindows.forEach(i => i.close());
-      this.infoWindows = [];
+      // this.infoWindows.forEach(i => i.close());
+      // this.infoWindows = [];
       this.markers.forEach(m => m.setMap(null));
       this.markers = [];
     },
@@ -393,9 +411,12 @@ export default {
       document.head.appendChild(script);
     }
     // Modal 초기화
-    this.reviewInsertModal = new Modal(document.getElementById('reviewInsertModal'));
-
+    // this.reviewInsertModal = new Modal(document.getElementById('reviewInsertModal'));
   },
+  updated() {
+    console.log('updated')
+    if (this.listVisible) this.reviewInsertModal = new Modal(document.getElementById('reviewInsertModal'));
+  }
 }
 </script>
 
@@ -411,7 +432,7 @@ export default {
     left: 20px;
 
     width: 400px;
-    height: 400px;
+    /* height: 400px; */
     padding: 10px;
 
     z-index: 100;

@@ -20,9 +20,9 @@
                   <td class="px-4"><input v-model="userEmail" id="userEmail" type="email" class="mb-4 form-control form-control-lg"></td>
                 </tr>
               </table>
-              <div class="col-12 text-center mt-4">
-                <router-link to="/myaccount" class="btn btn-lg px-5 btn-block btn-secondary lift text-uppercase">취소</router-link>&nbsp;
-                <a @click="modifyInfo" class="btn btn-lg px-5 btn-block btn-primary lift text-uppercase">수정 완료</a>
+              <div class="col-12 text-center my-4">
+                <router-link to="/myaccount" class="btn px-4 btn-block btn-secondary lift text-uppercase">취소</router-link>&nbsp;
+                <a @click="modifyInfo" class="btn px-4 btn-block btn-primary lift text-uppercase">수정 완료</a>
               </div>
             </form>
           </div>
@@ -33,12 +33,8 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueSwal from 'vue-swal'
 import http from "@/common/axios.js";
 import { mapState, mapMutations } from "vuex";
-
-Vue.use(VueSwal);
 
 const storeName = 'userStore';
 const SUCCESS = 1;
@@ -74,9 +70,7 @@ export default {
         .catch(error => {
           console.log("RegisterVue: error : ");
           console.log(error);
-          if( error.response.status == '404'){
-            this.$alertify.error('Opps!! 서버에 문제가 발생했습니다.');
-          }
+          this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         })
     },
   },

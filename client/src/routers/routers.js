@@ -19,7 +19,7 @@ import Profile from '@/components/myaccount/Profile.vue';
 import Management from '@/components/myaccount/Management.vue';
 import Friends from '@/components/myaccount/Friends.vue';
 import ModifyInfo from '@/components/myaccount/ModifyInfo.vue';
-import ChangePassword from '@/components/myaccount/ChangePassword.vue';
+import ModifyPassword from '@/components/myaccount/ModifyPassword.vue';
 
 export default new VueRouter({
   mode: "history",
@@ -60,8 +60,8 @@ export default new VueRouter({
         },
         {
           path: 'changePw',
-          name: 'ChangePassword',
-          component: ChangePassword
+          name: 'ModifyPassword',
+          component: ModifyPassword
         },
       ]
     },

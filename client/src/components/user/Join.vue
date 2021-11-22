@@ -28,8 +28,8 @@
             </tr>
           </table>
           <div class="col-12 text-center mt-4">
-            <router-link to="/user/login" class="btn btn-lg px-5 btn-block btn-secondary lift text-uppercase">로그인 이동</router-link>&nbsp;
-            <a @click="join" class="btn btn-lg px-5 btn-block btn-primary lift text-uppercase">회원가입</a>
+            <router-link to="/user/login" class="btn px-4 btn-block btn-secondary lift text-uppercase">로그인 이동</router-link>&nbsp;
+            <a @click="join" class="btn px-4 btn-block btn-primary lift text-uppercase">회원가입</a>
           </div>
         </form>
       </div>

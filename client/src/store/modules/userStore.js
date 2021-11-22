@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import http from "@/common/axios.js";
 import router from '@/routers/routers.js'
 
@@ -42,6 +43,9 @@ const userStore = {
       state.name = payload.name;
       state.email = payload.email;
     },
+    SET_PASSWORD(state, payload) {
+      state.password = payload;
+    },
   },
 
   actions: {
@@ -77,10 +81,9 @@ const userStore = {
           console.log(error);
 
           if (error.response.status == '404'){
-            alert('아이디 또는 비밀번호를 확인하세요.')
-            // this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
+            Vue.$swal('아이디 또는 비밀번호를 확인하세요.', { icon: 'error' });
           } else {
-            alert('Opps!! 서버에 문제가 발생했습니다.');
+            Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
           }
         });
       },
@@ -91,8 +94,24 @@ const userStore = {
         router.push('/');
         }).catch(error => {
           console.log(error)
-          alert('Opps!! 서버에 문제가 발생했습니다.');
-          //this.$alertify.error('서버에서 문제 발생했습니다');
+          Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+        })
+    },
+    modifyPassword({ commit }, newPassword) {
+      http.put('/user/password', {
+          userPassword: newPassword,
+        })
+        .then(response => {
+          if (response.data.result === 1) {
+            commit('SET_PASSWORD', newPassword);
+            Vue.$swal('비밀번호 변경이 완료되었습니다.', { icon: 'success' })
+              .then(() => router.push('/myaccount'));
+          }
+        })
+        .catch(error => {
+          console.log("RegisterVue: error : ");
+          console.log(error);
+          Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         })
     },
   }

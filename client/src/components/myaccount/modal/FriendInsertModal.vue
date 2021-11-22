@@ -60,7 +60,7 @@ import StarRating from 'vue-star-rating';
 const storeName = 'dealInfoStore';
 
 export default {
-  name: 'ReviewInsertModal',
+  name: 'FriendInsertModal',
   props: ['buildingName', 'index'],
   data() {
     return {

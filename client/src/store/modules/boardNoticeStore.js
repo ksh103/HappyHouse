@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import http from "@/common/axios.js";
 import router from '@/routers/routers.js'
 import util from "@/common/util.js";
@@ -112,7 +113,12 @@ const boardNoticeStore = {
             commit( 'SET_BOARD_LIST', data.list );
             commit( 'SET_BOARD_TOTAL_LIST_ITEM_COUNT', data.count );
           }
-      });
+        })
+        .catch((error) => {
+          console.log("ListVue: error ");
+          console.log(error);
+          Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+        });
     },
     boardDetail({ commit }, noticeId){
       http.get(`/notices/${noticeId}`)
@@ -153,6 +159,7 @@ const boardNoticeStore = {
       .catch((error) => {
         console.log("DetailVue: error ");
         console.log(error);
+        Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
       });
     }
   },

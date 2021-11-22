@@ -1,4 +1,5 @@
 import http from "@/common/axios.js";
+import Vue from 'vue';
 
 const dealInfoStore = {
   namespaced: true,
@@ -32,7 +33,7 @@ const dealInfoStore = {
           commit('SET_GU', response.data.guDto);
         })
         .catch(error => {
-          alert('Opps!! 서버에 문제가 발생했습니다.');
+          Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         })
     },
     getDong({ commit }, guCode) {
@@ -42,17 +43,30 @@ const dealInfoStore = {
           commit('SET_DONG', response.data.dongDto);
         })
         .catch(error => {
-          alert('Opps!! 서버에 문제가 발생했습니다.');
+          Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         })
     },
     getHouseListByDong({ commit }, dongName) {
       http.get(`/house/detail/dong/${dongName}`)
-        .then(response => {
-          console.log(response.data)
-          commit('SET_HOUSE_LIST', response.data.houseDetailDto);
+        .then(({ data }) => {
+          console.log(data)
+          commit('SET_HOUSE_LIST', data.houseDetailDto);
         })
         .catch(error => {
-          alert('Opps!! 서버에 문제가 발생했습니다.');
+          Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+        })
+    },
+    getHouseListByKeyword({ commit }, keyword) {
+      http.get(`/house/detail/keyword/${keyword}`)
+        .then(({ data }) => {          
+          if (data.houseDetailDto) {
+            console.log(data)
+            commit('SET_HOUSE_LIST', data.houseDetailDto);
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         })
     }
   }

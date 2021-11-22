@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h1 class="h3 m-4">정보 수정</h1>
+          <h1 class="h3 m-4">기본 정보</h1>
           <div class="card p-3">
             <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
               <div class="doctor-avatar order-0 order-md-1">
@@ -45,12 +45,8 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueSwal from 'vue-swal'
 import http from "@/common/axios.js";
 import { mapState, mapActions } from "vuex";
-
-Vue.use(VueSwal);
 
 const SUCCESS = 1;
 const storeName='userStore';
@@ -88,30 +84,29 @@ export default {
       })
     },
     changePassword() {
-      this.$router.push('/myaccount/changePw');
-      // this.$swal({
-      //   text: '비밀번호를 입력해 주세요.',
-      //   content: {
-      //     element: "input",
-      //     attributes: {
-      //       placeholder: "비밀번호를 입력하세요",
-      //       type: "password",
-      //     },
-      //   },
-      //   buttons: true
-      // }).then(value => {
-      //   if (value) {
-      //     if (value === this.password) {
-      //       var a=1;
-      //     } else {
-      //       this.$swal('비밀번호가 일치하지 않습니다.')
-      //         .then(() => this.changePassword());
-      //     }
-      //   } else if (value == '') {
-      //     this.$swal('비밀번호를 입력하세요!')
-      //       .then(() => this.changePassword());
-      //   }
-      // })
+      this.$swal({
+        text: '비밀번호를 입력해 주세요.',
+        content: {
+          element: "input",
+          attributes: {
+            placeholder: "비밀번호를 입력하세요",
+            type: "password",
+          },
+        },
+        buttons: true
+      }).then(value => {
+        if (value) {
+          if (value === this.password) {
+            this.$router.push('/myaccount/changePw');
+          } else {
+            this.$swal('비밀번호가 일치하지 않습니다.')
+              .then(() => this.changePassword());
+          }
+        } else if (value == '') {
+          this.$swal('비밀번호를 입력하세요!')
+            .then(() => this.changePassword());
+        }
+      })
     },
     deleteUser() {
       this.$swal({
@@ -136,12 +131,12 @@ export default {
                   this.$swal('탈퇴 처리가 완료되었습니다.', '지금까지 이용해주셔서 감사합니다.', { icon: 'success' })
                     .then(() => this.logout());
                 } else {
-                  this.$swal('처리중에 문제가 발생하였습니다.');
+                  this.$swal('처리중에 문제가 발생하였습니다.', { icon: 'error' });
                 }
               })
               .catch(error => {
                 console.log(error);
-                this.$swal('서버에 문제가 발생하였습니다.');
+                this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
               })
           } else {
             this.$swal('비밀번호가 일치하지 않습니다.')

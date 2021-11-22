@@ -51,23 +51,20 @@ export default {
         }
       )
       .then(response => {
-        console.log(response.data);
-        alert(`${this.userEmail}(으)로 임시비밀번호를 보냈습니다. 로그인 후 비밀번호를 변경해주세요.`)
-        // 잘못된 정보 메시지 처리
-        this.$router.push("/")
+        // console.log(response.data);
+        this.$swal('비밀번호가 초기화되었습니다.', `${this.userEmail}(으)로 임시비밀번호를 보냈습니다. 로그인 후 비밀번호를 변경해주세요.`, { icon: 'success' })
+              .then(() => this.$router.push("/"));
       })
       .catch( error => {
         console.log("FindPW: error : ");
         console.log(error);
 
         if (error.response.status == '404'){
-          alert('요청하신 사용자 정보가 서버에 없습니다. 정보를 다시 한 번 확인하세요.')
-          // this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
+          this.$swal('요청하신 사용자 정보가 존재하지 않습니다. 정보를 다시 한 번 확인하세요.', { icon: 'error' });
         } else {
-          alert('Opps!! 서버에 문제가 발생했습니다.');
+          this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         }
       });
-      this.findPassword();
     }
   }
 }

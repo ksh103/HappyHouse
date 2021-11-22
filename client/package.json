@@ -85,7 +85,8 @@
       "kakao": false
     },
     "rules": {
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "strict": "off"
     }
   },
   "browserslist": [
