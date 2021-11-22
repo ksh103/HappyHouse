@@ -3,6 +3,7 @@ package com.ssafy.happyhouse.dto;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 public class UserDto {
 	private int userSeq;
@@ -13,6 +14,10 @@ public class UserDto {
 	private LocalDateTime regDt;
 	private String userProfileimage;
 	private int code;
+	
+	private boolean sameUser;
+	
+	private List<UserFileDto> fileList;
 	
 	public UserDto() {}
 	public UserDto(int userSeq, String userId, String userName, String userPassword, String userEmail, String userProfileimage, int code) {
@@ -60,9 +65,7 @@ public class UserDto {
 	}
 	public void setRegDt(Date regDt) {
 		this.regDt = LocalDateTime.ofInstant(
-				regDt.toInstant(), ZoneId.systemDefault()
-				
-		);
+				regDt.toInstant(), ZoneId.systemDefault());
 	}
 	public String getUserProfileimage() {
 		return userProfileimage;
@@ -76,14 +79,27 @@ public class UserDto {
 	public void setCode(int code) {
 		this.code = code;
 	}
+	public boolean isSameUser() {
+		return sameUser;
+	}
+	public void setSameUser(boolean sameUser) {
+		this.sameUser = sameUser;
+	}
+	public List<UserFileDto> getFileList() {
+		return fileList;
+	}
+	public void setFileList(List<UserFileDto> fileList) {
+		this.fileList = fileList;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UserDto [userSeq=").append(userSeq).append(", userId=").append(userId).append(", userName=")
 				.append(userName).append(", userPassword=").append(userPassword).append(", userEmail=")
 				.append(userEmail).append(", regDt=").append(regDt).append(", userProfileimage=")
-				.append(userProfileimage).append(", code=").append(code).append("]");
+				.append(userProfileimage).append(", code=").append(code).append(", fileList=").append(fileList)
+				.append("]");
 		return builder.toString();
 	}
-	
 }

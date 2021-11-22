@@ -26,6 +26,12 @@
 		delete from user where user_id = #{userId}
 	</delete>
 	
+	<!-- 아이디 중복 체크 -->
+    <select id="userIdCheck" parameterType="String" resultType="int">
+        select count(user_id) from user 
+        where user_id= #{userId}
+    </select>
+	
 	<select id="login" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
 		select user_seq, user_name, user_id, user_password, user_email, reg_dt, user_profileimage, code
 		from user where user_id = #{userId}
@@ -57,5 +63,11 @@
 	
 	<select id="userFileUrlDeleteList" parameterType="int" resultType="string">
 		select file_url from user_file where user_id = #{userId}
+	</select>
+	
+	<select id="userDetailFileList" parameterType="int" resultType="com.ssafy.happyhouse.dto.UserFileDto">
+		select user_seq, file_id, file_name, file_size, file_content_type, file_url, reg_dt
+		from user_file
+		where user_seq = #{userSeq}
 	</select>
 </mapper>

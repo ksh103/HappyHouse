@@ -13,10 +13,13 @@ public interface UserService {
 	
 	public UserResultDto userDelete(UserDto userDto);
 	
+	public int userIdCheck(String userId);
+	
 	public UserResultDto login(UserDto UserDto);
 	
 	public UserResultDto findPassword(UserDto UserDto);
 	public UserResultDto updatePassword(UserDto userDto);
 	
+	public UserResultDto userFileInsert(UserDto userDto, MultipartHttpServletRequest request);
 	public UserResultDto userProfileImage(UserDto userDto, MultipartHttpServletRequest request);
 }

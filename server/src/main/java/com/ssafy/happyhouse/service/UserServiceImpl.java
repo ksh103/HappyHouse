@@ -7,13 +7,13 @@ import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.mail.HtmlEmail;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dao.UserDao;
-import com.ssafy.happyhouse.dto.NoticeFileDto;
 import com.ssafy.happyhouse.dto.UserDto;
 import com.ssafy.happyhouse.dto.UserFileDto;
 import com.ssafy.happyhouse.dto.UserResultDto;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
 
-	private static final int SUCCESS = 1;
+	private static final int SUCCESS = 1;	
 	private static final int INCORRECT_INFO = 2;
 	private static final int FAIL = -1;
 	
@@ -102,6 +102,12 @@ public class UserServiceImpl implements UserService {
 		}
 		return userResultDto;
 	}
+	
+	@Override
+	public int userIdCheck(String userId){
+		return userDao.userIdCheck(userId);
+	}
+
 	
 	@Override
 	public UserResultDto login(UserDto userDto) {
@@ -222,7 +228,7 @@ public class UserServiceImpl implements UserService {
     }
 
 	@Override
-	public UserResultDto userProfileImage(UserDto userDto, MultipartHttpServletRequest request) {
+	public UserResultDto userFileInsert(UserDto userDto, MultipartHttpServletRequest request) {
 		UserResultDto userResultDto = new UserResultDto();
 		try {
 			
@@ -277,5 +283,30 @@ public class UserServiceImpl implements UserService {
 			userResultDto.setResult(FAIL);
 		}
 		return userResultDto;
+	}
+	
+	@Override
+	public UserResultDto userProfileImage(UserDto userDto, MultipartHttpServletRequest request) {
+		UserResultDto userResultDto = new UserResultDto();
+	    
+	    try {
+	    	if( userDto.getUserSeq() == userDto.getUserSeq() ) {
+	    		userDto.setSameUser(true);
+	        }else {
+	        	userDto.setSameUser(false);
+	        }
+	    	
+	        List<UserFileDto> fileList = userDao.noticeDetailFileList(userDto.getUserSeq());
+	
+	        userDto.setFileList(fileList);
+	        userResultDto.setDto(userDto);
+	
+	        userResultDto.setResult(SUCCESS);
+	        
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        userResultDto.setResult(FAIL);
+	    }
+	    return userResultDto;
 	}
 }

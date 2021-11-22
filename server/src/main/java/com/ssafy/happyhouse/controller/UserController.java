@@ -85,6 +85,11 @@ public class UserController {
 		}
 	}
 
+	@GetMapping(value = "/user/info/id/{userId}")
+	public ResponseEntity<Integer> userIdCheck(@PathVariable String userId) {
+		return ResponseEntity.ok(userService.userIdCheck(userId));
+	}
+	
 	@PostMapping(value = "/user/login")
 	public ResponseEntity<UserResultDto> login(@RequestBody UserDto dto, HttpSession session, HttpServletRequest request) {
 		UserResultDto userResultDto = userService.login(dto);
@@ -128,12 +133,13 @@ public class UserController {
 	    
 	    userDto.setUserSeq(userDto.getUserSeq());
 		
-		UserResultDto userResultDto = userService.userProfileImage(userDto, request);
+		UserResultDto userResultImg = userService.userProfileImage(userDto, request);
+		UserResultDto userResultSave = userService.userFileInsert(userDto, request);
 		
-		if (userResultDto.getResult() == SUCCESS) {
-			return new ResponseEntity<UserResultDto>(userResultDto, HttpStatus.OK);
+		if (userResultImg.getResult() == SUCCESS) {
+			return new ResponseEntity<UserResultDto>(userResultImg, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<UserResultDto>(userResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<UserResultDto>(userResultImg, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
