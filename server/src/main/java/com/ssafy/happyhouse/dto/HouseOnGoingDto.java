@@ -128,7 +128,7 @@ public class HouseOnGoingDto {
 	}
 	public void setBookmark(boolean bookmark) {
 		this.bookmark = bookmark;
-
+	}
 	public List<HouseOnGoingFileDto> getFileList() {
 		return fileList;
 	}
