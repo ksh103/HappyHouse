@@ -120,7 +120,7 @@ public class HouseOnGoingDto {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("HouseOnGoingDto [registerId=").append(registerId).append(", houseNo=").append(houseNo)
+		builder.append("HouseOnGoingDto [ongoingId=").append(ongoingId).append(", houseNo=").append(houseNo)
 				.append(", compSeq=").append(compSeq).append(", title=").append(title).append(", content=")
 				.append(content).append(", dealAmount=").append(dealAmount).append(", floor=").append(floor)
 				.append(", area=").append(area).append(", direction=").append(direction).append(", type=").append(type)
