@@ -4,6 +4,9 @@ public class HouseReviewDto {
 	int reviewId;
 	int houseNo;
 	int userSeq;
+	String userId;
+	String userName;
+	String regDt;
 	String title;
 	String content;
 	double trafficScore;
@@ -27,6 +30,24 @@ public class HouseReviewDto {
 		this.recommendScore = recommendScore;
 	}
 	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getRegDt() {
+		return regDt;
+	}
+	public void setRegDt(String regDt) {
+		this.regDt = regDt;
+	}
 	public int getReviewId() {
 		return reviewId;
 	}

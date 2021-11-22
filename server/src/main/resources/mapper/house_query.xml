@@ -76,8 +76,8 @@
 					values(#{houseNo}, #{userSeq}, #{title}, #{content}, #{trafficScore} , #{surroundingScore}, #{livingScore}, #{recommendScore});
 	</insert>
 	
-	<select id="houseReviewDetail" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">
-		select r.review_id, r.no as house_no, u.user_name, r.title, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score
+	<select id="houseReviewList" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">
+		select r.review_id, r.no as house_no, u.user_seq, u.user_name, u.reg_dt, r.title, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score
 		from review r, user u
 		where r.no = #{houseNo}
 		and r.user_seq = u.user_seq;

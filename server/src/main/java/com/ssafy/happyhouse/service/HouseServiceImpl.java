@@ -196,19 +196,23 @@ public class HouseServiceImpl implements HouseService {
 
 	// 리뷰 조회
 	@Override
-	public HouseReviewResultDto houseReviewDetail(HouseReviewParamDto houseReviewParamDto) {
+	public HouseReviewResultDto houseReviewList(HouseReviewParamDto houseReviewParamDto) {
 		HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
 		
 		try {
-			HouseReviewDto houseReviewDto = houseDao.houseReviewDetail(houseReviewParamDto);
+			List<HouseReviewDto> houseReviewList = houseDao.houseReviewList(houseReviewParamDto);
 			
-			if(houseReviewDto.getUserSeq() != 0 && houseReviewDto.getUserSeq() == houseReviewParamDto.getUserSeq()){
-				houseReviewDto.setSameUser(true);
-			}else {
-				houseReviewDto.setSameUser(false);
+			if (houseReviewParamDto.getUserSeq() != 0 && houseReviewList != null && !houseReviewList.isEmpty()) {
+				for (HouseReviewDto houseReviewDto : houseReviewList) {
+					if(houseReviewParamDto.getUserSeq() == houseReviewDto.getUserSeq()){
+						houseReviewDto.setSameUser(true);
+					}else {
+						houseReviewDto.setSameUser(false);
+					}
+				}
 			}
 			
-			houseReviewResultDto.setDto(houseReviewDto);
+			houseReviewResultDto.setList(houseReviewList);
 			houseReviewResultDto.setResult(SUCCESS);
 			
 		} catch (Exception e) {

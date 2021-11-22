@@ -25,5 +25,5 @@ public interface HouseService {
 	public HouseOnGoingResultDto houseOnGoingDetail(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 보기
 
 	public HouseReviewResultDto houseReviewRegister(HouseReviewDto houseReviewDto, HttpServletRequest request); // 리뷰 등록
-	public HouseReviewResultDto houseReviewDetail(HouseReviewParamDto houseReviewParamDto); // 리뷰 데이터 조회
+	public HouseReviewResultDto houseReviewList(HouseReviewParamDto houseReviewParamDto); // 리뷰 데이터 조회
 }

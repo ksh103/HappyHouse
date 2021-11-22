@@ -104,7 +104,7 @@ public class HouseController {
 	
 	// 리뷰 상세 조회 
 	@GetMapping(value="/house/review/{houseNo}")
-	public ResponseEntity<HouseReviewResultDto> noticeDetail(@PathVariable int houseNo, HttpSession session){
+	public ResponseEntity<HouseReviewResultDto> houseReviewList(@PathVariable int houseNo, HttpSession session){
 	
 		HouseReviewParamDto houseReviewParamDto = new HouseReviewParamDto();
 		houseReviewParamDto.setHouseNo(houseNo);
@@ -112,7 +112,7 @@ public class HouseController {
 	    
 	    if (userDto != null) houseReviewParamDto.setUserSeq(userDto.getUserSeq());
 	    
-	    HouseReviewResultDto houseReviewResultDto = houseService.houseReviewDetail(houseReviewParamDto);
+	    HouseReviewResultDto houseReviewResultDto = houseService.houseReviewList(houseReviewParamDto);
 	
 	    if( houseReviewResultDto.getResult() == SUCCESS ) {
 	        return new ResponseEntity<HouseReviewResultDto>(houseReviewResultDto, HttpStatus.OK);
