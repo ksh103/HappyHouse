@@ -50,7 +50,7 @@
 		where h.comp_seq = c.comp_seq
 		and h.houseinfo_no = #{houseNo}
 		order by h.ongoing_id desc
-		limit #{limit} offset #{offset}
+		<!-- limit #{limit} offset #{offset} -->
 	</select>
 	
 	<select id="houseOnGoingLimitList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">

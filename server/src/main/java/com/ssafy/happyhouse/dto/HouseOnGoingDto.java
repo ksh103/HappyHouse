@@ -5,7 +5,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 public class HouseOnGoingDto {
-	int registerId; 
+	int ongoingId; 
 	int houseNo; 
 	int compSeq;
 	String title; // 매물 이름
@@ -22,30 +22,13 @@ public class HouseOnGoingDto {
 	private LocalDateTime regDt;
 	private boolean sameUser;
 	
-	public HouseOnGoingDto() {}
-	public HouseOnGoingDto(int registerId, int houseNo, int compSeq, String title, String content,
-		String dealAmount, int floor, int area, String direction, String type, String fee, int room,
-		int bathroom) {
-		this.registerId = registerId;
-		this.houseNo = houseNo;
-		this.compSeq = compSeq;
-		this.title = title;
-		this.content = content;
-		this.dealAmount = dealAmount;
-		this.floor = floor;
-		this.area = area;
-		this.direction = direction;
-		this.type = type;
-		this.fee = fee;
-		this.room = room;
-		this.bathroom = bathroom;
-	}
+
 	
-	public int getRegisterId() {
-		return registerId;
+	public int getOngoingId() {
+		return ongoingId;
 	}
-	public void setRegisterId(int registerId) {
-		this.registerId = registerId;
+	public void setOngoingId(int ongoingId) {
+		this.ongoingId = ongoingId;
 	}
 	public int getHouseNo() {
 		return houseNo;
