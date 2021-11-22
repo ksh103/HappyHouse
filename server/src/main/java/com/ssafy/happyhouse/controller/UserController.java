@@ -63,8 +63,10 @@ public class UserController {
 	}
 	
 	@PutMapping(value="/user/password")
-	public ResponseEntity<UserResultDto> passwordModify(@RequestBody UserDto userDto) {
-		System.out.println("pwdmodify " + userDto);
+	public ResponseEntity<UserResultDto> passwordModify(@RequestBody UserDto userDto, HttpSession session) {
+		UserDto dto = (UserDto) session.getAttribute("userDto");
+	    if (userDto != null) userDto.setUserId(dto.getUserId());
+	    System.out.println("pwdmodify " + userDto);
 		UserResultDto userResultDto = userService.userPasswordModify(userDto);
 		if (userResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<>(userResultDto, HttpStatus.OK);
