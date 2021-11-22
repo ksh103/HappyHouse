@@ -30,16 +30,18 @@
 	</insert>
 	
 	<select id="houseOnGoingDetail" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
-		select h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
-		from house_ongoing h, company c
+		select h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, c.comp_address, i.AptName, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		from house_ongoing h, company c, houseinfo i
 		where h.ongoing_id = #{ongoingId}
 		and h.comp_seq = c.comp_seq
+		and h.houseinfo_no = i.no;
 	</select>
 	
 	<select id="houseOnGoingList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
-		select h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
-		from house_ongoing h, company c
+		select h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, i.AptName, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		from house_ongoing h, company c, houseinfo i
 		where h.comp_seq = c.comp_seq
+		and h.houseinfo_no = i.no
 		order by h.ongoing_id desc
 		limit #{limit} offset #{offset}
 	</select>

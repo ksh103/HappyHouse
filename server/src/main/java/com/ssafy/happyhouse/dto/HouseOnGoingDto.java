@@ -12,6 +12,9 @@ public class HouseOnGoingDto {
 	int ongoingId; 
 	int houseNo; 
 	int compSeq;
+	String AptName;
+	String compName;
+	String compAddress;
 	String title; // 매물 이름
 	String content; // 매물 내용
 	String dealAmount; // 가격
@@ -135,7 +138,12 @@ public class HouseOnGoingDto {
 	public void setFileList(List<HouseOnGoingFileDto> fileList) {
 		this.fileList = fileList;
 	}
-	
+	public String getCompName() {
+		return compName;
+	}
+	public void setCompName(String compName) {
+		this.compName = compName;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
