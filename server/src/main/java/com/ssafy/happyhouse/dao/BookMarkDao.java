@@ -10,10 +10,8 @@ import com.ssafy.happyhouse.dto.HouseOnGoingDto;
 
 @Mapper
 public interface BookMarkDao {
-	public List<HouseDetailDto> getMyBookmarkHouseDetailList(String userId);
-	public List<HouseOnGoingDto> getMyBookmarkHouseOngoingList(String userId);
-	public List<HouseDetailDto> getFriendBookmarkHouseDetailList(String friendId);
-	public List<HouseOnGoingDto> getFriendBookmarkHouseOngoingList(String friendId);
+	public List<HouseDetailDto> getBookmarkHouseDetailListById(String userId);
+	public List<HouseOnGoingDto> getBookmarkHouseOngoingListById(String userId);
 	
 	public int insertBookmarkHouseDetail(BookMarkParamDto bookMarkParamDto);
 	public int insertBookmarkHouseOngoing(BookMarkParamDto bookMarkParamDto);

@@ -7,9 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BookMarkParamDto {
+public class BookMarkDto {
 	private int ongoingId;
-	private int houseNo;
+	int houseNo;
 	private String userId;
-	private String friendId;
 }

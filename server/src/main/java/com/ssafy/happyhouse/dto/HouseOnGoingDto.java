@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import lombok.ToString;
+
+@ToString
 public class HouseOnGoingDto {
 	int ongoingId; 
 	int houseNo; 
@@ -19,10 +22,10 @@ public class HouseOnGoingDto {
 	int room; // 방 개수
 	int bathroom; // 화장실 개수
 	
+	boolean bookmark;
+	
 	private LocalDateTime regDt;
 	private boolean sameUser;
-	
-
 	
 	public int getOngoingId() {
 		return ongoingId;
@@ -117,15 +120,10 @@ public class HouseOnGoingDto {
 		this.sameUser = sameUser;
 	}
 	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("HouseOnGoingDto [ongoingId=").append(ongoingId).append(", houseNo=").append(houseNo)
-				.append(", compSeq=").append(compSeq).append(", title=").append(title).append(", content=")
-				.append(content).append(", dealAmount=").append(dealAmount).append(", floor=").append(floor)
-				.append(", area=").append(area).append(", direction=").append(direction).append(", type=").append(type)
-				.append(", fee=").append(fee).append(", room=").append(room).append(", bathroom=").append(bathroom)
-				.append(", regDt=").append(regDt).append(", sameUser=").append(sameUser).append("]");
-		return builder.toString();
+	public boolean isBookmark() {
+		return bookmark;
+	}
+	public void setBookmark(boolean bookmark) {
+		this.bookmark = bookmark;
 	}
 }

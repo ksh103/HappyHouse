@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.happyhouse.dao.BookMarkDao;
 import com.ssafy.happyhouse.dao.HouseDao;
 import com.ssafy.happyhouse.dto.HouseDealDto;
 import com.ssafy.happyhouse.dto.HouseDetailDto;
@@ -17,12 +19,15 @@ import com.ssafy.happyhouse.dto.HouseResultDto;
 import com.ssafy.happyhouse.dto.HouseReviewDto;
 import com.ssafy.happyhouse.dto.HouseReviewParamDto;
 import com.ssafy.happyhouse.dto.HouseReviewResultDto;
+import com.ssafy.happyhouse.dto.UserDto;
 
 @Service
 public class HouseServiceImpl implements HouseService {
 
 	@Autowired
 	private HouseDao houseDao;
+	@Autowired
+	private BookMarkDao bookmarkDao;
 	
 	private static final int SUCCESS = 1;
 	private static final int FAIL = -1;
@@ -137,12 +142,26 @@ public class HouseServiceImpl implements HouseService {
 	
 	// 등록된 매물 리스트(특정 매물 클릭)
 	@Override
-	public HouseOnGoingResultDto houseNoOnGoingList(int houseNo) {
+	@Transactional
+	public HouseOnGoingResultDto houseNoOnGoingList(int houseNo, UserDto userDto) {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
 	    
 	    try {
 	        List<HouseOnGoingDto> list = houseDao.houseNoOnGoingList(houseNo);
 	        int count = houseDao.houseNoOnGoingListTotalCount(houseNo);   
+	        System.out.println("NOONGOING   " + userDto);
+	        // 세션이 있다면, 해당 사용자의 북마크 데이터인지 여부 판별
+	        if (userDto != null) {
+	        	List<HouseOnGoingDto> userBookMarkList = bookmarkDao.getBookmarkHouseOngoingListById(userDto.getUserId());
+	        	
+	        	for (HouseOnGoingDto item : userBookMarkList) {
+	        		for (HouseOnGoingDto innerItem : list) {
+	        			if (item.getHouseNo() == innerItem.getHouseNo()) {
+	        				innerItem.setBookmark(true);
+	        			}
+	        		}
+	        	}
+	        }
 	        
 	        houseOnGoingResultDto.setList(list);
 	        houseOnGoingResultDto.setCount(count);

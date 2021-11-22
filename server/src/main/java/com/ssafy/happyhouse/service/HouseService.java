@@ -9,6 +9,7 @@ import com.ssafy.happyhouse.dto.HouseResultDto;
 import com.ssafy.happyhouse.dto.HouseReviewDto;
 import com.ssafy.happyhouse.dto.HouseReviewParamDto;
 import com.ssafy.happyhouse.dto.HouseReviewResultDto;
+import com.ssafy.happyhouse.dto.UserDto;
 
 public interface HouseService {
 	public HouseResultDto getHouseDongDetail(String dongString); // 매물 검색 (동이름)
@@ -19,7 +20,7 @@ public interface HouseService {
 	public HouseOnGoingResultDto houseOnGoingRegister(HouseOnGoingDto houseOnGoingDto); // 매물 등록(현재 진행 중)
 	
 	public HouseOnGoingResultDto houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(전체)
-	public HouseOnGoingResultDto houseNoOnGoingList(int houseNo); // 등록된 매물 리스트(특정 매물 클릭)
+	public HouseOnGoingResultDto houseNoOnGoingList(int houseNo, UserDto userDto); // 등록된 매물 리스트(특정 매물 클릭)
 	public HouseOnGoingResultDto houseOnGoingLimitList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(5개)
 	
 	public HouseOnGoingResultDto houseOnGoingDetail(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 보기

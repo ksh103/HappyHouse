@@ -17,10 +17,7 @@ import com.ssafy.happyhouse.dto.CompanyDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingParamDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingResultDto;
-import com.ssafy.happyhouse.dto.HouseResultDto;
-import com.ssafy.happyhouse.dto.HouseReviewDto;
-import com.ssafy.happyhouse.dto.HouseReviewResultDto;
-import com.ssafy.happyhouse.dto.NoticeResultDto;
+import com.ssafy.happyhouse.dto.UserDto;
 import com.ssafy.happyhouse.service.HouseService;
 
 @CrossOrigin(
@@ -83,9 +80,10 @@ public class HouseOngoingController {
     
     // 등록된 특정 매물 리스트 
     @GetMapping(value="/house/deal/ongoing/list/{houseNo}")
-    public ResponseEntity<HouseOnGoingResultDto> houseNoOnGoingList(@PathVariable int houseNo){
-    	HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
-    	houseOnGoingResultDto = houseService.houseNoOnGoingList(houseNo);
+    public ResponseEntity<HouseOnGoingResultDto> houseNoOnGoingList(@PathVariable int houseNo, HttpSession session){
+    	UserDto userDto = (UserDto) session.getAttribute("userDto");
+    	
+    	HouseOnGoingResultDto houseOnGoingResultDto = houseService.houseNoOnGoingList(houseNo, userDto);
     	
     	if( houseOnGoingResultDto.getResult() == SUCCESS ) {
     		return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.OK);
@@ -95,17 +93,17 @@ public class HouseOngoingController {
     }
     
     // 등록된 매물 리스트 수 (특정 매물 개수)
-    @GetMapping(value="/house/deal/ongoing/count/{houseNo}")
-    public int houseNoOnGoingListTotalCount(@PathVariable int houseNo){
-    	HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
-    	houseOnGoingResultDto = houseService.houseNoOnGoingList(houseNo);
-
-    	if( houseOnGoingResultDto.getResult() == SUCCESS ) {
-    		return houseOnGoingResultDto.getCount();
-    	}else {
-    		return 0;
-    	}
-    }
+//    @GetMapping(value="/house/deal/ongoing/count/{houseNo}")
+//    public int houseNoOnGoingListTotalCount(@PathVariable int houseNo){
+//    	HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
+//    	houseOnGoingResultDto = houseService.houseNoOnGoingList(houseNo);
+//
+//    	if( houseOnGoingResultDto.getResult() == SUCCESS ) {
+//    		return houseOnGoingResultDto.getCount();
+//    	}else {
+//    		return 0;
+//    	}
+//    }
     
 	// 최근 등록 매물 5개까지
     @GetMapping(value="/house/deal/ongoing/latest")
