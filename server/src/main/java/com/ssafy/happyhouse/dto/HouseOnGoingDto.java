@@ -3,6 +3,7 @@ package com.ssafy.happyhouse.dto;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 public class HouseOnGoingDto {
 	int ongoingId; 
@@ -22,7 +23,7 @@ public class HouseOnGoingDto {
 	private LocalDateTime regDt;
 	private boolean sameUser;
 	
-
+	private List<HouseOnGoingFileDto> fileList;
 	
 	public int getOngoingId() {
 		return ongoingId;
@@ -117,6 +118,13 @@ public class HouseOnGoingDto {
 		this.sameUser = sameUser;
 	}
 	
+	public List<HouseOnGoingFileDto> getFileList() {
+		return fileList;
+	}
+	public void setFileList(List<HouseOnGoingFileDto> fileList) {
+		this.fileList = fileList;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -125,7 +133,8 @@ public class HouseOnGoingDto {
 				.append(content).append(", dealAmount=").append(dealAmount).append(", floor=").append(floor)
 				.append(", area=").append(area).append(", direction=").append(direction).append(", type=").append(type)
 				.append(", fee=").append(fee).append(", room=").append(room).append(", bathroom=").append(bathroom)
-				.append(", regDt=").append(regDt).append(", sameUser=").append(sameUser).append("]");
+				.append(", regDt=").append(regDt).append(", sameUser=").append(sameUser).append(", fileList=")
+				.append(fileList).append("]");
 		return builder.toString();
 	}
 }

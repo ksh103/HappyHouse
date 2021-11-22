@@ -1,22 +1,29 @@
 package com.ssafy.happyhouse.service;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dao.HouseDao;
 import com.ssafy.happyhouse.dto.HouseDealDto;
 import com.ssafy.happyhouse.dto.HouseDetailDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingDto;
+import com.ssafy.happyhouse.dto.HouseOnGoingFileDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingParamDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingResultDto;
 import com.ssafy.happyhouse.dto.HouseResultDto;
 import com.ssafy.happyhouse.dto.HouseReviewDto;
 import com.ssafy.happyhouse.dto.HouseReviewParamDto;
 import com.ssafy.happyhouse.dto.HouseReviewResultDto;
+import com.ssafy.happyhouse.dto.NoticeFileDto;
 
 @Service
 public class HouseServiceImpl implements HouseService {
@@ -26,6 +33,15 @@ public class HouseServiceImpl implements HouseService {
 	
 	private static final int SUCCESS = 1;
 	private static final int FAIL = -1;
+	
+	private static final String uploadFolder = "houseOnGoingImage";
+	private static final String uploadPath = "C:" + File.separator + "apps" + File.separator + "happyhouse"
+            + File.separator + "server" 
+            + File.separator + "src" 
+            + File.separator + "main"
+            + File.separator + "resources"
+            + File.separator + "static"
+            + File.separator + "upload";
 	
 	// 매물 검색 (동이름)
 	@Override
@@ -77,15 +93,48 @@ public class HouseServiceImpl implements HouseService {
 
 	// 매물 등록
 	@Override
-	public HouseOnGoingResultDto houseOnGoingRegister(HouseOnGoingDto houseDto) {
+	public HouseOnGoingResultDto houseOnGoingRegister(HouseOnGoingDto houseDto, MultipartHttpServletRequest request) {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
 		try {
-			if (houseDao.houseOnGoingRegister(houseDto) == 1) {
-				houseOnGoingResultDto.setDto(houseDto);
-				houseOnGoingResultDto.setResult(SUCCESS);
-			} else {
-				houseOnGoingResultDto.setResult(FAIL);
-			}
+			houseDao.houseOnGoingRegister(houseDto);
+			
+			 List<MultipartFile> fileList = request.getFiles("file");
+
+	         File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+	         if (!uploadDir.exists()) uploadDir.mkdir();
+	         
+	         for (MultipartFile part : fileList) {
+
+	            int ongoingId = houseDto.getOngoingId();
+	            
+	            String fileName = part.getOriginalFilename();
+	            
+	            //Random File Id
+	            UUID uuid = UUID.randomUUID();
+	            
+	            //file extension
+	            String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
+	        
+	            String savingFileName = uuid + "." + extension;
+	        
+	            File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+	            
+	            System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+	            part.transferTo(destFile);
+	            
+	            // Table Insert
+	            HouseOnGoingFileDto houseOnGoingFileDto = new HouseOnGoingFileDto();
+	            houseOnGoingFileDto.setOngoingId(ongoingId);;
+	            houseOnGoingFileDto.setFileName(fileName);
+	            houseOnGoingFileDto.setFileSize(part.getSize());
+	            houseOnGoingFileDto.setFileContentType(part.getContentType());
+	            String houseOnGoingFileUrl = "/" + uploadFolder + "/" + savingFileName;
+	            houseOnGoingFileDto.setFileUrl(houseOnGoingFileUrl);
+	            
+	            houseDao.houseOnGoingFileInsert(houseOnGoingFileDto);
+	         }
+	         houseOnGoingResultDto.setResult(SUCCESS);
+	        
 		} catch (Exception e) {
 			e.printStackTrace();
 			houseOnGoingResultDto.setResult(FAIL);
@@ -108,6 +157,12 @@ public class HouseServiceImpl implements HouseService {
 			houseOnGoingResultDto.setDto(houseOnGoingDto);
 			houseOnGoingResultDto.setResult(SUCCESS);
 			
+			List<HouseOnGoingFileDto> fileList = houseDao.houseOnGoingDetailFileList(houseOnGoingDto.getOngoingId());
+			
+			houseOnGoingDto.setFileList(fileList);
+			houseOnGoingResultDto.setDto(houseOnGoingDto);
+			
+			houseOnGoingResultDto.setResult(SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
 			houseOnGoingResultDto.setResult(FAIL);

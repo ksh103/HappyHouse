@@ -84,7 +84,6 @@ public class NoticeDto {
 	public void setFileList(List<NoticeFileDto> fileList) {
 		this.fileList = fileList;
 	}
-	
 	public boolean isSameUser() {
 		return sameUser;
 	}
