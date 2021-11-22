@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.happyhouse.dao.BookMarkDao;
 import com.ssafy.happyhouse.dto.BookMarkParamDto;
 import com.ssafy.happyhouse.dto.BookMarkResultDto;
+import com.ssafy.happyhouse.dto.FriendResultDto;
 
 @Service
 public class BookMarkServiceImpl implements BookMarkService {
@@ -37,32 +38,91 @@ public class BookMarkServiceImpl implements BookMarkService {
 	@Override
 	@Transactional
 	public BookMarkResultDto getFriendBookmarkList(BookMarkParamDto bookMarkParamDto) {
-		// TODO Auto-generated method stub
-		return null;
+		BookMarkResultDto resultDto = new BookMarkResultDto();
+		
+		try {
+			resultDto.setHouseList(dao.getFriendBookmarkHouseDetailList(bookMarkParamDto.getFriendId()));
+			resultDto.setHouseOngoingList(dao.getFriendBookmarkHouseOngoingList(bookMarkParamDto.getFriendId()));
+			resultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultDto.setResult(FAIL);
+		}
+		return resultDto;
 	}
 
 	@Override
 	public BookMarkResultDto insertBookmarkHouseDetail(BookMarkParamDto bookMarkParamDto) {
-		// TODO Auto-generated method stub
-		return null;
+		BookMarkResultDto resultDto = new BookMarkResultDto();
+		
+		try {
+			if (dao.insertBookmarkHouseDetail(bookMarkParamDto) == 1) {
+				resultDto.setDto(bookMarkParamDto);
+				resultDto.setResult(SUCCESS);
+			} else {
+				resultDto.setResult(FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultDto.setResult(FAIL);
+		}
+		return resultDto;
+		
+		
 	}
 
 	@Override
 	public BookMarkResultDto insertBookmarkHouseOngoing(BookMarkParamDto bookMarkParamDto) {
-		// TODO Auto-generated method stub
-		return null;
+		BookMarkResultDto resultDto = new BookMarkResultDto();
+		
+		try {
+			if (dao.insertBookmarkHouseOngoing(bookMarkParamDto) == 1) {
+				resultDto.setDto(bookMarkParamDto);
+				resultDto.setResult(SUCCESS);
+			} else {
+				resultDto.setResult(FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultDto.setResult(FAIL);
+		}
+		return resultDto;
 	}
 
 	@Override
 	public BookMarkResultDto deleteBookmarkHouseDetail(BookMarkParamDto bookMarkParamDto) {
-		// TODO Auto-generated method stub
-		return null;
+		BookMarkResultDto resultDto = new BookMarkResultDto();
+		
+		try {
+			if (dao.deleteBookmarkHouseDetail(bookMarkParamDto) == 1) {
+				resultDto.setDto(bookMarkParamDto);
+				resultDto.setResult(SUCCESS);
+			} else {
+				resultDto.setResult(FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultDto.setResult(FAIL);
+		}
+		return resultDto;
 	}
 
 	@Override
 	public BookMarkResultDto deleteBookmarkHouseOngoing(BookMarkParamDto bookMarkParamDto) {
-		// TODO Auto-generated method stub
-		return null;
+		BookMarkResultDto resultDto = new BookMarkResultDto();
+		
+		try {
+			if (dao.deleteBookmarkHouseOngoing(bookMarkParamDto) == 1) {
+				resultDto.setDto(bookMarkParamDto);
+				resultDto.setResult(SUCCESS);
+			} else {
+				resultDto.setResult(FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultDto.setResult(FAIL);
+		}
+		return resultDto;
 	}
 
 }

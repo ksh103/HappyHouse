@@ -3,9 +3,17 @@ package com.ssafy.happyhouse.dto;
 import java.util.List;
 
 public class BookMarkResultDto {
-	int result;
-	List<HouseDetailDto> houseList;
-	List<HouseOnGoingDto> houseOngoingList;
+	private int result;
+	private BookMarkParamDto dto;
+	private List<HouseDetailDto> houseList;
+	private List<HouseOnGoingDto> houseOngoingList;
+	
+	public BookMarkParamDto getDto() {
+		return dto;
+	}
+	public void setDto(BookMarkParamDto dto) {
+		this.dto = dto;
+	}
 	public List<HouseDetailDto> getHouseList() {
 		return houseList;
 	}

@@ -1,10 +1,10 @@
 package com.ssafy.happyhouse.dto;
 
 public class BookMarkParamDto {
-	int registerId;
+	private int registerId;
 	int houseNo;
-	String userId;
-	String friendId;
+	private String userId;
+	private String friendId;
 	
 	public int getRegisterId() {
 		return registerId;
