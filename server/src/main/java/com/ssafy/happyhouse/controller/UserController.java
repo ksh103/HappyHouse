@@ -1,11 +1,8 @@
 package com.ssafy.happyhouse.controller;
 
-import java.util.Random;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -142,6 +139,21 @@ public class UserController {
 			return new ResponseEntity<UserResultDto>(userResultImg, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<UserResultDto>(userResultImg, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	// 친구 찾기
+	@GetMapping("/user/{searchWord}")
+	public ResponseEntity<UserResultDto> friendSearch(@PathVariable String searchWord) {
+		System.out.println("friendSearch" + searchWord);
+		UserResultDto userResultDto;
+		
+		userResultDto = userService.friendSearch(searchWord);
+		
+		if (userResultDto.getResult() == SUCCESS) {
+			return new ResponseEntity<>(userResultDto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(userResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

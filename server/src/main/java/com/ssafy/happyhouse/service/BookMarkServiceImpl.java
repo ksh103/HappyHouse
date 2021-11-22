@@ -1,0 +1,68 @@
+package com.ssafy.happyhouse.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ssafy.happyhouse.dao.BookMarkDao;
+import com.ssafy.happyhouse.dto.BookMarkParamDto;
+import com.ssafy.happyhouse.dto.BookMarkResultDto;
+
+@Service
+public class BookMarkServiceImpl implements BookMarkService {
+
+	@Autowired
+	BookMarkDao dao;
+	
+	private static final int SUCCESS = 1;	
+	private static final int INCORRECT_INFO = 2;
+	private static final int FAIL = -1;
+	
+	@Override
+	@Transactional
+	public BookMarkResultDto getMyBookmarkList(String userId) {
+		BookMarkResultDto resultDto = new BookMarkResultDto();
+		
+		try {
+			resultDto.setHouseList(dao.getMyBookmarkHouseDetailList(userId));
+			resultDto.setHouseOngoingList(dao.getMyBookmarkHouseOngoingList(userId));
+			resultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultDto.setResult(FAIL);
+		}
+		return resultDto;
+	}
+
+	@Override
+	@Transactional
+	public BookMarkResultDto getFriendBookmarkList(BookMarkParamDto bookMarkParamDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BookMarkResultDto insertBookmarkHouseDetail(BookMarkParamDto bookMarkParamDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BookMarkResultDto insertBookmarkHouseOngoing(BookMarkParamDto bookMarkParamDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BookMarkResultDto deleteBookmarkHouseDetail(BookMarkParamDto bookMarkParamDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BookMarkResultDto deleteBookmarkHouseOngoing(BookMarkParamDto bookMarkParamDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

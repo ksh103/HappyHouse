@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.ssafy.happyhouse.dao.FriendDao">
+
+	<!-- 팔로우 : 내가 친구 요청(추가) -->
+	<insert id="friendFollow" parameterType="com.ssafy.happyhouse.dto.FriendDto">
+		insert into friend (from_id, to_id) 
+		values ( #{fromId}, #{toId})
+	</insert>
+	
+	<!-- 언팔로우 : 친구 해제  -->
+	<delete id="friendUnFollow" parameterType="com.ssafy.happyhouse.dto.FriendDto">
+		delete from friend
+		where from_id = #{fromId}
+		and to_id = #{toId}
+	</delete>
+	
+	<!-- 팔로워 : 나를 친구로 등록한 사람들 조회 -->
+	<select id="friendFollower" parameterType="string" resultType="com.ssafy.happyhouse.dto.FriendDto">
+		select from_id
+		from friend
+		where to_id = #{toId};
+	</select>
+	
+	<!-- 팔로워 : 나를 친구로 등록한 사람들 수 -->
+	<select id="friendFollowerCount" parameterType="String" resultType="int">
+		select count(from_id)
+		from friend
+		where to_id = #{toId};
+	</select>
+	
+	<!-- 팔로잉 : 내가 친구로 등록한 사람들 조회 -->
+	<select id="friendFollowing" parameterType="string" resultType="com.ssafy.happyhouse.dto.FriendDto">
+		select to_id
+		from friend
+		where from_id = #{fromId};
+	</select>
+	
+	<!-- 팔로잉 : 내가 친구로 등록한 사람들 수 -->
+	<select id="friendFollowingCount" parameterType="String" resultType="int">
+		select count(to_id)
+		from friend
+		where from_id = #{fromId};
+	</select>
+</mapper>

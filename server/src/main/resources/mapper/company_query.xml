@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
-<mapper namespace="com.ssafy.happyhouse.dao.UserDao">
+<mapper namespace="com.ssafy.happyhouse.dao.CompanyDao">
 
 	<insert id="companyRegister" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
 		insert into company(comp_name, comp_id, comp_password, comp_email, comp_address, reg_dt, code) 

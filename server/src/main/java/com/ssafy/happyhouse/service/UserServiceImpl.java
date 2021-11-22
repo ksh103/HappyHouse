@@ -308,4 +308,19 @@ public class UserServiceImpl implements UserService {
 	    }
 	    return userResultDto;
 	}
+
+	@Override
+	public UserResultDto friendSearch(String searchWord) {
+		UserResultDto userResultDto = new UserResultDto();
+		List<UserDto> list = null;
+		try {
+			list = userDao.friendSearch(searchWord);
+			userResultDto.setUserDto(list);
+			userResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			userResultDto.setResult(FAIL);
+		}
+		return userResultDto;
+	}
 }

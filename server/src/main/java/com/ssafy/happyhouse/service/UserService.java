@@ -2,6 +2,7 @@ package com.ssafy.happyhouse.service;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.ssafy.happyhouse.dto.HouseResultDto;
 import com.ssafy.happyhouse.dto.UserDto;
 import com.ssafy.happyhouse.dto.UserResultDto;
 
@@ -22,4 +23,7 @@ public interface UserService {
 	
 	public UserResultDto userFileInsert(UserDto userDto, MultipartHttpServletRequest request);
 	public UserResultDto userProfileImage(UserDto userDto, MultipartHttpServletRequest request);
+	
+	public UserResultDto friendSearch(String searchWord); // 친구 찾기
+	
 }

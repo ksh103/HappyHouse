@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.happyhouse.dto.HouseDetailDto;
 import com.ssafy.happyhouse.dto.NoticeFileDto;
 import com.ssafy.happyhouse.dto.UserDto;
 import com.ssafy.happyhouse.dto.UserFileDto;
@@ -29,5 +30,5 @@ public interface UserDao {
 	public List<UserFileDto> noticeDetailFileList(int noticeId);
 	public List<String> userFileUrlDeleteList(String userId);
 	
-	public UserDto userInfo(String userId);
+	public List<UserDto> friendSearch(String searchWord); // 친구 찾기
 }
