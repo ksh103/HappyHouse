@@ -5,6 +5,9 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import lombok.ToString;
+
+@ToString
 public class HouseOnGoingDto {
 	int ongoingId; 
 	int houseNo; 
@@ -19,6 +22,8 @@ public class HouseOnGoingDto {
 	String fee; // 관리비
 	int room; // 방 개수
 	int bathroom; // 화장실 개수
+	
+	boolean bookmark;
 	
 	private LocalDateTime regDt;
 	private boolean sameUser;
@@ -118,6 +123,12 @@ public class HouseOnGoingDto {
 		this.sameUser = sameUser;
 	}
 	
+	public boolean isBookmark() {
+		return bookmark;
+	}
+	public void setBookmark(boolean bookmark) {
+		this.bookmark = bookmark;
+
 	public List<HouseOnGoingFileDto> getFileList() {
 		return fileList;
 	}
