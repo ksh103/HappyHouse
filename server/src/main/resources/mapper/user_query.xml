@@ -38,7 +38,7 @@
 	</select>
 	
 	<select id="findPassword" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
-		select user_name, user_id
+		select user_name, user_id, user_email
 		from user where user_id = #{userId}
 	</select>
 	
