@@ -27,7 +27,7 @@
                     </td>
                     <td class="amount">{{ item.room }}</td>
                     <td class="action">{{ item.floor }}</td>
-                    <td class="action"><button @click="deleteOngoingItem(item.ongoingId)"></button></td>
+                    <td class="action"><i @click="deleteOngoingItem(item.ongoingId)" class="cursor-pointer bi bi-trash-fill"></i></td>
                   </tr>
                 </tbody>
               </table>
@@ -57,7 +57,7 @@
                     </td>
                     <td class="amount">{{ item.dongName }}  {{ item.jiBun }}</td>
                     <td class="action">{{ item.buildYear }}</td>
-                    <td><button @click="deleteHouseItem(item.houseNo)"></button></td>
+                    <td><i @click="deleteHouseItem(item.houseNo)" class="cursor-pointer bi bi-trash-fill"></i></td>
                   </tr>
                 </tbody>
               </table>
@@ -68,29 +68,42 @@
           <h1 class="h3 m-4">리뷰 관리</h1>
           <div class="card">
             <div class="card-body">
-              <table class="table">
+              <table v-if="myReviewList" class="table">
                 <thead>
                   <tr class="fw-bold">
-                    <td>아파트(주택)명</td>
-                    <td>주소</td>
-                    <td>건축년도</td>
-                    <!-- <td>수정</td> -->
+                    <td>건물명</td>
+                    <td>추천점수</td>
+                    <td>교통요건</td>
+                    <td>거주환경</td>
+                    <td>주변환경</td>
+                    <td>종합의견</td>
                     <td>삭제</td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(item, index) in test" :key="index">
-                    <td>
-                      <h6 class="mb-0">주공아파트</h6>
-                    </td>
-                    <td class="amount">부산시 부산진구 부전동 112-189, 1층 유플러스</td>
-                    <td>2000</td>
-                    <td>
-                      <button style="font-size: 14px;" class="btn btn-danger px-2 py-1 lift">삭제</button>
-                    </td>
+                  <tr v-if="myReviewList.length==0">
+                    <td colspan="7">등록한 리뷰가 없습니다</td>
                   </tr>
-                  <tr>
-                    <td colspan="4">등록된 데이터가 없습니다</td>
+                  <tr v-else v-for="(item, index) in myReviewList" :key="index">
+                    <td>
+                      <h6 class="mb-0">{{ item.aptName }}</h6>
+                    </td>
+                    <td>
+                      <StarRating v-model="item.recommendScore" active-color="#dc3545" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
+                    </td>
+                    <td>
+                      <StarRating v-model="item.trafficScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
+                    </td>
+                    <td>
+                      <StarRating v-model="item.livingScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
+                    </td>
+                    <td>
+                      <StarRating v-model="item.surroundingScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
+                    </td>
+                    <td>{{ item.content }}</td>
+                    <td>
+                      <button @click="deleteReviewItem(item.reviewId)" style="font-size: 14px;" class="btn btn-danger px-2 py-1 lift">삭제</button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -104,18 +117,25 @@
 
 <script>
 import http from '@/common/axios.js';
+import StarRating from 'vue-star-rating';
 
 export default {
   name: 'Management',
+  components: {
+    // eslint-disable-next-line vue/no-unused-components
+    StarRating,
+  },
   data() {
     return {
       test: [1,1,1,1,1],
       houseList: null,
       houseOngoingList: null,
+      myReviewList: null,
     }
   },
   created() {
     this.bookmarkList();
+    this.reviewList();
   },
   methods: {
     bookmarkList() {
@@ -128,9 +148,10 @@ export default {
         .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
     },
     reviewList() {
-      http.get('/bookmark/user')
+      http.get('/house/review/user')
         .then(({ data }) => {
-
+          console.log(data);
+          this.myReviewList = data.list;
         })
         .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
     },
@@ -176,6 +197,29 @@ export default {
                   })
               }
               this.bookmarkList();
+            })
+          .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
+        }
+      })
+    },
+    deleteReviewItem(reviewId) {
+      this.$swal({
+        title: `삭제하시겠습니까? ${reviewId}`,
+        icon: 'warning',
+        dangerMode: true,
+        buttons: true
+      }).then(value => {
+        if (value) {
+          http.delete(`/house/review/${reviewId}`)
+            .then(({ data }) => {
+              if (data.result == 'login') {
+                this.$swal('세션이 만료되었거나, 로그인되지 않았습니다. 로그인 페이지로 이동합니다.', { icon: 'warning' })
+                  .then(() => {
+                    this.SET_USER_LOGOUT();
+                    this.$router.push('/user/login');
+                  })
+              }
+              this.reviewList();
             })
           .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
         }
