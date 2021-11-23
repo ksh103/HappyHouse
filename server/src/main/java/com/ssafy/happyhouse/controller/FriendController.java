@@ -67,7 +67,7 @@ public class FriendController {
 	}
 	
 	@GetMapping("/friend/follower")
-	public ResponseEntity<FriendResultDto> friendFollower(@RequestBody FriendDto friendDto, HttpSession session) {
+	public ResponseEntity<FriendResultDto> friendFollower(HttpSession session) {
 		UserDto userDto = (UserDto) session.getAttribute("userDto");
 //		if(userDto != null) friendDto.setFromId(userDto.getUserId());
 		
