@@ -104,4 +104,15 @@
 		and r.user_seq = u.user_seq;
 	</select>
 
+	<select id="houseReviewAllListByUserSeq" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">
+		select r.review_id, r.no as house_no, u.user_seq, u.user_name, u.reg_dt, r.title, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score, h.aptName
+		from review r, user u, houseinfo h
+		where r.user_seq = u.user_seq and r.no = h.no
+		and u.user_seq=#{user_seq}
+	</select>
+
+	<delete id="houseReviewDelete" parameterType="int">
+		delete from review where review_id=#{reviewId}
+	</delete>
+
 </mapper>

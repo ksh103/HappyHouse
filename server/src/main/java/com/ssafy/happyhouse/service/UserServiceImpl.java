@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.ssafy.happyhouse.dao.FriendDao;
 import com.ssafy.happyhouse.dao.UserDao;
+import com.ssafy.happyhouse.dto.FriendDto;
 import com.ssafy.happyhouse.dto.UserDto;
 import com.ssafy.happyhouse.dto.UserFileDto;
 import com.ssafy.happyhouse.dto.UserResultDto;
@@ -21,6 +23,8 @@ import com.ssafy.happyhouse.dto.UserResultDto;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private FriendDao friendDao;
 
 	private static final int SUCCESS = 1;	
 	private static final int INCORRECT_INFO = 2;
@@ -310,11 +314,25 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserResultDto friendSearch(String searchWord) {
+	public UserResultDto friendSearch(String searchWord, UserDto userDto) {
 		UserResultDto userResultDto = new UserResultDto();
 		List<UserDto> list = null;
 		try {
 			list = userDao.friendSearch(searchWord);
+			
+			List<FriendDto> friendList = friendDao.friendFollowing(userDto.getUserId());
+			
+			for (UserDto user : list) {
+				for (FriendDto friend : friendList) {
+					if (user.getUserId().equals(friend.getToId())) {
+						user.setFriend(true);
+					}
+				}
+				if (user.getUserId().equals(userDto.getUserId())) {
+					user.setSameUser(true);
+				}
+			}
+
 			userResultDto.setUserDto(list);
 			userResultDto.setResult(SUCCESS);
 		} catch (Exception e) {

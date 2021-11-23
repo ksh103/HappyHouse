@@ -69,9 +69,9 @@ public class FriendController {
 	@GetMapping("/friend/follower")
 	public ResponseEntity<FriendResultDto> friendFollower(@RequestBody FriendDto friendDto, HttpSession session) {
 		UserDto userDto = (UserDto) session.getAttribute("userDto");
-		if(userDto != null) friendDto.setFromId(userDto.getUserId());
+//		if(userDto != null) friendDto.setFromId(userDto.getUserId());
 		
-		FriendResultDto friendResultDto = friendService.friendFollower(friendDto.getToId());
+		FriendResultDto friendResultDto = friendService.friendFollower(userDto.getUserId());
 		
 		if( friendResultDto.getResult() == SUCCESS ) {
 	        return new ResponseEntity<FriendResultDto>(friendResultDto, HttpStatus.OK);
@@ -95,11 +95,10 @@ public class FriendController {
 	}
 	
 	@GetMapping("/friend/following")
-	public ResponseEntity<FriendResultDto> friendFollowing(@RequestBody FriendDto friendDto, HttpSession session) {
+	public ResponseEntity<FriendResultDto> friendFollowing(HttpSession session) {
 		UserDto userDto = (UserDto) session.getAttribute("userDto");
-		if(userDto != null) friendDto.setFromId(userDto.getUserId());
 		
-		FriendResultDto friendResultDto = friendService.friendFollowing(friendDto.getFromId());
+		FriendResultDto friendResultDto = friendService.friendFollowing(userDto.getUserId());
 		
 		if( friendResultDto.getResult() == SUCCESS ) {
 	        return new ResponseEntity<FriendResultDto>(friendResultDto, HttpStatus.OK);

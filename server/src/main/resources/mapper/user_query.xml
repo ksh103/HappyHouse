@@ -73,11 +73,11 @@
 	
 	<!-- 친구 찾기 -->
 	<select id="friendSearch" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
-		(select user_name, user_id
+		(select user_name, user_id, user_email, user_seq, user_profileimage
 		from user
 		where user_id like concat(#{userId}, '%'))
 		union all
-		(select user_name, user_id
+		(select user_name, user_id, user_email, user_seq, user_profileimage
 		from user
 		where user_name like concat(#{userName}, '%'))
 	</select>

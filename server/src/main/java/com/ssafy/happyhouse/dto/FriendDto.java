@@ -1,42 +1,24 @@
 package com.ssafy.happyhouse.dto;
 
+import java.time.LocalDateTime;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class FriendDto {
-	int id;
-	String fromId;
-	String toId;
+	private int id;
+	private String fromId;
+	private String toId;
 	
-	public FriendDto() {}
-	public FriendDto(int id, String fromId, String toId) {
-		super();
-		this.id = id;
-		this.fromId = fromId;
-		this.toId = toId;
-	}
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getFromId() {
-		return fromId;
-	}
-	public void setFromId(String fromId) {
-		this.fromId = fromId;
-	}
-	public String getToId() {
-		return toId;
-	}
-	public void setToId(String toId) {
-		this.toId = toId;
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("FriendDto [id=").append(id).append(", fromId=").append(fromId).append(", toId=").append(toId)
-				.append("]");
-		return builder.toString();
-	}
+	private int userSeq;
+	private String userId;
+	private String userName;
+	private String userEmail;
+	private LocalDateTime regDt;
+	private String userProfileimage;
+	private int code;
 }

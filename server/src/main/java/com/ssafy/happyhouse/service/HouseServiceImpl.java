@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dao.BookMarkDao;
 import com.ssafy.happyhouse.dao.HouseDao;
+import com.ssafy.happyhouse.dto.BookMarkResultDto;
 import com.ssafy.happyhouse.dto.HouseDealDto;
 import com.ssafy.happyhouse.dto.HouseDetailDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingDto;
@@ -282,7 +283,7 @@ public class HouseServiceImpl implements HouseService {
 		return houseReviewResultDto;
 	}
 
-	// 리뷰 조회
+	// 특정 건물에 대한 리뷰 리스트 조회
 	@Override
 	public HouseReviewResultDto houseReviewList(HouseReviewParamDto houseReviewParamDto) {
 		HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
@@ -308,5 +309,39 @@ public class HouseServiceImpl implements HouseService {
 			houseReviewResultDto.setResult(FAIL);
 		}
 		return houseReviewResultDto;
+	}
+
+	@Override
+	public HouseReviewResultDto houseReviewAllListByUserSeq(HouseReviewParamDto houseReviewParamDto) {
+		HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
+		
+		try {
+			List<HouseReviewDto> houseReviewList = houseDao.houseReviewAllListByUserSeq(houseReviewParamDto.getUserSeq());
+			
+			houseReviewResultDto.setList(houseReviewList);
+			houseReviewResultDto.setResult(SUCCESS);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			houseReviewResultDto.setResult(FAIL);
+		}
+		return houseReviewResultDto;
+	}
+
+	@Override
+	public HouseReviewResultDto houseReviewDelete(int reviewId) {
+		HouseReviewResultDto resultDto = new HouseReviewResultDto();
+		
+		try {
+			if (houseDao.houseReviewDelete(reviewId) == 1) {
+				resultDto.setResult(SUCCESS);
+			} else {
+				resultDto.setResult(FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultDto.setResult(FAIL);
+		}
+		return resultDto;
 	}
 }

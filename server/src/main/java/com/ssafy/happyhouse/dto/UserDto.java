@@ -17,6 +17,8 @@ public class UserDto {
 	
 	private boolean sameUser;
 	
+	private boolean friend;
+	
 	private List<UserFileDto> fileList;
 	
 	public UserDto() {}
@@ -92,6 +94,12 @@ public class UserDto {
 		this.fileList = fileList;
 	}
 	
+	public boolean isFriend() {
+		return friend;
+	}
+	public void setFriend(boolean friend) {
+		this.friend = friend;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

@@ -144,11 +144,12 @@ public class UserController {
 	
 	// 친구 찾기
 	@GetMapping("/user/{searchWord}")
-	public ResponseEntity<UserResultDto> friendSearch(@PathVariable String searchWord) {
+	public ResponseEntity<UserResultDto> friendSearch(@PathVariable String searchWord, HttpSession session) {
 		System.out.println("friendSearch" + searchWord);
-		UserResultDto userResultDto;
 		
-		userResultDto = userService.friendSearch(searchWord);
+		UserDto userDto = (UserDto) session.getAttribute("userDto");
+		 
+		UserResultDto userResultDto = userService.friendSearch(searchWord, userDto);
 		
 		if (userResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<>(userResultDto, HttpStatus.OK);

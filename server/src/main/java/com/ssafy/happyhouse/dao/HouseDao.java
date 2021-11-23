@@ -32,7 +32,9 @@ public interface HouseDao {
 	public HouseOnGoingDto houseOnGoingDetail(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 보기
 	
 	public int houseReviewRegister(HouseReviewDto houseReviewDto); // 리뷰 등록
-	public List<HouseReviewDto> houseReviewList(HouseReviewParamDto houseReviewParamDto); // 리뷰 데이터 조회
+	public List<HouseReviewDto> houseReviewList(HouseReviewParamDto houseReviewParamDto);
+	public List<HouseReviewDto> houseReviewAllListByUserSeq(int userSeq);	
+	public int houseReviewDelete(int reviewId);
 
 	public List<HouseOnGoingFileDto> houseOnGoingDetailFileList(int ongoingId);
 	public int houseOnGoingFileInsert(HouseOnGoingFileDto dto);

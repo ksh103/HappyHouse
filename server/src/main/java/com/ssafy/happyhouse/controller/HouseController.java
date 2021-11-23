@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,11 +19,8 @@ import com.ssafy.happyhouse.dto.HouseResultDto;
 import com.ssafy.happyhouse.dto.HouseReviewDto;
 import com.ssafy.happyhouse.dto.HouseReviewParamDto;
 import com.ssafy.happyhouse.dto.HouseReviewResultDto;
-import com.ssafy.happyhouse.dto.NoticeResultDto;
 import com.ssafy.happyhouse.dto.UserDto;
-import com.ssafy.happyhouse.dto.UserResultDto;
 import com.ssafy.happyhouse.service.HouseService;
-import com.ssafy.happyhouse.service.UserService;
 
 @CrossOrigin(
 		origins = "http://localhost:5500",
@@ -102,7 +100,7 @@ public class HouseController {
 		}
 	}
 	
-	// 리뷰 상세 조회 
+	// 특정 건물의 리뷰 리스트
 	@GetMapping(value="/house/review/{houseNo}")
 	public ResponseEntity<HouseReviewResultDto> houseReviewList(@PathVariable int houseNo, HttpSession session){
 	
@@ -113,6 +111,44 @@ public class HouseController {
 	    if (userDto != null) houseReviewParamDto.setUserSeq(userDto.getUserSeq());
 	    
 	    HouseReviewResultDto houseReviewResultDto = houseService.houseReviewList(houseReviewParamDto);
+	
+	    if( houseReviewResultDto.getResult() == SUCCESS ) {
+	        return new ResponseEntity<HouseReviewResultDto>(houseReviewResultDto, HttpStatus.OK);
+	    }else {
+	        return new ResponseEntity<HouseReviewResultDto>(houseReviewResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }         
+	}
+	
+	// 로그인된 사용자 리뷰 리스트 
+	@GetMapping(value="/house/review/user")
+	public ResponseEntity<HouseReviewResultDto> houseReviewAllListByUserSeq(HttpSession session){
+	
+		HouseReviewParamDto houseReviewParamDto = new HouseReviewParamDto();
+
+	    UserDto userDto = (UserDto) session.getAttribute("userDto");
+	    
+	    if (userDto != null) houseReviewParamDto.setUserSeq(userDto.getUserSeq());
+	    
+	    HouseReviewResultDto houseReviewResultDto = houseService.houseReviewAllListByUserSeq(houseReviewParamDto);
+	
+	    if( houseReviewResultDto.getResult() == SUCCESS ) {
+	        return new ResponseEntity<HouseReviewResultDto>(houseReviewResultDto, HttpStatus.OK);
+	    }else {
+	        return new ResponseEntity<HouseReviewResultDto>(houseReviewResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }         
+	}
+	
+	// 리뷰 상세 조회 
+	@DeleteMapping(value="/house/review/{reviewId}")
+	public ResponseEntity<HouseReviewResultDto> houseReviewAllListByUserSeq(@PathVariable int reviewId, HttpSession session){
+	
+//		HouseReviewParamDto houseReviewParamDto = new HouseReviewParamDto();
+
+//	    UserDto userDto = (UserDto) session.getAttribute("userDto");
+	    
+//	    if (userDto != null) houseReviewParamDto.setUserSeq(userDto.getUserSeq());
+	    
+	    HouseReviewResultDto houseReviewResultDto = houseService.houseReviewDelete(reviewId);
 	
 	    if( houseReviewResultDto.getResult() == SUCCESS ) {
 	        return new ResponseEntity<HouseReviewResultDto>(houseReviewResultDto, HttpStatus.OK);

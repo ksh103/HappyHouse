@@ -17,9 +17,12 @@
 	
 	<!-- 팔로워 : 나를 친구로 등록한 사람들 조회 -->
 	<select id="friendFollower" parameterType="string" resultType="com.ssafy.happyhouse.dto.FriendDto">
-		select from_id
+		select from_id, user_seq, user_name, user_id, user_email, reg_dt, user_profileimage, code
+		from friend f, user u
+		where f.to_id = #{toId} and f.from_id= u.user_id;
+		<!-- select from_id
 		from friend
-		where to_id = #{toId};
+		where to_id = #{toId}; -->
 	</select>
 	
 	<!-- 팔로워 : 나를 친구로 등록한 사람들 수 -->
@@ -31,9 +34,12 @@
 	
 	<!-- 팔로잉 : 내가 친구로 등록한 사람들 조회 -->
 	<select id="friendFollowing" parameterType="string" resultType="com.ssafy.happyhouse.dto.FriendDto">
-		select to_id
+		select to_id, user_seq, user_name, user_id, user_email, reg_dt, user_profileimage, code
+		from friend f, user u
+		where f.from_id = #{fromId} and f.to_id= u.user_id;
+		<!-- select to_id
 		from friend
-		where from_id = #{fromId};
+		where from_id = #{fromId}; -->
 	</select>
 	
 	<!-- 팔로잉 : 내가 친구로 등록한 사람들 수 -->
