@@ -1,15 +1,14 @@
 <template>
   <div>
     <div id="wrapper">
-      <div id="map" style="width: 100%; height: 1200px;"></div>
+      <div id="map" style="width: 100%; height: 100vh;"></div>
       <div id="searchBox" class="card">
         <div>
           <div class="p-2">
             <div class="d-flex">
               <i class="fa fa-search"></i>
-              <h6 class="ps-2">검색 방법을 선택하세요</h6>
+              <h6 class="ps-2">검색 방법을 선택하세요 {{heart}}</h6>
             </div>
-            <!-- <label class="form-label">With OptGroups</label> -->
             <div class="py-1 px-2 d-flex">
               <div class="form-check pe-3">
                   <input value="D" v-model="searchType" class="form-check-input" type="radio" id="searchByDong">
@@ -58,7 +57,10 @@
         </div>
         <!-- 아파트 정보 요약 -->
         <div class="bg-white mb-2">
-          <div class="border-bottom"><h4 class="p-3 m-0">{{ houseList[curIndex].aptName }}</h4></div>
+          <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+            <h4 class="m-0">{{ houseList[curIndex].aptName }}</h4>
+            <HeartBtn :enabled="houseList[curIndex].bookmark" v-if="isAuth" @changeHeartBtn="onBookmarkHouse" />
+          </div>
           <!-- contents -->
           <div class="px-3">
             <div class="border-bottom d-flex py-2">
@@ -140,12 +142,6 @@
                   <td>{{item.area}}</td>
                   <td>{{item.floor}}</td>
                 </tr>
-                <!-- <tr class="border-bottom">
-                  <td class="ps-3 py-2">2222</td>
-                  <td>2222</td>
-                  <td>2222</td>
-                  <td>2222</td> 
-                </tr> -->
               </tbody>
             </table>
           </div>
@@ -160,13 +156,18 @@
                   <td class="ps-3 py-1">타입</td>
                   <td class="w-50">제목</td>
                   <td>거래가격</td>
+                  <td></td>
                 </tr>
               </thead>
               <tbody class="px-2">
-                <tr class="border-bottom">
-                  <td class="ps-3 py-2">2222</td>
-                  <td>2222</td>
-                  <td>2222</td>
+                <tr v-if="ongoingList.length==0" class="border-bottom">
+                  <td colspan="3" class="ps-3 py-2">등록된 매물이 없습니다.</td>
+                </tr>
+                <tr v-else v-for="(item, index) in ongoingList" :key="index" class="border-bottom">
+                  <td class="ps-3 py-2">{{ item.type }}</td>
+                  <td>{{ item.title }}</td>
+                  <td>{{ item.dealAmount }}</td>
+                  <td><HeartBtn :enabled="item.bookmark" :index="index" @changeHeartBtn="onBookmarkOngoing" /></td>
                 </tr>
               </tbody>
             </table>
@@ -182,6 +183,7 @@
 import { mapState, mapActions, mapMutations } from "vuex";
 import http from "@/common/axios.js";
 import StarRating from 'vue-star-rating';
+import HeartBtn from '@/components/icon/HeartBtn.vue';
 import ReviewInsertModal from '@/components/housedeal/ReviewInsertModal.vue';
 import { Modal } from 'bootstrap';
 
@@ -192,6 +194,7 @@ export default {
   components: {
     // eslint-disable-next-line vue/no-unused-components
     StarRating,
+    HeartBtn,
     ReviewInsertModal
   },
   data() {
@@ -210,13 +213,14 @@ export default {
       curIndex: -1,
       dealInfo: [],
       reviewList: [],
-      trafficScore: 2.0,
-
+      ongoingList: [],
+      heart: true,
       reviewInsertModal: null,
     }
   },
   computed: {
     ...mapState(storeName, ['gu', 'dong', 'houseList']),
+    ...mapState('userStore', ['isAuth']),
   },
   created() {
     console.log('watch D');
@@ -251,6 +255,7 @@ export default {
   },
   methods: {
     ...mapActions(storeName, ['getGu', 'getDong', 'getHouseListByDong', 'getHouseListByKeyword']),
+    ...mapMutations('userStore', ['SET_USER_LOGOUT']),
     initMap() {
       const mapContainer = document.getElementById('map');
       const mapOption = {
@@ -259,6 +264,75 @@ export default {
       };
 
       this.map = new kakao.maps.Map(mapContainer, mapOption);
+    },
+    onBookmarkOngoing({ index, enabled }) {
+      this.ongoingList[index].bookmark = enabled;
+      if (enabled) {
+        this.insertOngoingBookmark(this.ongoingList[index].ongoingId);
+      } else {
+        this.removeOngoingBookmark(this.ongoingList[index].ongoingId);
+      }
+    },
+    onBookmarkHouse({ enabled }) {
+      // 정상처리 된다는 가정... 비동기 then 안에 넣는게 더 정확할듯
+      this.houseList[this.curIndex].bookmark = enabled;
+      
+      if (enabled) {
+        http.post('/bookmark/house', {
+          houseNo: this.houseList[this.curIndex].houseNo
+        })
+        .then(({ data }) => {
+          if (data.result == 'login') {
+            this.$swal('세션이 만료되었거나, 로그인되지 않았습니다. 로그인 페이지로 이동합니다.', { icon: 'warning' })
+              .then(() => {
+                this.SET_USER_LOGOUT();
+                this.$router.push('/user/login');
+              })
+          }
+        })
+        .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
+      } else {
+        http.delete(`/bookmark/house/${this.houseList[this.curIndex].houseNo}`)
+          .then(({ data }) => {
+            if (data.result == 'login') {
+              this.$swal('세션이 만료되었거나, 로그인되지 않았습니다. 로그인 페이지로 이동합니다.', { icon: 'warning' })
+                .then(() => {
+                  this.SET_USER_LOGOUT();
+                  this.$router.push('/user/login');
+                })
+            }
+          })
+        .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
+        
+      }
+    },
+    insertOngoingBookmark(ongoingId) {
+      http.post(`/bookmark/houseongoing`, {
+        ongoingId
+      })
+        .then(({ data }) => {
+          if (data.result == 'login') {
+            this.$swal('세션이 만료되었거나, 로그인되지 않았습니다. 로그인 페이지로 이동합니다.', { icon: 'warning' })
+              .then(() => {
+                this.SET_USER_LOGOUT();
+                this.$router.push('/user/login');
+              })
+          }
+        })
+        .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
+    },
+    removeOngoingBookmark(ongoingId) {
+      http.delete(`/bookmark/houseongoing/${ongoingId}`)
+        .then(({ data }) => {
+          if (data.result == 'login') {
+            this.$swal('세션이 만료되었거나, 로그인되지 않았습니다. 로그인 페이지로 이동합니다.', { icon: 'warning' })
+              .then(() => {
+                this.SET_USER_LOGOUT();
+                this.$router.push('/user/login');
+              })
+          }
+        })
+        .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
     },
     initSearchByDongBox() {
       this.getGu(11);
@@ -286,11 +360,12 @@ export default {
     },
     showHouseDetail(index) {
       this.curIndex = index;
-      console.log(index)
-      console.log(this.houseList[index]);
-      this.getHouseDeal(this.houseList[index].houseNo);
-
-      this.getHouseReview(this.houseList[index].houseNo);
+      // console.log(index)
+      // console.log(this.houseList[index]);
+      const houseNo = this.houseList[index].houseNo;
+      this.getHouseDeal(houseNo);
+      this.getOngoingList(houseNo);
+      this.getHouseReview(houseNo);
       if (!this.listVisible) this.listVisible = true;
     },
     getHouseDeal(houseNo) {
@@ -306,6 +381,17 @@ export default {
       http.get(`/house/review/${houseNo}`)
         .then(({ data }) => {
           this.reviewList = data.list;
+          // console.log(data)
+        })
+        .catch(error => {
+          this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+        })
+    },
+    getOngoingList(houseNo) {
+      console.log('ongoing!')
+      http.get(`/house/deal/ongoing/list/${houseNo}`)
+        .then(({ data }) => {
+          this.ongoingList = data.list;
           console.log(data)
         })
         .catch(error => {
