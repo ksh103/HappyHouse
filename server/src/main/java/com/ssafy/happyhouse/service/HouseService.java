@@ -14,8 +14,8 @@ import com.ssafy.happyhouse.dto.HouseReviewResultDto;
 import com.ssafy.happyhouse.dto.UserDto;
 
 public interface HouseService {
-	public HouseResultDto getHouseDongDetail(String dongString); // 매물 검색 (동이름)
-	public HouseResultDto getHouseSearchDetail(String searchWord); // 매물 검색 (아파트 이름)
+	public HouseResultDto getHouseDongDetail(String dongString, UserDto userDto); // 매물 검색 (동이름)
+	public HouseResultDto getHouseSearchDetail(String searchWord, UserDto userDto); // 매물 검색 (아파트 이름)
 	
 	public HouseResultDto getHouseDeal(int houseNo); // 매물 실거래가 조회
 	

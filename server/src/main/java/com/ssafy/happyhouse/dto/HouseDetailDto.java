@@ -9,6 +9,8 @@ public class HouseDetailDto {
 	private String lat;
 	private String lng;
 	
+	private boolean bookmark;
+	
 	public HouseDetailDto() {}
 	public HouseDetailDto(int houseNo, String dongName, String aptName, String buildYear, String jiBun, String lat,
 			String lng) {
@@ -62,4 +64,16 @@ public class HouseDetailDto {
 	public void setLng(String lng) {
 		this.lng = lng;
 	}
+	public boolean isBookmark() {
+		return bookmark;
+	}
+	public void setBookmark(boolean bookmark) {
+		this.bookmark = bookmark;
+	}
+	@Override
+	public String toString() {
+		return "HouseDetailDto [houseNo=" + houseNo + ", dongName=" + dongName + ", aptName=" + aptName + ", buildYear="
+				+ buildYear + ", jiBun=" + jiBun + ", lat=" + lat + ", lng=" + lng + ", bookmark=" + bookmark + "]";
+	}
+	
 }

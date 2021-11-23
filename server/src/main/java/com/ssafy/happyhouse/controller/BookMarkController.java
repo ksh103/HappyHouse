@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -92,11 +93,12 @@ public class BookMarkController {
 	    } 
 	}
 
-	@DeleteMapping("/house")
-	public ResponseEntity<BookMarkResultDto> deleteBookmarkHouseDetail(@RequestBody BookMarkParamDto paramDto, HttpSession session) {
+	@DeleteMapping("/house/{houseNo}")
+	public ResponseEntity<BookMarkResultDto> deleteBookmarkHouseDetail(@PathVariable int houseNo, HttpSession session) {
 		UserDto userDto = (UserDto) session.getAttribute("userDto");
-		
+		BookMarkParamDto paramDto = new BookMarkParamDto();
 		paramDto.setUserId(userDto.getUserId());
+		paramDto.setHouseNo(houseNo);
 		
 		BookMarkResultDto resultDto = service.deleteBookmarkHouseDetail(paramDto);
 		
@@ -107,11 +109,12 @@ public class BookMarkController {
 	    } 
 	}
 
-	@DeleteMapping("/houseongoing")
-	public ResponseEntity<BookMarkResultDto> deleteBookmarkHouseOngoing(@RequestBody BookMarkParamDto paramDto, HttpSession session) {
+	@DeleteMapping("/houseongoing/{ongoingId}")
+	public ResponseEntity<BookMarkResultDto> deleteBookmarkHouseOngoing(@PathVariable int ongoingId, HttpSession session) {
 		UserDto userDto = (UserDto) session.getAttribute("userDto");
-		
+		BookMarkParamDto paramDto = new BookMarkParamDto();
 		paramDto.setUserId(userDto.getUserId());
+		paramDto.setOngoingId(ongoingId);
 		
 		BookMarkResultDto resultDto = service.deleteBookmarkHouseOngoing(paramDto);
 		

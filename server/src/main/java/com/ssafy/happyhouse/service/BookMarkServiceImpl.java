@@ -26,7 +26,7 @@ public class BookMarkServiceImpl implements BookMarkService {
 		
 		try {
 			resultDto.setHouseList(dao.getBookmarkHouseDetailListById(userId));
-//			resultDto.setHouseOngoingList(dao.getBookmarkHouseOngoingListById(userId));
+			resultDto.setHouseOngoingList(dao.getBookmarkHouseOngoingListById(userId));
 			resultDto.setResult(SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -42,7 +42,7 @@ public class BookMarkServiceImpl implements BookMarkService {
 		
 		try {
 			resultDto.setHouseList(dao.getBookmarkHouseDetailListById(bookMarkParamDto.getFriendId()));
-//			resultDto.setHouseOngoingList(dao.getBookmarkHouseOngoingListById(bookMarkParamDto.getFriendId()));
+			resultDto.setHouseOngoingList(dao.getBookmarkHouseOngoingListById(bookMarkParamDto.getFriendId()));
 			resultDto.setResult(SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();

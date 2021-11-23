@@ -40,11 +40,11 @@ public class HouseController {
 	
 	// 매물 검색 (동이름)
 	@GetMapping("/house/detail/dong/{dongName}")
-	public ResponseEntity<HouseResultDto> getHouseDongDetail(@PathVariable String dongName) {
+	public ResponseEntity<HouseResultDto> getHouseDongDetail(@PathVariable String dongName, HttpSession session) {
 		System.out.println("house detail " + dongName);
 		HouseResultDto houseResultDto;
-		
-		houseResultDto = houseService.getHouseDongDetail(dongName);
+		UserDto userDto = (UserDto) session.getAttribute("userDto");
+		houseResultDto = houseService.getHouseDongDetail(dongName, userDto);
 		
 		if (houseResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<>(houseResultDto, HttpStatus.OK);
@@ -55,11 +55,11 @@ public class HouseController {
 	
 	// 매물 검색 (동+아파트)
 	@GetMapping("/house/detail/keyword/{searchWord}")
-	public ResponseEntity<HouseResultDto> getHouseSearchDetail(@PathVariable String searchWord) {
+	public ResponseEntity<HouseResultDto> getHouseSearchDetail(@PathVariable String searchWord, HttpSession session) {
 		System.out.println("house detail " + searchWord);
 		HouseResultDto houseResultDto;
-		
-		houseResultDto = houseService.getHouseSearchDetail(searchWord);
+		UserDto userDto = (UserDto) session.getAttribute("userDto");
+		houseResultDto = houseService.getHouseSearchDetail(searchWord, userDto);
 		
 		if (houseResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<>(houseResultDto, HttpStatus.OK);

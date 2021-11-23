@@ -50,11 +50,25 @@ public class HouseServiceImpl implements HouseService {
 	
 	// 매물 검색 (동이름)
 	@Override
-	public HouseResultDto getHouseDongDetail(String dongString) {
+	public HouseResultDto getHouseDongDetail(String dongString, UserDto userDto) {
 		HouseResultDto houseResultDto = new HouseResultDto();
 		List<HouseDetailDto> list = null;
 		try {
 			list = houseDao.getHouseDongDetail(dongString);
+			
+			// 세션이 있다면, 해당 사용자의 북마크 데이터인지 여부 판별
+	        if (userDto != null) {
+	        	List<HouseDetailDto> userBookMarkList = bookmarkDao.getBookmarkHouseDetailListById(userDto.getUserId());
+	        	System.out.println(userBookMarkList);
+	        	for (HouseDetailDto item : userBookMarkList) {
+	        		for (HouseDetailDto innerItem : list) {
+	        			if (item.getHouseNo() == innerItem.getHouseNo()) {
+	        				innerItem.setBookmark(true);
+	        			}
+	        		}
+	        	}
+	        }
+			
 			houseResultDto.setHouseDetailDto(list);
 			houseResultDto.setResult(SUCCESS);
 		} catch (Exception e) {
@@ -66,7 +80,7 @@ public class HouseServiceImpl implements HouseService {
 	
 	// 매물 검색 (동 + 아파트 이름)
 	@Override
-	public HouseResultDto getHouseSearchDetail(String searchWord) {
+	public HouseResultDto getHouseSearchDetail(String searchWord, UserDto userDto) {
 		HouseResultDto houseResultDto = new HouseResultDto();
 		List<HouseDetailDto> list = null;
 		try {
@@ -203,15 +217,15 @@ public class HouseServiceImpl implements HouseService {
 	    
 	    try {
 	        List<HouseOnGoingDto> list = houseDao.houseNoOnGoingList(houseNo);
-	        int count = houseDao.houseNoOnGoingListTotalCount(houseNo);   
+	        int count = houseDao.houseNoOnGoingListTotalCount(houseNo);
 	        System.out.println("NOONGOING   " + userDto);
 	        // 세션이 있다면, 해당 사용자의 북마크 데이터인지 여부 판별
 	        if (userDto != null) {
 	        	List<HouseOnGoingDto> userBookMarkList = bookmarkDao.getBookmarkHouseOngoingListById(userDto.getUserId());
-	        	
+	        	System.out.println(userBookMarkList);
 	        	for (HouseOnGoingDto item : userBookMarkList) {
 	        		for (HouseOnGoingDto innerItem : list) {
-	        			if (item.getHouseNo() == innerItem.getHouseNo()) {
+	        			if (item.getOngoingId() == innerItem.getOngoingId()) {
 	        				innerItem.setBookmark(true);
 	        			}
 	        		}
