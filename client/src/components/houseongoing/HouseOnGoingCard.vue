@@ -1,5 +1,6 @@
 <template>
   <div class="container my-5">
+    <router-link class="btn mx-2 px-4 py-2 btn-outline-primary btn-animate-3" to="/house/ongoing/insert">매물 등록</router-link>
     <div class="row">
       <div class="col-md-3 my-2" v-for="(card, index) in getOnGoingCard" v-bind:key="index">
         <div class="card h-100" style="width: 18rem;">
@@ -15,12 +16,8 @@
        </div>
     </div>
     <pagination class="mt-3" v-on:call-parent="movePage"></pagination>
-    <router-link class="btn mx-2 btn-primary btn-animate-1" to="/house/ongoing/insert">
-      <span> 매물 등록 </span>
-      <i class="fa fa-long-arrow-right"></i>
-    </router-link>
+    
   </div>
-
 </template>
 <script>
 import Pagination from '@/components/Pagination.vue';
@@ -29,7 +26,7 @@ import util from "@/common/util.js";
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'houseOnGoingStore',
+  name: 'HouseOnGoingCard',
   components: {
     Pagination
   },

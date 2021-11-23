@@ -6,6 +6,16 @@
         <h2>아이디와 비밀번호를 입력해 로그인해주세요.</h2>
         <h2>아직 회원이 아니라면 회원가입을 먼저 해주시기 바랍니다.</h2>
         <form class="row g-1 p-0 p-md-4" style="max-width: 32rem;">
+           <div class="py-1 px-2 d-flex">
+              <div class="form-check pe-3">
+                  <input value="common" v-model="loginType" class="form-check-input" type="radio" id="loginTypeCommon">
+                  <label class="form-check-label" for="loginTypeCommon">일반 회원</label>
+              </div>
+              <div class="form-check">
+                  <input value="company" v-model="loginType" class="form-check-input" type="radio" id="loginTypeCompany">
+                  <label class="form-check-label" for="loginTypeCompany">기업 회원</label>
+              </div>
+            </div>
           <div class="col-12">
             <div class="mb-2">
               <label class="form-label" for="userId">아이디</label>
@@ -53,6 +63,7 @@ export default {
   name: 'Login',
   data() {
     return {
+      loginType: '',
       userId: '',
       userPassword: '',
     }
@@ -65,6 +76,7 @@ export default {
     validateForm() {
       // TODO : id, password validation
       this.login({
+        loginType:  this.loginType,
         userId: this.userId,
         userPassword: this.userPassword
       });
