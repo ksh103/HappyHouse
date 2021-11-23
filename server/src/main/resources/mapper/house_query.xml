@@ -52,7 +52,7 @@
 		where h.comp_seq = c.comp_seq
 		and h.houseinfo_no = #{houseNo}
 		order by h.ongoing_id desc
-		<!-- limit #{limit} offset #{offset} -->
+		limit #{limit} offset #{offset}
 	</select>
 	
 	<select id="houseOnGoingLimitList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
@@ -86,7 +86,7 @@
 		select file_url from house_ongoing_file where ongoing_id = #{ongoingId}
 	</select>
 	
-	<select id="houseOnGoingDetailFileList" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+	<select id="houseOnGoingDetailFileList" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseOnGoingFileDto">
 		select ongoing_id, file_id, file_name, file_size, file_content_type, file_url, reg_dt
 		from house_ongoing_file
 		where ongoing_id = #{ongoingId}

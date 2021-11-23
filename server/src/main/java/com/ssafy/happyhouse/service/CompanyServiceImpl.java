@@ -14,9 +14,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dao.CompanyDao;
 import com.ssafy.happyhouse.dto.CompanyDto;
-import com.ssafy.happyhouse.dto.CompanyFileDto;
+import com.ssafy.happyhouse.dto.CompanyImgFileDto;
 import com.ssafy.happyhouse.dto.CompanyResultDto;
-import com.ssafy.happyhouse.dto.UserFileDto;
+import com.ssafy.happyhouse.dto.UserImgFileDto;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -232,13 +232,13 @@ public class CompanyServiceImpl implements CompanyService {
 	        if (!uploadDir.exists()) uploadDir.mkdir();
 	        
 	        // 물리 파일 삭제, 첨부파일 여러개 고려
-	        List<String> fileUrlList = companyDao.companyFileUrlDeleteList(companyDto.getCompId());    
-	        for(String fileUrl : fileUrlList) {    
-	            File file = new File(uploadPath + File.separator, fileUrl);
-	            if(file.exists()) {
-	                file.delete();
-	            }
-	        }
+//	        List<String> fileUrlList = companyDao.companyFileUrlDeleteList(companyDto.getCompId());    
+//	        for(String fileUrl : fileUrlList) {    
+//	            File file = new File(uploadPath + File.separator, fileUrl);
+//	            if(file.exists()) {
+//	                file.delete();
+//	            }
+//	        }
 	        
 	        companyDao.companyFileDelete(companyDto.getCompId()); // 테이블 파일 삭제
 	        
@@ -261,8 +261,8 @@ public class CompanyServiceImpl implements CompanyService {
 	            part.transferTo(destFile);
 	        
 	            // Table Insert
-	            CompanyFileDto companyFileDto = new CompanyFileDto();
-	            companyFileDto.setCompId(compId);
+	            CompanyImgFileDto companyFileDto = new CompanyImgFileDto();
+//	            companyFileDto.setCompId(compId);
 	            companyFileDto.setFileName(fileName);
 	            companyFileDto.setFileSize(part.getSize());
 	            companyFileDto.setFileContentType(part.getContentType());

@@ -25,6 +25,6 @@ public class UserDto {
 	
 	private boolean friend;
 	
-	private List<UserFileDto> fileList;
+	private List<UserImgFileDto> fileList;
 	
 }

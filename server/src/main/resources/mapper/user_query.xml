@@ -49,21 +49,16 @@
 		where user_id = #{userId}
 	</update>
 	
-	<update id="userProfileImage" parameterType="com.ssafy.happyhouse.dto.UserDto">
-		update user set user_profileimage = #{userProfileimage}
-		where user_id = #{userId}
-	</update>
-	
-	<insert id="userFileInsert" parameterType="com.ssafy.happyhouse.dto.UserDto">
-		insert into user_file ( user_id, file_name, file_size, file_content_type, file_url )
-		            values ( #{userId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl} )
+	<insert id="userImgFileInsert" parameterType="com.ssafy.happyhouse.dto.UserDto">
+		insert into user_file ( user_seq, file_name, file_size, file_content_type, file_url, reg_dt )
+		            values ( #{userSeq}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl}, now() )
 	</insert>
 	
-	<delete id="userFileDelete" parameterType="int">
-		delete from user_file where user_id = #{userId}
+	<delete id="userImgFileDelete" parameterType="int">
+		delete from user_file where user_seq = #{userSeq}
 	</delete>
 	
-	<select id="userFileUrlDeleteList" parameterType="int" resultType="string">
+	<!-- <select id="userFileUrlDeleteList" parameterType="int" resultType="string">
 		select file_url from user_file where user_id = #{userId}
 	</select>
 	
@@ -71,7 +66,7 @@
 		select user_seq, file_id, file_name, file_size, file_content_type, file_url, reg_dt
 		from user_file
 		where user_seq = #{userSeq}
-	</select>
+	</select> -->
 	
 	<!-- 친구 찾기 -->
 	<select id="friendSearch" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">

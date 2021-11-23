@@ -45,21 +45,16 @@
 		where comp_id = #{compId}
 	</update>
 	
-	<update id="companyProfileImage" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
-		update company set comp_profileimage = #{compProfileimage}
-		where comp_id = #{compId}
-	</update>
-	
 	<insert id="companyFileInsert" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
-		insert into company_file ( comp_id, file_name, file_size, file_content_type, file_url )
-		            values ( #{compId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl} )
+		insert into company_file ( comp_seq, file_name, file_size, file_content_type, file_url, reg_dt )
+		            values ( #{compSeq}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl}, now() )
 	</insert>
 	
 	<delete id="companyFileDelete" parameterType="int">
-		delete from company_file where comp_id = #{compId}
+		delete from company_file where comp_seq = #{compSeq}
 	</delete>
 	
-	<select id="companyFileUrlDeleteList" parameterType="int" resultType="string">
+	<!-- <select id="companyFileUrlDeleteList" parameterType="int" resultType="string">
 		select file_url from company_file where comp_id = #{compId}
-	</select>
+	</select> -->
 </mapper>

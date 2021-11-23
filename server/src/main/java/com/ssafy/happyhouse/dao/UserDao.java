@@ -4,10 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ssafy.happyhouse.dto.HouseDetailDto;
-import com.ssafy.happyhouse.dto.NoticeFileDto;
 import com.ssafy.happyhouse.dto.UserDto;
-import com.ssafy.happyhouse.dto.UserFileDto;
+import com.ssafy.happyhouse.dto.UserImgFileDto;
 
 @Mapper
 public interface UserDao {
@@ -24,11 +22,8 @@ public interface UserDao {
 	public UserDto findPassword(String userId);
 	public int updatePassword(UserDto userDto);
 	
-	public int userProfileImage(UserDto userDto);
-	public int userFileInsert(UserFileDto userFileDto);
-	public int userFileDelete(String userId);
-	public List<UserFileDto> noticeDetailFileList(int noticeId);
-	public List<String> userFileUrlDeleteList(String userId);
+	public int userImgFileInsert(UserImgFileDto userFileDto);
+	public int userImgFileDelete(String userId);
 	
 	public List<UserDto> friendSearch(String searchWord); // 친구 찾기
 }

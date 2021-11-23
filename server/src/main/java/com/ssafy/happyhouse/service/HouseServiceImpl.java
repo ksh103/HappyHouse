@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dao.BookMarkDao;
 import com.ssafy.happyhouse.dao.HouseDao;
-import com.ssafy.happyhouse.dto.BookMarkResultDto;
 import com.ssafy.happyhouse.dto.HouseDealDto;
 import com.ssafy.happyhouse.dto.HouseDetailDto;
 import com.ssafy.happyhouse.dto.HouseOnGoingDto;
@@ -27,7 +26,6 @@ import com.ssafy.happyhouse.dto.HouseReviewDto;
 import com.ssafy.happyhouse.dto.HouseReviewParamDto;
 import com.ssafy.happyhouse.dto.HouseReviewResultDto;
 import com.ssafy.happyhouse.dto.UserDto;
-import com.ssafy.happyhouse.dto.NoticeFileDto;
 
 @Service
 public class HouseServiceImpl implements HouseService {
@@ -197,10 +195,15 @@ public class HouseServiceImpl implements HouseService {
 	    
 	    try {
 	        List<HouseOnGoingDto> list = houseDao.houseOnGoingList(houseOnGoingParamDto);
-	        int count = houseDao.houseOnGoingListTotalCount();
+	        
+	        for (HouseOnGoingDto item : list) {
+	        	List<HouseOnGoingFileDto> fileDtoList = houseDao.houseOnGoingDetailFileList(item.getOngoingId());
+	        	if (fileDtoList != null && !fileDtoList.isEmpty()) {
+	        		item.setFileList(fileDtoList);
+	        	}
+	        }
 
 	        houseOnGoingResultDto.setList(list);
-	        houseOnGoingResultDto.setCount(count);
 	        houseOnGoingResultDto.setResult(SUCCESS);
 	        
 	    }catch(Exception e) {

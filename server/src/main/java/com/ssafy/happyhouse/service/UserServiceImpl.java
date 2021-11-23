@@ -16,7 +16,7 @@ import com.ssafy.happyhouse.dao.FriendDao;
 import com.ssafy.happyhouse.dao.UserDao;
 import com.ssafy.happyhouse.dto.FriendDto;
 import com.ssafy.happyhouse.dto.UserDto;
-import com.ssafy.happyhouse.dto.UserFileDto;
+import com.ssafy.happyhouse.dto.UserImgFileDto;
 import com.ssafy.happyhouse.dto.UserResultDto;
 
 @Service
@@ -242,15 +242,15 @@ public class UserServiceImpl implements UserService {
 	        if (!uploadDir.exists()) uploadDir.mkdir();
 	        
 	        // 물리 파일 삭제, 첨부파일 여러개 고려
-	        List<String> fileUrlList = userDao.userFileUrlDeleteList(userDto.getUserId());    
-	        for(String fileUrl : fileUrlList) {    
-	            File file = new File(uploadPath + File.separator, fileUrl);
-	            if(file.exists()) {
-	                file.delete();
-	            }
-	        }
+//	        List<String> fileUrlList = userDao.userFileUrlDeleteList(userDto.getUserId());    
+//	        for(String fileUrl : fileUrlList) {    
+//	            File file = new File(uploadPath + File.separator, fileUrl);
+//	            if(file.exists()) {
+//	                file.delete();
+//	            }
+//	        }
 	        
-	        userDao.userFileDelete(userDto.getUserId()); // 테이블 파일 삭제
+//	        userDao.userFileDelete(userDto.getUserId()); // 테이블 파일 삭제
 			
 	        for (MultipartFile part : fileList) {
 	            String userId = userDto.getUserId();
@@ -271,15 +271,15 @@ public class UserServiceImpl implements UserService {
 	            part.transferTo(destFile);
 	        
 	            // Table Insert
-	            UserFileDto userFileDto = new UserFileDto();
-	            userFileDto.setUserId(userId);
+	            UserImgFileDto userFileDto = new UserImgFileDto();
+//	            userFileDto.setUserId(userId);
 	            userFileDto.setFileName(fileName);
 	            userFileDto.setFileSize(part.getSize());
 	            userFileDto.setFileContentType(part.getContentType());
 	            String userFileUrl = "/" + uploadFolder + "/" + savingFileName;
 	            userFileDto.setFileUrl(userFileUrl);
 	            
-	            userDao.userFileInsert(userFileDto);
+//	            userDao.userFileInsert(userFileDto);
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -299,9 +299,9 @@ public class UserServiceImpl implements UserService {
 	        	userDto.setSameUser(false);
 	        }
 	    	
-	        List<UserFileDto> fileList = userDao.noticeDetailFileList(userDto.getUserSeq());
+//	        List<UserImgFileDto> fileList = userDao.noticeDetailFileList(userDto.getUserSeq());
 	
-	        userDto.setFileList(fileList);
+//	        userDto.setFileList(fileList);
 	        userResultDto.setDto(userDto);
 	
 	        userResultDto.setResult(SUCCESS);

@@ -1,11 +1,9 @@
 package com.ssafy.happyhouse.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.happyhouse.dto.CompanyDto;
-import com.ssafy.happyhouse.dto.CompanyFileDto;
+import com.ssafy.happyhouse.dto.CompanyImgFileDto;
 
 @Mapper
 public interface CompanyDao {
@@ -21,8 +19,6 @@ public interface CompanyDao {
 	public CompanyDto findPassword(String compId);
 	public int updatePassword(CompanyDto companyDto);
 	
-	public int companyProfileImage(CompanyDto companyDto);
-	public int companyFileInsert(CompanyFileDto dto);
+	public int companyFileInsert(CompanyImgFileDto dto);
 	public int companyFileDelete(String compId);
-	public List<String> companyFileUrlDeleteList(String compId);
 }
