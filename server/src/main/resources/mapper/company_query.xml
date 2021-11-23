@@ -3,8 +3,8 @@
 <mapper namespace="com.ssafy.happyhouse.dao.CompanyDao">
 
 	<insert id="companyRegister" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
-		insert into company(comp_name, comp_id, comp_password, comp_email, comp_address, reg_dt, code) 
-		values ( #{compName}, #{compId}, #{compPassword}, #{compEmail}, #{compAddress}, now(), 3)
+		insert into company(comp_name, comp_id, comp_password, comp_email, comp_address, comp_phone, reg_dt, code) 
+		values ( #{compName}, #{compId}, #{compPassword}, #{compEmail}, #{compAddress}, #{compPhone}, now(), 3)
 	</insert>
 	
 	<update id="companyModify" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
@@ -12,6 +12,7 @@
 	    <set>
 	        <if test="compName != null">comp_name=#{compName},</if>
 	        <if test="compEmail != null">comp_email=#{compEmail},</if>
+	        <if test="compPhone != null">comp_phone=#{compPhone},</if>
 	    </set>
     	where comp_id = #{compId}
 	</update>
@@ -26,7 +27,7 @@
 	</delete>
 	
 	<select id="login" parameterType="string" resultType="com.ssafy.happyhouse.dto.CompanyDto">
-		select c.comp_seq, comp_name, comp_id, comp_password, comp_email, comp_address, c.reg_dt, f.file_url comp_profileimage, code
+		select c.comp_seq, comp_name, comp_id, comp_password, comp_email, comp_address, comp_phone, c.reg_dt, f.file_url comp_profileimage, code
 		from company c left join company_img_file f
 		on c.comp_seq = f.comp_seq
 		where comp_id = #{compId};
