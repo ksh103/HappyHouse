@@ -8,6 +8,7 @@ import User from '@/views/User.vue';
 import BoardNotice from '@/views/BoardNotice.vue';
 import DealInfo from '@/views/DealInfo.vue';
 import MyAccount from '@/views/MyAccount.vue';
+import HouseOnGoing from '@/views/HouseOnGoing.vue';
 import FindPassword from '@/components/user/FindPassword.vue';
 import Login from '@/components/user/Login.vue';
 import Join from '@/components/user/Join.vue';
@@ -20,6 +21,10 @@ import Management from '@/components/myaccount/Management.vue';
 import Friends from '@/components/myaccount/Friends.vue';
 import ModifyInfo from '@/components/myaccount/ModifyInfo.vue';
 import ModifyPassword from '@/components/myaccount/ModifyPassword.vue';
+import HouseOnGoingCard from '@/components/houseongoing/HouseOnGoingCard.vue';
+import HouseOnGoingDetail from '@/components/houseongoing/HouseOnGoingDetail.vue';
+import HouseOnGoingInsert from '@/components/houseongoing/HouseOnGoingInsert.vue';
+
 
 export default new VueRouter({
   mode: "history",
@@ -32,6 +37,29 @@ export default new VueRouter({
     {
       path: '/dealInfo',
       component: DealInfo
+    },
+    {
+      path: '/house/ongoing',
+      name: 'HouseOnGoing',
+      component: HouseOnGoing,
+      redirect: '/house/ongoing/card',
+      children:[
+        {
+          path: 'card',
+          name: 'HouseOnGoingCard',
+          component: HouseOnGoingCard,
+        },
+        {
+          path: 'detail',
+          name: 'HouseOnGoingDetail',
+          component: HouseOnGoingDetail,
+        },
+        {
+          path: 'insert',
+          name: 'HouseOnGoingInsert',
+          component: HouseOnGoingInsert,
+        },
+      ]
     },
     {
       path: '/myaccount',
