@@ -51,11 +51,12 @@ public class FriendController {
 	    } 
 	}
 	
-	@DeleteMapping(value="/friend")
-	public ResponseEntity<FriendResultDto> friendUnfollow(@RequestBody FriendDto friendDto, HttpSession session) {
-		
+	@DeleteMapping(value="/friend/{toId}")
+	public ResponseEntity<FriendResultDto> friendUnfollow(@PathVariable String toId, HttpSession session) {
+		FriendDto friendDto = new FriendDto();
 		UserDto userDto = (UserDto) session.getAttribute("userDto");
 		if(userDto != null) friendDto.setFromId(userDto.getUserId());
+		friendDto.setToId(toId);
 		
 		FriendResultDto friendResultDto = friendService.friendUnFollow(friendDto);
 		

@@ -12,7 +12,6 @@
 	    <set>
 	        <if test="compName != null">comp_name=#{compName},</if>
 	        <if test="compEmail != null">comp_email=#{compEmail},</if>
-	        <if test="compProfileimage != null">comp_profileimage=#{compProfileimage},</if>
 	    </set>
     	where comp_id = #{compId}
 	</update>
@@ -27,8 +26,12 @@
 	</delete>
 	
 	<select id="login" parameterType="string" resultType="com.ssafy.happyhouse.dto.CompanyDto">
-		select comp_seq, comp_name, comp_id, comp_password, comp_email, comp_address, reg_dt, comp_profileimage, code
-		from company where comp_id = #{compId}
+		select c.comp_seq, comp_name, comp_id, comp_password, comp_email, comp_address, c.reg_dt, f.file_url comp_profileimage, code
+		from company c left join company_img_file f
+		on c.comp_seq = f.comp_seq
+		where comp_id = #{compId};
+		<!-- select comp_seq, comp_name, comp_id, comp_password, comp_email, comp_address, reg_dt, comp_profileimage, code
+		from company where comp_id = #{compId}-->
 	</select>
 	
 	<select id="findPassword" parameterType="string" resultType="com.ssafy.happyhouse.dto.CompanyDto">

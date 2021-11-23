@@ -48,12 +48,13 @@ public class BookMarkController {
 	    } 
 	}
 
-	@GetMapping("/friend")
-	public ResponseEntity<BookMarkResultDto> getFriendBookmarkList(@RequestBody BookMarkParamDto paramDto, HttpSession session) {
+	@GetMapping("/friend/{friendId}")
+	public ResponseEntity<BookMarkResultDto> getFriendBookmarkList(@PathVariable String friendId, HttpSession session) {
+		BookMarkParamDto paramDto = new BookMarkParamDto();
 		UserDto userDto = (UserDto) session.getAttribute("userDto");
 		
 		paramDto.setUserId(userDto.getUserId());
-		
+		paramDto.setFriendId(friendId);
 		BookMarkResultDto resultDto = service.getFriendBookmarkList(paramDto);
 		
 		if( resultDto.getResult() == SUCCESS ) {

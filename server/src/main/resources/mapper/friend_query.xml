@@ -17,12 +17,14 @@
 	
 	<!-- 팔로워 : 나를 친구로 등록한 사람들 조회 -->
 	<select id="friendFollower" parameterType="string" resultType="com.ssafy.happyhouse.dto.FriendDto">
-		select from_id, user_seq, user_name, user_id, user_email, reg_dt, user_profileimage, code
+		SELECT from_id, user_seq, user_name, user_id, user_email, reg_dt, user_profileimage, code
+		FROM (SELECT u.user_seq, user_name, user_id, user_email, u.reg_dt, f.file_url user_profileimage, code
+		from user u LEFT JOIN user_img_file f
+		ON u.user_seq = f.user_seq) uf, friend f
+		WHERE f.from_id=uf.user_id AND f.to_id="park";
+		<!--  select from_id, user_seq, user_name, user_id, user_email, reg_dt, user_profileimage, code
 		from friend f, user u
-		where f.to_id = #{toId} and f.from_id= u.user_id;
-		<!-- select from_id
-		from friend
-		where to_id = #{toId}; -->
+		where f.to_id = #{toId} and f.from_id= u.user_id; -->
 	</select>
 	
 	<!-- 팔로워 : 나를 친구로 등록한 사람들 수 -->
@@ -34,12 +36,14 @@
 	
 	<!-- 팔로잉 : 내가 친구로 등록한 사람들 조회 -->
 	<select id="friendFollowing" parameterType="string" resultType="com.ssafy.happyhouse.dto.FriendDto">
-		select to_id, user_seq, user_name, user_id, user_email, reg_dt, user_profileimage, code
+		SELECT to_id, user_seq, user_name, user_id, user_email, reg_dt, user_profileimage, code
+		FROM (SELECT u.user_seq, user_name, user_id, user_email, u.reg_dt, f.file_url user_profileimage, code
+		from user u LEFT JOIN user_img_file f
+		ON u.user_seq = f.user_seq) uf, friend f
+		WHERE f.from_id=#{fromId} AND f.to_id=uf.user_id;
+		<!--  select to_id, user_seq, user_name, user_id, user_email, reg_dt, user_profileimage, code
 		from friend f, user u
-		where f.from_id = #{fromId} and f.to_id= u.user_id;
-		<!-- select to_id
-		from friend
-		where from_id = #{fromId}; -->
+		where f.from_id = #{fromId} and f.to_id= u.user_id; -->
 	</select>
 	
 	<!-- 팔로잉 : 내가 친구로 등록한 사람들 수 -->

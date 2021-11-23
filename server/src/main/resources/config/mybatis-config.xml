@@ -8,7 +8,6 @@
     </settings>
 		
 	<mappers>
-	    <mapper resource="mapper/login_query.xml" />
 	    <mapper resource="mapper/user_query.xml" />
 	    <mapper resource="mapper/company_query.xml" />
 	    <mapper resource="mapper/notice_query.xml" />

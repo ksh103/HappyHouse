@@ -124,16 +124,15 @@ public class UserController {
 	
 	// 프로필 이미지 등록
 	@PutMapping(value = "/user/profileImg")
-	public ResponseEntity<UserResultDto> userProfileImage(@RequestBody UserDto userDto, MultipartHttpServletRequest request) {
-		
+	public ResponseEntity<UserResultDto> userProfileImage(MultipartHttpServletRequest request) {
 		HttpSession session = request.getSession();
+		System.out.println("/u/pi");
+		UserDto userDto = new UserDto();
 	    userDto = (UserDto) session.getAttribute("userDto");
-	    System.out.println("userProfileImage " + userDto);
 	    
 	    userDto.setUserSeq(userDto.getUserSeq());
 		
 		UserResultDto userResultImg = userService.userProfileImage(userDto, request);
-		UserResultDto userResultSave = userService.userFileInsert(userDto, request);
 		
 		if (userResultImg.getResult() == SUCCESS) {
 			return new ResponseEntity<UserResultDto>(userResultImg, HttpStatus.OK);

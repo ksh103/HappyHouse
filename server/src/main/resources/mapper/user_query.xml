@@ -12,7 +12,6 @@
 	    <set>
 	        <if test="userName != null">user_name=#{userName},</if>
 	        <if test="user_email != null">user_email=#{userEmail},</if>
-	        <if test="userProfileimage != null">user_profileimage=#{userProfileimage},</if>
 	    </set>
     	where user_id = #{userId}
 	</update>
@@ -33,8 +32,10 @@
     </select>
 	
 	<select id="login" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
-		select user_seq, user_name, user_id, user_password, user_email, reg_dt, user_profileimage, code
-		from user where user_id = #{userId}
+		SELECT u.user_seq, user_name, user_id, user_password, user_email, u.reg_dt, f.file_url user_profileimage, code
+		from user u LEFT JOIN user_img_file f
+		ON u.user_seq = f.user_seq
+		where user_id = #{userId}
 	</select>
 	
 	<select id="findPassword" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
@@ -73,12 +74,21 @@
 	
 	<!-- 친구 찾기 -->
 	<select id="friendSearch" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
-		(select user_name, user_id, user_email, user_seq, user_profileimage
+		(select user_name, user_id, user_email, u.user_seq, f.file_url user_profileimage
+		from user u left join user_img_file f
+		ON u.user_seq = f.user_seq
+		where user_id like concat(#{userId}, '%'))
+		union all
+		(select user_name, user_id, user_email, u.user_seq, f.file_url user_profileimage
+		from user u left join user_img_file f
+		ON u.user_seq = f.user_seq
+		where user_name like concat(#{userName}, '%'));
+		<!-- (select user_name, user_id, user_email, user_seq, user_profileimage
 		from user
 		where user_id like concat(#{userId}, '%'))
 		union all
 		(select user_name, user_id, user_email, user_seq, user_profileimage
 		from user
-		where user_name like concat(#{userName}, '%'))
+		where user_name like concat(#{userName}, '%')) -->
 	</select>
 </mapper>
