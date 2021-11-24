@@ -243,7 +243,7 @@ public class HouseServiceImpl implements HouseService {
 	@Override
 	public HouseOnGoingResultDto houseOnGoingUpdate(HouseOnGoingDto houseDto, MultipartHttpServletRequest request) {
 		HouseOnGoingResultDto resultDto = new HouseOnGoingResultDto();
-		
+		System.out.println("entry hogUpdate");
 	    try {
 	        houseDao.houseOnGoingUpdate(houseDto);
 	
@@ -262,7 +262,7 @@ public class HouseServiceImpl implements HouseService {
 	            }
 	        }
 	
-	        houseDao.houseOnGoingDelete(houseDto.getOngoingId()); // 테이블 파일 삭제
+	        houseDao.houseOnGoingFileDelete(houseDto.getOngoingId()); // 테이블 파일 삭제
 	        
 	        for (MultipartFile part : fileList) {
 	            int ongoingId = houseDto.getOngoingId();

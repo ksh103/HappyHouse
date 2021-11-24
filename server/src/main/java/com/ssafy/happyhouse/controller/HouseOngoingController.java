@@ -89,11 +89,11 @@ public class HouseOngoingController {
 	    }
 	}
     
-    @DeleteMapping(value="/house/deal/ongoing/{ongoingNo}")
-    public ResponseEntity<HouseOnGoingResultDto> houseOnGoingDelete(@PathVariable int ongoingNo, HttpSession session){
+    @DeleteMapping(value="/house/deal/ongoing/{ongoingId}")
+    public ResponseEntity<HouseOnGoingResultDto> houseOnGoingDelete(@PathVariable int ongoingId, HttpSession session){
 //    	UserDto userDto = (UserDto) session.getAttribute("userDto");
     	
-    	HouseOnGoingResultDto houseOnGoingResultDto = houseService.houseOnGoingDelete(ongoingNo);
+    	HouseOnGoingResultDto houseOnGoingResultDto = houseService.houseOnGoingDelete(ongoingId);
     	
     	if( houseOnGoingResultDto.getResult() == SUCCESS ) {
     		return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.OK);
@@ -104,12 +104,12 @@ public class HouseOngoingController {
     
  	@PostMapping(value="/house/deal/ongoing/{ongoingId}")
  	public ResponseEntity<HouseOnGoingResultDto> houseOnGoingUpdate(HouseOnGoingDto houseOnGoingDto, MultipartHttpServletRequest request) {
- 		HttpSession session = request.getSession();
- 	    CompanyDto companyDto = (CompanyDto) session.getAttribute("companyDto");
- 	    
- 	    houseOnGoingDto.setCompSeq(companyDto.getCompSeq());
  		
- 		System.out.println("houseOnGoingUpdate " + houseOnGoingDto);
+		HttpSession session = request.getSession();
+		CompanyDto companyDto = (CompanyDto) session.getAttribute("companyDto");
+		houseOnGoingDto.setCompSeq(companyDto.getCompSeq());
+ 		
+ 	   System.out.println("houseOnGoingUpdate " + houseOnGoingDto);
  		
  		HouseOnGoingResultDto houseOnGoingResultDto = houseService.houseOnGoingUpdate(houseOnGoingDto, request);
  		
