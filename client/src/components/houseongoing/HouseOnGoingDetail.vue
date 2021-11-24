@@ -1,16 +1,15 @@
 <template>
-   <div class="container my-5">
+  <div class="container my-5">
     <div class="row">
       <div class="col-md-8">
         <div class="card">
           <div class="card-body">
             <h4 class="mb-3">{{ title }}</h4>
-            <div class="border-top">
-              이미지
+            <div v-if="fileList.length" class="border-top">
+              <img class="max-length" v-for="(file, index) in fileList" :key="index" :src="file.fileUrl" alt="매물 이미지">
             </div>
             <div class="border-top">
               <h4 class="my-3">[{{ AptName }}] {{ dealAmount }} {{ type }}</h4>
-              
             </div>
             <div class="border-top d-flex py-2">
               <div class="d-flex flex-column d-inline-block w-20">
@@ -38,6 +37,9 @@
             <!-- <h5 style="white-space: pre-line"></h5> -->
           </div>
         </div>
+        <router-link class="btn btn-sm btn-primary mt-2" to="/house/ongoing/card">목록</router-link>
+        <button @click="deleteOngoingDetail(ongoingId)" class="btn btn-sm btn-danger float-end ms-2 mt-2">삭제</button>
+        <router-link class="btn btn-sm btn-primary float-end mt-2" to="/board/notice/modify">수정</router-link>
       </div>
       <div class="col-md-4">
         <ul class="list-group">
@@ -62,14 +64,13 @@
         </ul>
       </div>
       <div class="footer">
-        <router-link class="btn btn-sm btn-primary" to="/house/ongoing/card">목록으로</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
+import http from '@/common/axios.js';
 import { mapState } from 'vuex';
 
 const storeName = 'houseOnGoingStore';
@@ -77,7 +78,30 @@ const storeName = 'houseOnGoingStore';
 export default {
   name: 'HouseOnGoingDetail',
   computed: {
-    ...mapState(storeName, ['ongoingId', 'title', 'AptName', 'fileList', 'type', 'dealAmount', 'area', 'floor', 'fee', 'direction', 'room', 'bathroom', 'content', 'compName', 'compAddress']),
+    ...mapState(storeName, ['sameUser', 'ongoingId', 'title', 'AptName', 'fileList', 'type', 'dealAmount', 'area', 'floor', 'fee', 'direction', 'room', 'bathroom', 'content', 'compName', 'compAddress']),
+  },
+  methods: {
+    deleteOngoingDetail(ongoingId){
+      this.$swal({
+        title: '삭제하시겠습니까?',
+        icon: 'warning',
+        dangerMode: true,
+        buttons: true
+      }).then(value => {
+        if (value) {
+          http.delete(
+            `/house/deal/ongoing/${ongoingId}`
+          )
+            .then(({ data }) => {
+              console.log('DeleteVue: data :');
+              console.log(data);
+              // 현재 route를 /list로 변경.
+              this.$router.push('/house/ongoing/card');
+            })
+            .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
+        }
+      })
+    }
   }
 }
 </script>

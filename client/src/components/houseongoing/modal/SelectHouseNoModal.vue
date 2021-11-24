@@ -11,50 +11,43 @@
           <div>
             <h6 class="mx-2 mb-3">건물명 또는 동을 입력하세요.</h6>
             <div class="input-group pb-3">
-              <input type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="건물명 / 동">
-              <button @click="search" class="btn btn-primary d-inline-block" type="button">검색</button>
-            </div>
-            <div v-for="(user, index) in houseList" :key="index+11">
-              {{ user.userName }} : {{ user.userEmail }} <button @click="addFriend(user.userId)"></button>
+              <input @keyup.enter="onBtnClick" type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="건물명 / 동">
+              <button @click="onBtnClick" class="btn btn-primary d-inline-block" type="button">검색</button>
             </div>
           </div>
-          <ul class="list-unstyled list-group list-group-custom list-group-flush mb-0">
-            <li class="list-group-item d-flex py-3">
-                <!-- <div class="avatar"><i class="fa fa-thumbs-o-up fa-lg"></i></div> -->
+          <ul v-if="houseList" class="list-unstyled list-group list-group-custom list-group-flush mb-0">
+            <!-- <li class="list-group-item d-flex py-3">
+                <div class="avatar"><i class="fa fa-thumbs-o-up fa-lg"></i></div>
                 <div class="flex-grow-1">
                     <h6 class="mb-0">7 New Feedback <small class="float-right text-muted">Today</small></h6>
                     <small>It will give a smart finishing to your site</small>
                 </div>
+            </li> -->
+            <li v-for="(house, index) in houseList" :key="index" class="list-group-item d-flex align-items-center py-3">
+                <div class="flex-grow-1">
+                    <h6 class="mb-0">{{ house.aptName }} <small class="float-right text-muted">10:45</small></h6>
+                    <small>{{ house.dongName }} {{ house.jiBun }}</small>
+                </div>
+                <i @click="selectHouse(house.houseNo, house.aptName)" class="bi bi-check-circle cursor-pointer" style="font-size: 2rem;"></i>
             </li>
-            <li class="list-group-item d-flex align-items-center py-3">
+            <li v-if="houseList.length==0" class="list-group-item d-flex align-items-center py-3">
+              <a class="d-flex align-items-center text-decoration-none">
+                데이터가 존재하지 않습니다.
+              </a>
+                <!-- <div class="flex-grow-1">
+                    <h6 class="mb-0">New User <small class="float-right text-muted">10:45</small></h6>
+                    <small>I feel great! Thanks team</small>
+                </div>
+                <i class="fa fa-user fa-lg"></i> -->
+            </li>
+            <!-- <li class="list-group-item d-flex align-items-center py-3">
                 <div class="flex-grow-1">
                     <h6 class="mb-0">New User <small class="float-right text-muted">10:45</small></h6>
                     <small>I feel great! Thanks team</small>
                 </div>
                 <i class="fa fa-user fa-lg"></i>
-            </li>
-            <!-- <li class="list-group-item d-flex py-3">
-                <div class="avatar"><i class="fa fa-question-circle fa-lg"></i></div>
-                <div class="flex-grow-1">
-                    <h6 class="mb-0 text-warning">Server Warning <small class="float-right text-muted">10:50</small></h6>
-                    <small>Your connection is not private</small>
-                </div>
-            </li>
-            <li class="list-group-item d-flex py-3">
-                <div class="avatar"><i class="fa fa-check fa-lg"></i></div>
-                <div class="flex-grow-1">
-                    <h6 class="mb-0 text-danger">Issue Fixed <small class="float-right text-muted">11:05</small></h6>
-                    <small>WE have fix all Design bug with Responsive</small>
-                </div>
-            </li>
-            <li class="list-group-item d-flex py-3">
-                <div class="avatar"><i class="fa fa-shopping-basket fa-lg"></i></div>
-                <div class="flex-grow-1">
-                    <h6 class="mb-0">7 New Orders <small class="float-right text-muted">11:35</small></h6>
-                    <small>You received a new oder from Tina.</small>
-                </div>
-            </li>                                    -->
-        </ul>
+            </li> -->
+          </ul>
           <!-- <ul v-if="houseList" class="list-unstyled list-group list-group-custom list-group-flush mb-0 border-top">
             <li v-for="(user, index) in houseList" :key="index" class="list-group-item px-md-4 py-3 d-flex justify-content-between">
               <a class="d-flex align-items-center text-decoration-none">
@@ -94,9 +87,9 @@ export default {
     }
   },
   methods: {
-    search() {
+    onBtnClick() {
       // validataion
-      // this.searchHouse();
+      this.searchHouse();
     },
     searchHouse() {
       http.get(`/house/detail/keyword/${this.inputKeyword}`)
@@ -111,12 +104,17 @@ export default {
           this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         })
     },
+    selectHouse(houseNo, houseName) {
+      this.$emit('modal-close', {
+        houseNo, houseName
+      })
+    },
     initModal() {
       this.inputKeyword = '';
       this.houseList = null;
     },
     closeModal() {
-      this.$emit('modal-close', 11111);
+      this.$emit('modal-close');
     }
   },
   mounted() {

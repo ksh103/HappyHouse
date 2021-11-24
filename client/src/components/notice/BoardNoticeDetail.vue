@@ -26,6 +26,9 @@
             </ul>
           </div>
         </div>
+        <router-link class="btn btn-sm btn-primary mt-2" to="/board/notice">목록</router-link>
+        <button v-if="sameUser" class="btn btn-sm btn-danger float-end" @click="deleteNotice(noticeId)">삭제</button>
+        <router-link v-if="sameUser" class="btn btn-sm btn-primary float-end mt-2" to="/board/notice/modify">수정</router-link>
       </div>
       <div class="col-md-4">
         <ul class="list-group">
@@ -55,8 +58,7 @@
       </div>
     </div>
     <div class="footer">
-      <router-link class="btn btn-sm btn-primary" to="/board/notice/modify">글 수정</router-link>
-      <button class="btn btn-sm btn-danger" @click="deleteNotice(noticeId)">글삭제</button>
+      
     </div>
   </div>
 </template>
@@ -70,23 +72,30 @@ const storeName = 'boardNoticeStore';
 export default {
   name: 'BoardNoticeDetail',
   computed: {
-    ...mapState(storeName, ['readCount', 'noticeId', 'title', 'content', 'userName', 'regDt', 'fileList']),
+    ...mapState(storeName, ['readCount', 'noticeId', 'title', 'content', 'userName', 'regDt', 'fileList', 'sameUser']),
   },
   methods: {
     deleteNotice(noticeId){
-      http.delete(
-        '/notices/' + noticeId
-      )
-      .then(({ data }) => {
-      console.log('DeleteVue: data :');
-      console.log(data);
-      if (data === "success") {
-        // 이거 왜 안 찍히지
-        alert("삭제 완료")
-      }
-      // 현재 route를 /list로 변경.
-      this.$router.push('/board/notice');
-      });
+      this.$swal({
+        title: '삭제하시겠습니까?',
+        icon: 'warning',
+        dangerMode: true,
+        buttons: true
+      }).then(value => {
+        if (value) {
+          http.delete(
+            '/notices/' + noticeId
+          )
+            .then(({ data }) => {
+              console.log('DeleteVue: data :');
+              console.log(data);
+              // 현재 route를 /list로 변경.
+              this.$router.push('/board/notice');
+            })
+            .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
+        }
+      })
+      
     }
   }
 }

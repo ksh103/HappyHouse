@@ -13,7 +13,7 @@
       <div class="col-lg-3 col-md-6">
           <div class="form-floating">
             <select v-model="type" class="form-select" aria-label="Floating label select example">
-                <option selected>매매</option>
+                <option selected="">매매</option>
                 <option>전세</option>
                 <option>월세</option>
             </select>
@@ -103,14 +103,20 @@ import CKEditor from '@ckeditor/ckeditor5-vue2';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import SelectHouseNoModal from './modal/SelectHouseNoModal.vue';
 import VueAlertify from 'vue-alertify';
+import { mapState } from 'vuex';
 import { Modal } from 'bootstrap';
 
 Vue.use(CKEditor).use(VueAlertify);
 
 import http from "@/common/axios.js";
 
+const storeName = 'houseOnGoingStore';
+
 export default {
-  name: 'HouseOnGoingInsert',
+  name: 'HouseOnGoingModify',
+  computed: {
+    ...mapState(storeName, ['ongoingId', 'title', 'AptName', 'fileList', 'type', 'dealAmount', 'area', 'floor', 'fee', 'direction', 'room', 'bathroom', 'content', 'compName', 'compAddress']),
+  },
   components: {
     SelectHouseNoModal
   },
@@ -118,7 +124,7 @@ export default {
     return{
       houseNo: '',
       houseName: '',
-      type: '매매',
+      type: '',
       dealAmount: '',
       floor: '',
       area: '',

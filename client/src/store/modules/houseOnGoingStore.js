@@ -80,12 +80,10 @@ const houseOnGoingStore = {
 
   mutations: {
     SET_HOUSE_ONGOING_CARD(state, list){
-      console.log(list)
       list.forEach(item => {
         if (item.fileList) {
           item.fileList.forEach(file => {
             let curUrl = file.fileUrl;
-            // file.fileUrl = `http://localhost:8080/upload${curUrl}`
             file.fileUrl = `http://localhost:8080${curUrl}`
           })
         }
@@ -100,6 +98,13 @@ const houseOnGoingStore = {
       state.currentPageIndex = pageIndex;
     },
     SET_HOUSE_ONGOING_CARD_DETAIL(state, payload){
+      if (payload.fileList) {
+        payload.fileList.forEach(file => {
+          let curUrl = file.fileUrl;
+          file.fileUrl = `http://localhost:8080${curUrl}`
+        })
+      }
+
       state.ongoingId = payload.ongoingId
       state.houseNo = payload.houseNo;
       state.AptName = payload.AptName;
