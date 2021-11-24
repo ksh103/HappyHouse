@@ -8,13 +8,16 @@ const userStore = {
     isAuth: false,
     seq: 0,
     id: '',
-    code: 0,
+    level: 0,
     password: '',
     name: '',
     email: '',
-    profileImage: '',
+    phone: '',
+    profileImgUrl: undefined,
     regDt: '',
-    address: ''
+
+    // company
+    address: '',
   },
 
   getters: {
@@ -28,21 +31,24 @@ const userStore = {
       state.isAuth = true;
       state.seq = payload.seq;
       state.id = payload.id,
-      state.code = payload.code;
+      state.level = payload.level;
       state.password = payload.password;
       state.name = payload.name;
       state.email = payload.email;
-      state.profileImage = payload.profileImage;
+      state.phone = payload.phone;
+      if (payload.profileImgUrl) 
+        state.profileImgUrl = `http://localhost:8080${payload.profileImgUrl}`;
       state.regDt = payload.regDt;
     },
     SET_USER_LOGOUT(state){
       state.isAuth = false;
       state.seq = 0,
       state.id = '',
-      state.code = 0,
+      state.level = 0,
       state.password = '',
       state.name = '',
-      state.email = ''
+      state.email = '',
+      state.profileImgUrl = undefined
     },
     SET_USER_MODIFY(state, payload) {
       state.name = payload.name;
@@ -55,14 +61,19 @@ const userStore = {
       state.isAuth = true;
       state.seq = payload.seq;
       state.id = payload.id,
-      state.code = payload.code;
+      state.level = payload.level;
       state.password = payload.password;
       state.name = payload.name;
       state.email = payload.email;
       state.address = payload.address;
-      state.profileImage = payload.profileImage;
+      state.phone = payload.phone;
+      if (payload.profileImgUrl) 
+        state.profileImgUrl = `http://localhost:8080${payload.profileImgUrl}`;
       state.regDt = payload.regDt;
     },
+    SET_PROFILE_IMG(state, payload) {
+      state.profileImgUrl = payload;
+    }
   },
 
   actions: {
@@ -81,17 +92,20 @@ const userStore = {
         const { 
           dto: {
             userId: id,
-            usercode: code,
+            code: level,
             userSeq: seq,
             userName: name,
             userPassword: password,
             userEmail: email,
-            userProfileimage: profileImage,
-            regDt: regDt
+            userProfileimage: profileImgUrl,
+            userPhone: phone,
+            regDt: {
+              date: regDt
+            }
           }
         } = response.data;
         
-          context.commit('SET_USER', { seq, id, code, password, name, email, profileImage, regDt });
+          context.commit('SET_USER', { seq, id, level, password, name, email, profileImgUrl, phone, regDt });
 
           router.push("/")
         })
@@ -148,18 +162,21 @@ const userStore = {
         const { 
           dto: {
             compId: id,
-            compcode: code,
+            code: level,
             compSeq: seq,
             compName: name,
             compPassword: password,
             compEmail: email,
             compAddress: address,
-            compProfileimage: profileImage,
-            regDt: regDt
+            compProfileimage: profileImgUrl,
+            compPhone: phone,
+            regDt: {
+              date: regDt
+            }
           }
         } = response.data;
         
-          context.commit('SET_COMPANY_USER', { seq, id, code, password, name, email, address, profileImage, regDt });
+          context.commit('SET_COMPANY_USER', { seq, id, level, password, name, email, address, profileImgUrl, regDt, phone });
 
           router.push("/")
         })
