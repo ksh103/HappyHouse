@@ -13,6 +13,7 @@
 	        <if test="compName != null">comp_name=#{compName},</if>
 	        <if test="compEmail != null">comp_email=#{compEmail},</if>
 	        <if test="compPhone != null">comp_phone=#{compPhone},</if>
+	        <if test="compAddress != null">comp_address=#{compAddress},</if>
 	    </set>
     	where comp_id = #{compId}
 	</update>

@@ -24,18 +24,18 @@ public class NoticeServiceImpl implements NoticeService {
 	NoticeDao dao;
 	//C:\apps\happyhouse\server
 	private static final String uploadFolder = "upload";
-//	private static final String uploadPath = "C:" + File.separator + "apps" + File.separator + "happyhouse"
-//            + File.separator + "server" 
-//            + File.separator + "src" 
-//            + File.separator + "main"
-//            + File.separator + "resources"
-//            + File.separator + "static";
-	String uploadPath = "C:" + File.separator + "Users" + File.separator + "park" + File.separator + "git" + File.separator + "HappyHouse_Vue"
+	private static final String uploadPath = "C:" + File.separator + "apps" + File.separator + "happyhouse"
             + File.separator + "server" 
             + File.separator + "src" 
             + File.separator + "main"
             + File.separator + "resources"
             + File.separator + "static";
+//	String uploadPath = "C:" + File.separator + "Users" + File.separator + "park" + File.separator + "git" + File.separator + "HappyHouse_Vue"
+//            + File.separator + "server" 
+//            + File.separator + "src" 
+//            + File.separator + "main"
+//            + File.separator + "resources"
+//            + File.separator + "static";
     
     private static final int SUCCESS = 1;
     private static final int FAIL = -1;

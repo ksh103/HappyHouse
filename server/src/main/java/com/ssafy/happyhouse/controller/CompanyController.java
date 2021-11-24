@@ -60,9 +60,11 @@ public class CompanyController {
 	}
 	
 	@PutMapping(value="/company/password")
-	public ResponseEntity<CompanyResultDto> passwordModify(@RequestBody CompanyDto companyDto) {
+	public ResponseEntity<CompanyResultDto> passwordModify(@RequestBody CompanyDto companyDto, HttpSession session) {
+		CompanyDto dto = (CompanyDto) session.getAttribute("companyDto");
+		if (companyDto != null) companyDto.setCompId(dto.getCompId());
 		System.out.println("passwordModify " + companyDto);
-		CompanyResultDto companyResultDto = companyService.companyModify(companyDto);
+		CompanyResultDto companyResultDto = companyService.companyPasswordModify(companyDto);
 		if (companyResultDto.getResult() == SUCCESS) {
 			return new ResponseEntity<>(companyResultDto, HttpStatus.OK);
 		} else {
