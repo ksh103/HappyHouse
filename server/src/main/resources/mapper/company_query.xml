@@ -3,8 +3,8 @@
 <mapper namespace="com.ssafy.happyhouse.dao.CompanyDao">
 
 	<insert id="companyRegister" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
-		insert into company(comp_name, comp_id, comp_password, comp_email, comp_address, comp_phone, reg_dt, code) 
-		values ( #{compName}, #{compId}, #{compPassword}, #{compEmail}, #{compAddress}, #{compPhone}, now(), 3)
+		insert into company(comp_name, comp_id, comp_password, comp_email, comp_address, comp_phone, reg_dt) 
+		values ( #{compName}, #{compId}, #{compPassword}, #{compEmail}, #{compAddress}, #{compPhone}, now())
 	</insert>
 	
 	<update id="companyModify" parameterType="com.ssafy.happyhouse.dto.CompanyDto">

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.ssafy.happyhouse.dto.CompanyDto;
+import com.ssafy.happyhouse.dto.CompanyResultDto;
 import com.ssafy.happyhouse.dto.UserDto;
 import com.ssafy.happyhouse.dto.UserResultDto;
 import com.ssafy.happyhouse.service.UserService;

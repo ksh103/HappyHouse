@@ -3,8 +3,8 @@
 <mapper namespace="com.ssafy.happyhouse.dao.UserDao">
 
 	<insert id="userRegister" parameterType="com.ssafy.happyhouse.dto.UserDto">
-		insert into user(user_name, user_id, user_password, user_email, userPhone, reg_dt, code) 
-		values ( #{userName}, #{userId}, #{userPassword}, #{userEmail}, #{userPhone}, now(), #{code} )
+		insert into user(user_name, user_id, user_password, user_email, user_phone, reg_dt) 
+		values ( #{userName}, #{userId}, #{userPassword}, #{userEmail}, #{userPhone}, now())
 	</insert>
 	
 	<update id="userModify" parameterType="com.ssafy.happyhouse.dto.UserDto">
