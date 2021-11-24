@@ -84,7 +84,6 @@ public class InfoServiceImpl implements InfoService {
 	        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
 	        
 	        String responseBody = get(apiURL,requestHeaders);
-	        System.out.println(responseBody);
 	        
 	        JSONParser parser = new JSONParser();
 	        JSONObject obj = (JSONObject) parser.parse(responseBody);

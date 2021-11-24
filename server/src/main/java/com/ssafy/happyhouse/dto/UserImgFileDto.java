@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class UserImgFileDto {
 	private int fileId;
-	private String userSeq;
+	private int userSeq;
 	private String fileName;
 	private long fileSize;
 	private String fileContentType;

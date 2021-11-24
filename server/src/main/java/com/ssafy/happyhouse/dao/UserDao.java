@@ -23,7 +23,7 @@ public interface UserDao {
 	public int updatePassword(UserDto userDto);
 	
 	public int userImgFileInsert(UserImgFileDto userFileDto);
-	public int userImgFileDelete(String userId);
+	public int userImgFileDelete(int userSeq);
 	
 	public List<UserDto> friendSearch(String searchWord); // 친구 찾기
 }

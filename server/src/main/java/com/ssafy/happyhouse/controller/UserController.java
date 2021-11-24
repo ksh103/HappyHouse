@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dto.UserDto;
@@ -123,17 +124,14 @@ public class UserController {
 	}
 	
 	// 프로필 이미지 등록
-	@PutMapping(value = "/user/profileImg")
-	public ResponseEntity<UserResultDto> userProfileImage(MultipartHttpServletRequest request) {
+	@PostMapping(value = "/user/profileImg")
+	public ResponseEntity<UserResultDto> userProfileImageUpload(MultipartHttpServletRequest request) {
 		HttpSession session = request.getSession();
 		System.out.println("/u/pi");
-		UserDto userDto = new UserDto();
-	    userDto = (UserDto) session.getAttribute("userDto");
+		UserDto userDto = (UserDto) session.getAttribute("userDto");
+		System.out.println(userDto);
+		UserResultDto userResultImg = userService.userFileInsert(userDto, request);
 	    
-	    userDto.setUserSeq(userDto.getUserSeq());
-		
-		UserResultDto userResultImg = userService.userProfileImage(userDto, request);
-		
 		if (userResultImg.getResult() == SUCCESS) {
 			return new ResponseEntity<UserResultDto>(userResultImg, HttpStatus.OK);
 		} else {

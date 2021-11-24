@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class CompanyImgFileDto {
 	private int fileId;
-	private String compSeq;
+	private int compSeq;
 	private String fileName;
 	private long fileSize;
 	private String fileContentType;

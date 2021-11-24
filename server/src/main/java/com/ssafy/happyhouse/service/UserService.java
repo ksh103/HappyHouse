@@ -22,7 +22,6 @@ public interface UserService {
 	public UserResultDto updatePassword(UserDto userDto);
 	
 	public UserResultDto userFileInsert(UserDto userDto, MultipartHttpServletRequest request);
-	public UserResultDto userProfileImage(UserDto userDto, MultipartHttpServletRequest request);
 	
 	public UserResultDto friendSearch(String searchWord, UserDto userDto); // 친구 찾기
 	

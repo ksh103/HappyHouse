@@ -49,13 +49,13 @@
 		where user_id = #{userId}
 	</update>
 	
-	<insert id="userImgFileInsert" parameterType="com.ssafy.happyhouse.dto.UserDto">
-		insert into user_file ( user_seq, file_name, file_size, file_content_type, file_url, reg_dt )
+	<insert id="userImgFileInsert" parameterType="com.ssafy.happyhouse.dto.UserImgFileDto">
+		insert into user_img_file ( user_seq, file_name, file_size, file_content_type, file_url, reg_dt )
 		            values ( #{userSeq}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl}, now() )
 	</insert>
 	
 	<delete id="userImgFileDelete" parameterType="int">
-		delete from user_file where user_seq = #{userSeq}
+		delete from user_img_file where user_seq = #{userSeq}
 	</delete>
 	
 	<!-- <select id="userFileUrlDeleteList" parameterType="int" resultType="string">

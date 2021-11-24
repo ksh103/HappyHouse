@@ -9,6 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -20,6 +21,7 @@ import com.ssafy.happyhouse.dto.UserImgFileDto;
 import com.ssafy.happyhouse.dto.UserResultDto;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
@@ -30,15 +32,21 @@ public class UserServiceImpl implements UserService {
 	private static final int INCORRECT_INFO = 2;
 	private static final int FAIL = -1;
 	
-	private static final String uploadFolder = "userProfileImage";
-	private static final String uploadPath = "C:" + File.separator + "apps" + File.separator + "happyhouse"
+	private static final String uploadFolder = "upload";
+//	private static final String uploadPath = "C:" + File.separator + "apps" + File.separator + "happyhouse"
+//            + File.separator + "server" 
+//            + File.separator + "src" 
+//            + File.separator + "main"
+//            + File.separator + "resources"
+//            + File.separator + "static"
+//            + File.separator + "upload";
+	String uploadPath = "C:" + File.separator + "Users" + File.separator + "park" + File.separator + "git" + File.separator + "HappyHouse_BackEnd"
             + File.separator + "server" 
             + File.separator + "src" 
             + File.separator + "main"
             + File.separator + "resources"
-            + File.separator + "static"
-            + File.separator + "upload";
-
+            + File.separator + "static";
+	
 	@Override
 	public UserResultDto userRegister(UserDto userDto) {
 		UserResultDto userResultDto = new UserResultDto();
@@ -234,83 +242,54 @@ public class UserServiceImpl implements UserService {
 	public UserResultDto userFileInsert(UserDto userDto, MultipartHttpServletRequest request) {
 		UserResultDto userResultDto = new UserResultDto();
 		try {
-			
-			List<MultipartFile> fileList = request.getFiles("file");
-			
+			int userSeq = userDto.getUserSeq();
 			// 파일 경로 찾기
 	        File uploadDir = new File(uploadPath + File.separator + uploadFolder);
 	        if (!uploadDir.exists()) uploadDir.mkdir();
 	        
-	        // 물리 파일 삭제, 첨부파일 여러개 고려
-//	        List<String> fileUrlList = userDao.userFileUrlDeleteList(userDto.getUserId());    
-//	        for(String fileUrl : fileUrlList) {    
-//	            File file = new File(uploadPath + File.separator, fileUrl);
-//	            if(file.exists()) {
-//	                file.delete();
-//	            }
-//	        }
-	        
-//	        userDao.userFileDelete(userDto.getUserId()); // 테이블 파일 삭제
-			
-	        for (MultipartFile part : fileList) {
-	            String userId = userDto.getUserId();
-	            
-	            String fileName = part.getOriginalFilename();
-	            
-	            //Random File Id
-	            UUID uuid = UUID.randomUUID();
-	            
-	            //file extension
-	            String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
-	        
-	            String savingFileName = uuid + "." + extension;
-	        
-	            File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
-	            
-	            System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
-	            part.transferTo(destFile);
-	        
-	            // Table Insert
-	            UserImgFileDto userFileDto = new UserImgFileDto();
-//	            userFileDto.setUserId(userId);
-	            userFileDto.setFileName(fileName);
-	            userFileDto.setFileSize(part.getSize());
-	            userFileDto.setFileContentType(part.getContentType());
-	            String userFileUrl = "/" + uploadFolder + "/" + savingFileName;
-	            userFileDto.setFileUrl(userFileUrl);
-	            
-//	            userDao.userFileInsert(userFileDto);
+	        // 물리 파일 삭제 (존재 시)
+	        String fileUrl = userDto.getUserProfileimage();
+	        if (fileUrl != null && !fileUrl.isEmpty()) {
+	        	File file = new File(uploadPath + File.separator, fileUrl);
+	            if (file.exists()) file.delete();
 	        }
+	        
+	        // 파일 테이블에서 제거
+	        userDao.userImgFileDelete(userSeq);
+	        MultipartFile part = request.getFile("profileImg");
+            String fileName = part.getOriginalFilename();
+            
+            // Random File Id
+            UUID uuid = UUID.randomUUID();
+            
+            // file 확장사
+            String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
+
+            String savingFileName = uuid + "." + extension;
+        
+            File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+            
+//            System.out.println("실제저장경로");
+            System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+            part.transferTo(destFile);
+        
+            // Table Insert
+            UserImgFileDto userFileDto = new UserImgFileDto();
+	        userFileDto.setUserSeq(userDto.getUserSeq());
+            userFileDto.setFileName(fileName);
+            userFileDto.setFileSize(part.getSize());
+            userFileDto.setFileContentType(part.getContentType());
+            String userFileUrl = "/" + uploadFolder + "/" + savingFileName;
+            userFileDto.setFileUrl(userFileUrl);
+//            System.out.println(userFileDto);
+	        userDao.userImgFileInsert(userFileDto);
+	        userResultDto.setUploadProfileImgUrl(userFileUrl);
+	        userResultDto.setResult(SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
 			userResultDto.setResult(FAIL);
 		}
 		return userResultDto;
-	}
-	
-	@Override
-	public UserResultDto userProfileImage(UserDto userDto, MultipartHttpServletRequest request) {
-		UserResultDto userResultDto = new UserResultDto();
-	    
-	    try {
-	    	if( userDto.getUserSeq() == userDto.getUserSeq() ) {
-	    		userDto.setSameUser(true);
-	        }else {
-	        	userDto.setSameUser(false);
-	        }
-	    	
-//	        List<UserImgFileDto> fileList = userDao.noticeDetailFileList(userDto.getUserSeq());
-	
-//	        userDto.setFileList(fileList);
-	        userResultDto.setDto(userDto);
-	
-	        userResultDto.setResult(SUCCESS);
-	        
-	    }catch(Exception e) {
-	        e.printStackTrace();
-	        userResultDto.setResult(FAIL);
-	    }
-	    return userResultDto;
 	}
 
 	@Override

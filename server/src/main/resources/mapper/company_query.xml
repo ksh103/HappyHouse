@@ -45,13 +45,13 @@
 		where comp_id = #{compId}
 	</update>
 	
-	<insert id="companyFileInsert" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
-		insert into company_file ( comp_seq, file_name, file_size, file_content_type, file_url, reg_dt )
+	<insert id="companyFileInsert" parameterType="com.ssafy.happyhouse.dto.CompanyImgFileDto">
+		insert into company_img_file ( comp_seq, file_name, file_size, file_content_type, file_url, reg_dt )
 		            values ( #{compSeq}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl}, now() )
 	</insert>
 	
 	<delete id="companyFileDelete" parameterType="int">
-		delete from company_file where comp_seq = #{compSeq}
+		delete from company_img_file where comp_seq = #{compSeq}
 	</delete>
 	
 	<!-- <select id="companyFileUrlDeleteList" parameterType="int" resultType="string">
