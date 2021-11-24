@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,24 +29,23 @@ import com.ssafy.happyhouse.dto.HouseReviewResultDto;
 import com.ssafy.happyhouse.dto.UserDto;
 
 @Service
+@Transactional
 public class HouseServiceImpl implements HouseService {
 
 	@Autowired
 	private HouseDao houseDao;
 	@Autowired
 	private BookMarkDao bookmarkDao;
-	
+
 	private static final int SUCCESS = 1;
 	private static final int FAIL = -1;
-	
-	private static final String uploadFolder = "upload";
-	private static final String uploadPath = "C:" + File.separator + "apps" + File.separator + "happyhouse"
-            + File.separator + "server" 
-            + File.separator + "src" 
-            + File.separator + "main"
-            + File.separator + "resources"
-            + File.separator + "static";
-	
+
+	@Value("${app.fileupload.uploadDir}")
+	private String uploadFolder;
+
+	@Value("${app.fileupload.uploadPath}")
+	private String uploadPath;
+
 	// 매물 검색 (동이름)
 	@Override
 	public HouseResultDto getHouseDongDetail(String dongString, UserDto userDto) {
@@ -53,19 +53,19 @@ public class HouseServiceImpl implements HouseService {
 		List<HouseDetailDto> list = null;
 		try {
 			list = houseDao.getHouseDongDetail(dongString);
-			
+
 			// 세션이 있다면, 해당 사용자의 북마크 데이터인지 여부 판별
-	        if (userDto != null) {
-	        	List<HouseDetailDto> userBookMarkList = bookmarkDao.getBookmarkHouseDetailListById(userDto.getUserId());
-	        	System.out.println(userBookMarkList);
-	        	for (HouseDetailDto item : userBookMarkList) {
-	        		for (HouseDetailDto innerItem : list) {
-	        			if (item.getHouseNo() == innerItem.getHouseNo()) {
-	        				innerItem.setBookmark(true);
-	        			}
-	        		}
-	        	}
-	        }
+			if (userDto != null) {
+				List<HouseDetailDto> userBookMarkList = bookmarkDao.getBookmarkHouseDetailListById(userDto.getUserId());
+				System.out.println(userBookMarkList);
+				for (HouseDetailDto item : userBookMarkList) {
+					for (HouseDetailDto innerItem : list) {
+						if (item.getHouseNo() == innerItem.getHouseNo()) {
+							innerItem.setBookmark(true);
+						}
+					}
+				}
+			}
 			houseResultDto.setHouseDetailDto(list);
 			houseResultDto.setResult(SUCCESS);
 		} catch (Exception e) {
@@ -74,7 +74,7 @@ public class HouseServiceImpl implements HouseService {
 		}
 		return houseResultDto;
 	}
-	
+
 	// 매물 검색 (동 + 아파트 이름)
 	@Override
 	public HouseResultDto getHouseSearchDetail(String searchWord, UserDto userDto) {
@@ -112,45 +112,47 @@ public class HouseServiceImpl implements HouseService {
 	public HouseOnGoingResultDto houseOnGoingRegister(HouseOnGoingDto houseDto, MultipartHttpServletRequest request) {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
 		try {
-			 houseDao.houseOnGoingRegister(houseDto);
-			 System.out.println(houseDto);
-			 List<MultipartFile> fileList = request.getFiles("file");
+			houseDao.houseOnGoingRegister(houseDto);
+			System.out.println(houseDto);
+			List<MultipartFile> fileList = request.getFiles("file");
 
-	         File uploadDir = new File(uploadPath + File.separator + uploadFolder);
-	         if (!uploadDir.exists()) uploadDir.mkdir();
-	         
-	         for (MultipartFile part : fileList) {
+			File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+			if (!uploadDir.exists())
+				uploadDir.mkdir();
 
-	            int ongoingId = houseDto.getOngoingId();
-	            
-	            String fileName = part.getOriginalFilename();
-	            
-	            //Random File Id
-	            UUID uuid = UUID.randomUUID();
-	            
-	            //file extension
-	            String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
-	        
-	            String savingFileName = uuid + "." + extension;
-	        
-	            File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
-	            
-	            System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
-	            part.transferTo(destFile);
-	            
-	            // Table Insert
-	            HouseOnGoingFileDto houseOnGoingFileDto = new HouseOnGoingFileDto();
-	            houseOnGoingFileDto.setOngoingId(ongoingId);;
-	            houseOnGoingFileDto.setFileName(fileName);
-	            houseOnGoingFileDto.setFileSize(part.getSize());
-	            houseOnGoingFileDto.setFileContentType(part.getContentType());
-	            String houseOnGoingFileUrl = "/" + uploadFolder + "/" + savingFileName;
-	            houseOnGoingFileDto.setFileUrl(houseOnGoingFileUrl);
-	            
-	            houseDao.houseOnGoingFileInsert(houseOnGoingFileDto);
-	         }
-	         houseOnGoingResultDto.setResult(SUCCESS);
-	        
+			for (MultipartFile part : fileList) {
+
+				int ongoingId = houseDto.getOngoingId();
+
+				String fileName = part.getOriginalFilename();
+
+				// Random File Id
+				UUID uuid = UUID.randomUUID();
+
+				// file extension
+				String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
+
+				String savingFileName = uuid + "." + extension;
+
+				File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+
+				System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+				part.transferTo(destFile);
+
+				// Table Insert
+				HouseOnGoingFileDto houseOnGoingFileDto = new HouseOnGoingFileDto();
+				houseOnGoingFileDto.setOngoingId(ongoingId);
+				;
+				houseOnGoingFileDto.setFileName(fileName);
+				houseOnGoingFileDto.setFileSize(part.getSize());
+				houseOnGoingFileDto.setFileContentType(part.getContentType());
+				String houseOnGoingFileUrl = "/" + uploadFolder + "/" + savingFileName;
+				houseOnGoingFileDto.setFileUrl(houseOnGoingFileUrl);
+
+				houseDao.houseOnGoingFileInsert(houseOnGoingFileDto);
+			}
+			houseOnGoingResultDto.setResult(SUCCESS);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			houseOnGoingResultDto.setResult(FAIL);
@@ -162,22 +164,23 @@ public class HouseServiceImpl implements HouseService {
 	@Override
 	public HouseOnGoingResultDto houseOnGoingDetail(HouseOnGoingParamDto houseOnGoingParamDto) {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
-		
+
 		try {
 			HouseOnGoingDto houseOnGoingDto = houseDao.houseOnGoingDetail(houseOnGoingParamDto);
-			if(houseOnGoingDto.getCompSeq() != 0 && houseOnGoingDto.getCompSeq() == houseOnGoingParamDto.getCompSeq()){
+			if (houseOnGoingDto.getCompSeq() != 0
+					&& houseOnGoingDto.getCompSeq() == houseOnGoingParamDto.getCompSeq()) {
 				houseOnGoingDto.setSameUser(true);
-			}else {
+			} else {
 				houseOnGoingDto.setSameUser(false);
-			}			
+			}
 			houseOnGoingResultDto.setDto(houseOnGoingDto);
 			houseOnGoingResultDto.setResult(SUCCESS);
-			
+
 			List<HouseOnGoingFileDto> fileList = houseDao.houseOnGoingDetailFileList(houseOnGoingDto.getOngoingId());
-			
+
 			houseOnGoingDto.setFileList(fileList);
 			houseOnGoingResultDto.setDto(houseOnGoingDto);
-			
+
 			houseOnGoingResultDto.setResult(SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -190,86 +193,86 @@ public class HouseServiceImpl implements HouseService {
 	@Override
 	public HouseOnGoingResultDto houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto) {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
-	    
-	    try {
-	        List<HouseOnGoingDto> list = houseDao.houseOnGoingList(houseOnGoingParamDto);
-	        
-	        for (HouseOnGoingDto item : list) {
-	        	List<HouseOnGoingFileDto> fileDtoList = houseDao.houseOnGoingDetailFileList(item.getOngoingId());
-	        	if (fileDtoList != null && !fileDtoList.isEmpty()) {
-	        		item.setFileList(fileDtoList);
-	        	}
-	        }
 
-	        houseOnGoingResultDto.setList(list);
-	        houseOnGoingResultDto.setResult(SUCCESS);
-	        
-	    }catch(Exception e) {
-	        e.printStackTrace();
-	        houseOnGoingResultDto.setResult(FAIL);
-	    }
-	    return houseOnGoingResultDto;
+		try {
+			List<HouseOnGoingDto> list = houseDao.houseOnGoingList(houseOnGoingParamDto);
+
+			for (HouseOnGoingDto item : list) {
+				List<HouseOnGoingFileDto> fileDtoList = houseDao.houseOnGoingDetailFileList(item.getOngoingId());
+				if (fileDtoList != null && !fileDtoList.isEmpty()) {
+					item.setFileList(fileDtoList);
+				}
+			}
+
+			houseOnGoingResultDto.setList(list);
+			houseOnGoingResultDto.setCount(houseDao.houseOnGoingListTotalCount());
+			houseOnGoingResultDto.setResult(SUCCESS);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			houseOnGoingResultDto.setResult(FAIL);
+		}
+		return houseOnGoingResultDto;
 	}
-	
+
 	// 등록된 매물 리스트(특정 매물 클릭)
 	@Override
 	@Transactional
 	public HouseOnGoingResultDto houseNoOnGoingList(int houseNo, UserDto userDto) {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
-	    
-	    try {
-	        List<HouseOnGoingDto> list = houseDao.houseNoOnGoingList(houseNo);
-	        int count = houseDao.houseNoOnGoingListTotalCount(houseNo);
-	        System.out.println("NOONGOING   " + userDto);
-	        // 세션이 있다면, 해당 사용자의 북마크 데이터인지 여부 판별
-	        if (userDto != null) {
-	        	List<HouseOnGoingDto> userBookMarkList = bookmarkDao.getBookmarkHouseOngoingListById(userDto.getUserId());
-	        	System.out.println(userBookMarkList);
-	        	for (HouseOnGoingDto item : userBookMarkList) {
-	        		for (HouseOnGoingDto innerItem : list) {
-	        			if (item.getOngoingId() == innerItem.getOngoingId()) {
-	        				innerItem.setBookmark(true);
-	        			}
-	        		}
-	        	}
-	        }
-	        
-	        houseOnGoingResultDto.setList(list);
-	        houseOnGoingResultDto.setCount(count);
-	        
-	        houseOnGoingResultDto.setResult(SUCCESS);
-	        
-	    }catch(Exception e) {
-	        e.printStackTrace();
-	        houseOnGoingResultDto.setResult(FAIL);
-	    }
-	    return houseOnGoingResultDto;
-	}
-	
 
+		try {
+			List<HouseOnGoingDto> list = houseDao.houseNoOnGoingList(houseNo);
+			int count = houseDao.houseNoOnGoingListTotalCount(houseNo);
+			System.out.println("NOONGOING   " + userDto);
+			// 세션이 있다면, 해당 사용자의 북마크 데이터인지 여부 판별
+			if (userDto != null) {
+				List<HouseOnGoingDto> userBookMarkList = bookmarkDao
+						.getBookmarkHouseOngoingListById(userDto.getUserId());
+				System.out.println(userBookMarkList);
+				for (HouseOnGoingDto item : userBookMarkList) {
+					for (HouseOnGoingDto innerItem : list) {
+						if (item.getOngoingId() == innerItem.getOngoingId()) {
+							innerItem.setBookmark(true);
+						}
+					}
+				}
+			}
+
+			houseOnGoingResultDto.setList(list);
+			houseOnGoingResultDto.setCount(count);
+
+			houseOnGoingResultDto.setResult(SUCCESS);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			houseOnGoingResultDto.setResult(FAIL);
+		}
+		return houseOnGoingResultDto;
+	}
 
 	// 등록된 매물 리스트(5개)
 	@Override
 	public HouseOnGoingResultDto houseOnGoingLimitList(HouseOnGoingParamDto houseOnGoingParamDto) {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
-	    
-	    try {
-	        List<HouseOnGoingDto> list = houseDao.houseOnGoingLimitList(houseOnGoingParamDto);
 
-	        houseOnGoingResultDto.setList(list);
-	        houseOnGoingResultDto.setResult(SUCCESS);
-	        
-	    }catch(Exception e) {
-	        e.printStackTrace();
-	        houseOnGoingResultDto.setResult(FAIL);
-	    }
-	    return houseOnGoingResultDto;
+		try {
+			List<HouseOnGoingDto> list = houseDao.houseOnGoingLimitList(houseOnGoingParamDto);
+
+			houseOnGoingResultDto.setList(list);
+			houseOnGoingResultDto.setResult(SUCCESS);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			houseOnGoingResultDto.setResult(FAIL);
+		}
+		return houseOnGoingResultDto;
 	}
-	
+
 	// 리뷰 등록
 	@Override
 	public HouseReviewResultDto houseReviewRegister(HouseReviewDto houseReviewDto, HttpServletRequest request) {
-		 HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
+		HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
 		try {
 			if (houseDao.houseReviewRegister(houseReviewDto) == 1) {
 				houseReviewResultDto.setDto(houseReviewDto);
@@ -288,23 +291,23 @@ public class HouseServiceImpl implements HouseService {
 	@Override
 	public HouseReviewResultDto houseReviewList(HouseReviewParamDto houseReviewParamDto) {
 		HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
-		
+
 		try {
 			List<HouseReviewDto> houseReviewList = houseDao.houseReviewList(houseReviewParamDto);
-			
+
 			if (houseReviewParamDto.getUserSeq() != 0 && houseReviewList != null && !houseReviewList.isEmpty()) {
 				for (HouseReviewDto houseReviewDto : houseReviewList) {
-					if(houseReviewParamDto.getUserSeq() == houseReviewDto.getUserSeq()){
+					if (houseReviewParamDto.getUserSeq() == houseReviewDto.getUserSeq()) {
 						houseReviewDto.setSameUser(true);
-					}else {
+					} else {
 						houseReviewDto.setSameUser(false);
 					}
 				}
 			}
-			
+
 			houseReviewResultDto.setList(houseReviewList);
 			houseReviewResultDto.setResult(SUCCESS);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			houseReviewResultDto.setResult(FAIL);
@@ -315,13 +318,14 @@ public class HouseServiceImpl implements HouseService {
 	@Override
 	public HouseReviewResultDto houseReviewAllListByUserSeq(HouseReviewParamDto houseReviewParamDto) {
 		HouseReviewResultDto houseReviewResultDto = new HouseReviewResultDto();
-		
+
 		try {
-			List<HouseReviewDto> houseReviewList = houseDao.houseReviewAllListByUserSeq(houseReviewParamDto.getUserSeq());
-			
+			List<HouseReviewDto> houseReviewList = houseDao
+					.houseReviewAllListByUserSeq(houseReviewParamDto.getUserSeq());
+
 			houseReviewResultDto.setList(houseReviewList);
 			houseReviewResultDto.setResult(SUCCESS);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			houseReviewResultDto.setResult(FAIL);
@@ -332,7 +336,7 @@ public class HouseServiceImpl implements HouseService {
 	@Override
 	public HouseReviewResultDto houseReviewDelete(int reviewId) {
 		HouseReviewResultDto resultDto = new HouseReviewResultDto();
-		
+
 		try {
 			if (houseDao.houseReviewDelete(reviewId) == 1) {
 				resultDto.setResult(SUCCESS);
