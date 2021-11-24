@@ -56,8 +56,9 @@
 	</select>
 	
 	<select id="houseOnGoingLimitList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
-		select ongoing_id, houseinfo_no as house_no, title
-		from house_ongoing
+		select h.ongoing_id, h.houseinfo_no as house_no, h.title, i.AptName, h.title
+		from house_ongoing h, houseinfo i
+		where h.houseinfo_no = i.no
 		order by ongoing_id desc
 		limit 5
 	</select>

@@ -56,10 +56,10 @@ public class NoticeController {
 	// 최근 등록 매물 5개까지
     @GetMapping(value="/notices/latest")
     public ResponseEntity<NoticeResultDto> noticeLatestList(NoticeParamDto noticeParamDto){
-    	NoticeResultDto noticeResultDto;
+    	NoticeResultDto noticeResultDto = new NoticeResultDto();
     	System.out.println(noticeParamDto);
     	
-    	noticeResultDto = service.noticeList(noticeParamDto);
+    	noticeResultDto = service.noticeLatestList(noticeParamDto);
 	    
 	    if( noticeResultDto.getResult() == SUCCESS ) {
 	        return new ResponseEntity<NoticeResultDto>(noticeResultDto, HttpStatus.OK);

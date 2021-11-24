@@ -121,7 +121,7 @@ public class HouseOngoingController {
     public ResponseEntity<HouseOnGoingResultDto> houseOnGoingLimitList(HouseOnGoingParamDto houseOnGoingParamDto){
     	HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
     	
-    	houseOnGoingResultDto = houseService.houseOnGoingList(houseOnGoingParamDto);
+    	houseOnGoingResultDto = houseService.houseOnGoingLimitList(houseOnGoingParamDto);
     	
 	    if( houseOnGoingResultDto.getResult() == SUCCESS ) {
 	        return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.OK);
