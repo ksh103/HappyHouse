@@ -3,7 +3,9 @@
     <div class="row g-2">
       <div class="col-lg-3 col-md-6">
         <div class="form-floating">
-          <input @click="selectHouseNo" v-model="houseNo" type="text" class="form-control cursor-pointer" placeholder="실거래가 *">
+          <!-- <input @click="selectHouseNo" v-model="houseNo" type="text" class="form-control cursor-pointer" placeholder="실거래가 *">
+          <label>건물 정보 *</label> -->
+          <input v-model="houseNo" type="text" class="form-control cursor-pointer" placeholder="실거래가 *">
           <label>건물 정보 *</label>
         </div>
       </div>

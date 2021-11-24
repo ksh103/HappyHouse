@@ -23,6 +23,7 @@
             <tr>
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userId">아이디 <span class="text-danger">*</span></label></td>
               <td class="px-4"><input v-model="userId" id="userId" type="text" class="mb-4 form-control form-control-lg"></td>
+              <button @click="idCheck" class="btn btn-primary">중복확인</button>
             </tr>
             <tr>
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userPassword">비밀번호 <span class="text-danger">*</span></label></td>
@@ -35,6 +36,10 @@
             <tr>
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userEmail">이메일 <span class="text-danger">*</span></label></td>
               <td class="px-4"><input v-model="userEmail" id="userEmail" type="email" class="mb-4 form-control form-control-lg"></td>
+            </tr>
+            <tr>
+              <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userEmail">휴대전화 <span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userPhone" id="userPhone" type="text" class="mb-4 form-control form-control-lg"></td>
             </tr>
             <tr v-if="registerType === 'company'">
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userAddress">주소 <span class="text-danger">*</span></label></td>
@@ -70,6 +75,7 @@ export default {
       userRePassword: '',
       userName: '',
       userEmail: '',
+      userPhone: '',
       userAddress: ''
     }
   },
@@ -80,17 +86,22 @@ export default {
     ...mapActions(['login']),
     join() {
       if(this.registerType == 'common'){
-        http.post('/user', {
+        http.post('/user/register', {
           userName: this.userName,
           userId: this.userId,
           userPassword: this.userPassword,
           userEmail: this.userEmail,
+          userPhone: this.userPhone,
         })
         .then(({ data }) => {
           let $this = this;
-          if (data.result == 1) {
+          if(this.userPassword === this.userRePassword){
+            if (data.result == 1) {
             this.$swal('회원 가입이 완료되었습니다.', '환영합니다. 로그인 페이지로 이동합니다.', { icon: 'success' })
               .then(() => $this.$router.push('/user/login/'));
+            }
+          }else{
+            this.$swal('비밀번호를 다시 입력해주세요.', { icon: 'error' })
           }
         })
         .catch(error => {
@@ -107,12 +118,17 @@ export default {
           compPassword: this.userPassword,
           compEmail: this.userEmail,
           compAddress: this.userAddress,
+          compPhone: this.userPhone,
         })
         .then(({ data }) => {
           let $this = this;
-          if (data.result == 1) {
-            this.$swal('회원 가입이 완료되었습니다.', '환영합니다. 로그인 페이지로 이동합니다.', { icon: 'success' })
-              .then(() => $this.$router.push('/user/login/'));
+          if(this.userPassword === this.userRePassword){
+            if (data.result == 1) {
+              this.$swal('회원 가입이 완료되었습니다.', '환영합니다. 로그인 페이지로 이동합니다.', { icon: 'success' })
+                .then(() => $this.$router.push('/user/login/'));
+            }
+          }else{
+            this.$swal('비밀번호를 다시 입력해주세요.', { icon: 'error' })
           }
         })
         .catch(error => {
@@ -123,9 +139,29 @@ export default {
           }
         })
       }
+    },
+      
+    idCheck({ commit }, userId) {
+      http.get(`/user/info/id/${userId}`)
+        .then(({ data }) => {
+          console.log("idCheckVue: data : ");
+          console.log(data);
+
+      })
     }
   }
 }
 </script>
 
-<style></style>
+<style scope>
+.input_box button{
+      float: left;
+    margin-left: 1.047120%;
+    width: 10.471204%;
+    height: 55px;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+    background: #6e7c8c;
+}
+</style>
