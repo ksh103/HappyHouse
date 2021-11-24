@@ -144,16 +144,4 @@ public class HouseOnGoingDto {
 	public void setCompName(String compName) {
 		this.compName = compName;
 	}
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("HouseOnGoingDto [ongoingId=").append(ongoingId).append(", houseNo=").append(houseNo)
-				.append(", compSeq=").append(compSeq).append(", title=").append(title).append(", content=")
-				.append(content).append(", dealAmount=").append(dealAmount).append(", floor=").append(floor)
-				.append(", area=").append(area).append(", direction=").append(direction).append(", type=").append(type)
-				.append(", fee=").append(fee).append(", room=").append(room).append(", bathroom=").append(bathroom)
-				.append(", regDt=").append(regDt).append(", sameUser=").append(sameUser).append(", fileList=")
-				.append(fileList).append("]");
-		return builder.toString();
-	}
 }

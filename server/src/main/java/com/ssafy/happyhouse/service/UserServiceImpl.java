@@ -30,14 +30,13 @@ public class UserServiceImpl implements UserService {
 	private static final int INCORRECT_INFO = 2;
 	private static final int FAIL = -1;
 	
-	private static final String uploadFolder = "userProfileImage";
+	private static final String uploadFolder = "upload";
 	private static final String uploadPath = "C:" + File.separator + "apps" + File.separator + "happyhouse"
             + File.separator + "server" 
             + File.separator + "src" 
             + File.separator + "main"
             + File.separator + "resources"
-            + File.separator + "static"
-            + File.separator + "upload";
+            + File.separator + "static";
 
 	@Override
 	public UserResultDto userRegister(UserDto userDto) {
