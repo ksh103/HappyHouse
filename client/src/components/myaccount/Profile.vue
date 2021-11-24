@@ -14,13 +14,6 @@
                 <ul class="resume-box">
                   <li>
                     <div class="icon text-center">
-                        <i class="fa fa-user"></i>
-                    </div>
-                    <div class="fw-bold mb-0">이름</div>
-                    <span>{{ name }}</span>
-                  </li>
-                  <li>
-                    <div class="icon text-center">
                         <i class="fa fa-id-badge"></i>
                     </div>
                     <div class="fw-bold mb-0">아이디</div>
@@ -137,7 +130,7 @@ export default {
         dangerMode: true,
         buttons: true
       }).then(value => {
-        if(this.level == '2'){
+         if(this.level == '2'){
           if (value) {
             if (value === this.password) {
               http.delete('/user')

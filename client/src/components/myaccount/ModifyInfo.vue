@@ -19,6 +19,10 @@
                   <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userId">이메일 <span class="text-danger">*</span></label></td>
                   <td class="px-4"><input v-model="userEmail" id="userEmail" type="email" class="mb-4 form-control form-control-lg"></td>
                 </tr>
+                <tr>
+                  <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userId">휴대전화 <span class="text-danger">*</span></label></td>
+                  <td class="px-4"><input v-model="userPhone" id="userPhone" type="text" class="mb-4 form-control form-control-lg"></td>
+                </tr>
                 <tr v-if="level == '3'">
                   <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userId">주소 <span class="text-danger">*</span></label></td>
                   <td class="px-4"><input v-model="compAddress" id="compAddress" type="text" class="mb-4 form-control form-control-lg"></td>
@@ -50,6 +54,7 @@ export default {
       userId: '',
       userName: '',
       userEmail: '',
+      userPhone: '',
       compAddress: '',
     }
   },
@@ -61,6 +66,7 @@ export default {
           userName: this.userName,
           userId: this.userId,
           userEmail: this.userEmail,
+          userPhone: this.userPhone,
         })
         .then(response => {
           console.log(response)
@@ -68,6 +74,7 @@ export default {
             this.SET_USER_MODIFY({
               name: this.userName,
               email: this.userEmail,
+              phone: this.userPhone,
             });
             this.$swal('정보 수정이 완료되었습니다.', { icon: 'success' })
               .then(() => this.$router.push('/myaccount'));
@@ -83,6 +90,7 @@ export default {
           compName: this.userName,
           compId: this.userId,
           compEmail: this.userEmail,
+          compPhone: this.userPhone,
           compAddress: this.compAddress
         })
         .then(response => {
@@ -91,6 +99,7 @@ export default {
             this.SET_COMPANY_USER_MODIFY({
               name: this.userName,
               email: this.userEmail,
+              phone: this.userPhone,
               address: this.compAddress
             });
             this.$swal('정보 수정이 완료되었습니다.', { icon: 'success' })
@@ -106,12 +115,13 @@ export default {
     },
   },
   computed: {
-    ...mapState(storeName, ['id', 'name', 'email', 'address', 'level']),
+    ...mapState(storeName, ['id', 'name', 'email', 'address', 'phone', 'level']),
   },
   created() {
     this.userId = this.id;
     this.userName = this.name;
     this.userEmail = this.email;
+    this.userPhone = this.phone;
     this.compAddress = this.address;
   }
 }

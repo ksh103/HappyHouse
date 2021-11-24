@@ -55,17 +55,18 @@
 					</div>
         </div>
         <div class="row g-3 mt-4">
-          <!-- <div class="col-lg-4 col-md-12">
-            <h4>테스트중</h4>
+          <div class="col-lg-4 col-md-12">
+            <h4>최근 매물</h4>
             <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
               <tbody >
-                  <tr v-for="(item, index) in getOnGoingCard" v-bind:key="index">
+                  <tr v-for="(item, index) in getOnGoingCard" :key="index">
+                      <td>{{ item.ongoingId }}</td>
                       <td>{{ item.AptName }}</td>
                   </tr>
               </tbody>
             </table>
-          </div> -->
-          <div class="col-lg-4 col-md-12">
+          </div>
+          <!-- <div class="col-lg-4 col-md-12">
             <h4>최근 매물</h4>
             <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
               <tbody>
@@ -86,7 +87,7 @@
                   </tr>
               </tbody>
             </table>
-          </div>
+          </div> -->
           <div class="overflow-hidden col-lg-4 col-md-12">
             <h4>부동산 관련 뉴스</h4>
             <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
@@ -98,6 +99,17 @@
             </table>
           </div>
           <div class="col-lg-4 col-md-12">
+            <h4>공지사항</h4>
+            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
+              <tbody>
+                <tr v-for="(item, index) in getBoardList" :key="index">
+                  <td>{{ item.noticeId }}</td>
+                  <td>{{ item.title }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- <div class="col-lg-4 col-md-12">
             <h4>공지사항</h4>
             <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
               <tbody>
@@ -118,7 +130,7 @@
                 </tr>
               </tbody>
             </table>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -141,9 +153,11 @@ export default {
   },
   computed :{
     ...mapGetters('houseOnGoingStore', ['getOnGoingCard']),
+    ...mapGetters('boardNoticeStore', ['getBoardList']),
   },
   methods: {
     ...mapActions('houseOnGoingStore', ['onGoingCardLatest']),
+    ...mapActions('boardNoticeStore', ['boardListLatest']),
 
     newsDetail() {
       alert('기사 새 창/탭에 열기 기능 구현하기')
@@ -154,6 +168,7 @@ export default {
   },
   created() {
     this.onGoingCardLatest();
+    this.boardListLatest();
     http.get( "/info/news")
       .then(({ data }) => {
         this.news = data.newsDto;

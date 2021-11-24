@@ -159,7 +159,26 @@ const boardNoticeStore = {
         console.log(error);
         Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
       });
-    }
+    },
+    boardListLatest({ commit, state }){
+      http.get(
+        "/notices/latest")
+        .then(({ data }) => {
+          console.log("BoardListLatestVue: data : ");
+          console.log(data);
+          if( data.result == 'login' ){
+            router.push("/user/login")
+          }else{
+            commit( 'SET_BOARD_LIST', data.list );
+            commit( 'SET_BOARD_TOTAL_LIST_ITEM_COUNT', data.count );
+          }
+        })
+        .catch((error) => {
+          console.log("ListVue: error ");
+          console.log(error);
+          Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+        });
+    },
   },
 };
 
