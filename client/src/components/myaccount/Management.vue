@@ -28,6 +28,7 @@
                     <td>{{ item.type }}</td>
                     <td>
                       <h6 class="mb-0">{{ item.title }}</h6>
+                      <!-- <h6 class="mb-0">{{ item.AptName }}</h6> -->
                     </td>
                     <td>{{ item.dealAmount }}</td>
                     <td>{{ item.direction }}</td>

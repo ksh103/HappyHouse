@@ -19,6 +19,10 @@
                   <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userId">이메일 <span class="text-danger">*</span></label></td>
                   <td class="px-4"><input v-model="userEmail" id="userEmail" type="email" class="mb-4 form-control form-control-lg"></td>
                 </tr>
+                <tr v-if="level == '3'">
+                  <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userId">주소 <span class="text-danger">*</span></label></td>
+                  <td class="px-4"><input v-model="compAddress" id="compAddress" type="text" class="mb-4 form-control form-control-lg"></td>
+                </tr>
               </table>
               <div class="col-12 text-center my-4">
                 <router-link to="/myaccount" class="btn px-4 btn-block btn-secondary lift text-uppercase">취소</router-link>&nbsp;
@@ -46,12 +50,14 @@ export default {
       userId: '',
       userName: '',
       userEmail: '',
+      compAddress: '',
     }
   },
   methods: {
-    ...mapMutations(storeName, ['SET_USER_MODIFY']),
+    ...mapMutations(storeName, ['SET_USER_MODIFY', 'SET_COMPANY_USER_MODIFY']),
     modifyInfo() {
-      http.put('/user', {
+      if(this.level == '2'){
+        http.put('/user/modify', {
           userName: this.userName,
           userId: this.userId,
           userEmail: this.userEmail,
@@ -72,15 +78,41 @@ export default {
           console.log(error);
           this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         })
+      }else if(this.level == '3'){
+        http.put('/company/modify', {
+          compName: this.userName,
+          compId: this.userId,
+          compEmail: this.userEmail,
+          compAddress: this.compAddress
+        })
+        .then(response => {
+          console.log(response)
+          if (response.data.result === SUCCESS) {
+            this.SET_COMPANY_USER_MODIFY({
+              name: this.userName,
+              email: this.userEmail,
+              address: this.compAddress
+            });
+            this.$swal('정보 수정이 완료되었습니다.', { icon: 'success' })
+              .then(() => this.$router.push('/myaccount'));
+          }
+        })
+        .catch(error => {
+          console.log("RegisterVue: error : ");
+          console.log(error);
+          this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+        })
+      }
     },
   },
   computed: {
-    ...mapState(storeName, ['id', 'name', 'email']),
+    ...mapState(storeName, ['id', 'name', 'email', 'address', 'level']),
   },
   created() {
     this.userId = this.id;
     this.userName = this.name;
     this.userEmail = this.email;
+    this.compAddress = this.address;
   }
 }
 </script>
