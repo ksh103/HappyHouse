@@ -39,8 +39,11 @@
         </tbody>
       </table>
       <pagination class="mt-3" v-on:call-parent="movePage"></pagination>
-      <router-link class="btn btn-primary" to="/board/notice/insert">글쓰기</router-link>
     </div>
+    <div class="my-3 d-flex justify-content-end">
+      <router-link class="btn btn-primary float-end" to="/board/notice/insert">글쓰기</router-link>
+    </div>
+      
   </div>
 </template>
 

@@ -39,7 +39,7 @@
         </div>
         <router-link class="btn btn-sm btn-primary mt-2" to="/house/ongoing/card">목록</router-link>
         <button @click="deleteOngoingDetail(ongoingId)" class="btn btn-sm btn-danger float-end ms-2 mt-2">삭제</button>
-        <router-link class="btn btn-sm btn-primary float-end mt-2" to="/board/notice/modify">수정</router-link>
+        <router-link class="btn btn-sm btn-primary float-end mt-2" to="/house/ongoing/modify">수정</router-link>
       </div>
       <div class="col-md-4">
         <ul class="list-group">

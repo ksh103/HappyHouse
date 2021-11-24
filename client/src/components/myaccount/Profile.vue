@@ -130,10 +130,15 @@ export default {
         dangerMode: true,
         buttons: true
       }).then(value => {
-         if(this.level == '2'){
+          var levelUrl = '';
+          if(this.level == '2'){
+            levelUrl = '/user'
+          }else if(this.level == '3'){
+            levelUrl = '/company'
+          }
           if (value) {
             if (value === this.password) {
-              http.delete('/user')
+              http.delete(levelUrl)
                 .then(response => {
                   if (response.data.result === SUCCESS) {
                     this.$swal('탈퇴 처리가 완료되었습니다.', '지금까지 이용해주셔서 감사합니다.', { icon: 'success' })
@@ -154,32 +159,6 @@ export default {
             this.$swal('비밀번호를 입력하세요!')
               .then(() => this.deleteUser());
           }
-        }
-        else if(this.level == '3'){
-          if (value) {
-            if (value === this.password) {
-              http.delete('/company')
-                .then(response => {
-                  if (response.data.result === SUCCESS) {
-                    this.$swal('탈퇴 처리가 완료되었습니다.', '지금까지 이용해주셔서 감사합니다.', { icon: 'success' })
-                      .then(() => this.logout());
-                  } else {
-                    this.$swal('처리중에 문제가 발생하였습니다.', { icon: 'error' });
-                  }
-                })
-                .catch(error => {
-                  console.log(error);
-                  this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
-                })
-            } else {
-              this.$swal('비밀번호가 일치하지 않습니다.')
-                .then(() => this.deleteUser());
-            }
-          } else if (value == '') {
-            this.$swal('비밀번호를 입력하세요!')
-              .then(() => this.deleteUser());
-          }
-        }
       })
     }
   },

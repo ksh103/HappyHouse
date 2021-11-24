@@ -68,28 +68,31 @@
                 <label>매물 특징 <span class="text-danger">*</span></label>
             </div>
         </div>
+
         <div class="col-12">
           <div class="my-3">
             <label class="form-label ms-3 mb-3">매물 설명 <sup class="text-danger">*</sup></label>
-            <div id=divEditorInsert></div>
+            <div id=divEditorUpdate></div>
           </div>
         </div>
 
-        <!-- 파일 첨부 -->
+        <div v-if="storeFileList.length > 0" class="mb-3">
+          첨부파일 : <span><div v-for="(file, index) in storeFileList" class="fileName" :key="index">{{file.fileName}}</div></span>
+        </div>
         <div class="form-check mb-3">
-          <input v-model="attachFile" class="form-check-input" type="checkbox" value="" id="chkFileUploadInsert">
-          <label class="form-check-label" for="chkFileUploadInsert">파일 추가</label>
+          <input v-model="attachFile" class="form-check-input" type="checkbox" value="" id="chkFileUploadUpdate">
+          <label class="form-check-label" for="chkFileUploadUpdate">파일 추가</label>
         </div>
         <div class="mb-3" v-show="attachFile" id="imgFileUploadInsertWrapper">
-          <input @change="changeFile" type="file" id="inputFileUploadInsert" multiple>
-          <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
-            <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
-            <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index">
-          </div>
+          <input @change="changeFile" type="file" id="inputFileUploadUpdate" multiple>
+            <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
+              <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
+              <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index">
+            </div>
         </div>
 
         <div class="col-12">
-          <button @click.prevent="ongoingInsert" class="btn btn-primary float-end">작성완료</button>
+          <button @click.prevent="ongoingModify" class="btn btn-primary float-end">작성완료</button>
           <router-link to="/house/ongoing/card" class="me-2 ml-3 btn btn-secondary float-end" >취소</router-link>
         </div>
 			</div>
@@ -103,27 +106,23 @@ import CKEditor from '@ckeditor/ckeditor5-vue2';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import SelectHouseNoModal from './modal/SelectHouseNoModal.vue';
 import VueAlertify from 'vue-alertify';
-import { mapState } from 'vuex';
+import { mapState, mapMutations} from 'vuex';
 import { Modal } from 'bootstrap';
 
 Vue.use(CKEditor).use(VueAlertify);
 
 import http from "@/common/axios.js";
 
-const storeName = 'houseOnGoingStore';
 
 export default {
   name: 'HouseOnGoingModify',
-  computed: {
-    ...mapState(storeName, ['ongoingId', 'title', 'AptName', 'fileList', 'type', 'dealAmount', 'area', 'floor', 'fee', 'direction', 'room', 'bathroom', 'content', 'compName', 'compAddress']),
-  },
   components: {
     SelectHouseNoModal
   },
   data(){
     return{
-      houseNo: '',
       houseName: '',
+      houseNo:'',
       type: '',
       dealAmount: '',
       floor: '',
@@ -139,6 +138,25 @@ export default {
       selectHouseNoModal: null,
     }
   },
+  computed: {
+    ...mapState('houseOnGoingStore', {
+      storeOngoingId: 'ongoingId', 
+      storeHouseNo: 'houseNo',
+      storeTitle: 'title', 
+      storeHouseName: 'AptName', 
+      storeFileList: 'fileList', 
+      storeType: 'type', 
+      storeDealAmount: 'dealAmount', 
+      storeArea: 'area', 
+      storeFloor: 'floor', 
+      storeFee: 'fee', 
+      storeDirection: 'direction', 
+      storeRoom: 'room', 
+      storeBathRoom: 'bathroom', 
+      storeContent: 'content', 
+    }),
+  },
+  
   methods: {
     afterClose(val) {
       if (val) {
@@ -158,9 +176,10 @@ export default {
         }
       }
     },
-    ongoingInsert(){
+    ongoingModify(){
       let formData = new FormData();
 
+      formData.append("ongoingId", this.storeOngoingId);
       formData.append("houseNo", this.houseNo);
       formData.append("type", this.type);
       formData.append("dealAmount", this.dealAmount);
@@ -170,11 +189,12 @@ export default {
       formData.append("fee", this.fee);
       formData.append("bathroom", this.bathroom);
       formData.append("title", this.title);
+      formData.append("room", this.room);
       formData.append("content", this.CKEditor.getData());
 
       // file upload
-      let attachFiles = document.querySelector("#inputFileUploadInsert");
-      console.log("InsertModalVue: data 1 : ");
+      let attachFiles = document.querySelector("#inputFileUploadUpdate");
+      console.log("UpdateModalVue: data 1 : ");
       console.log(attachFiles);
 
       let cnt = attachFiles.files.length;
@@ -182,11 +202,11 @@ export default {
         formData.append("file", attachFiles.files[i]);
       }
 
-      http.post("/house/deal/ongoing/register", formData, {
+      http.post(`/house/deal/ongoing/${this.storeOngoingId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' } 
       })
         .then(({ data }) => {
-          console.log("ongoingInsertVue: data : ");
+          console.log("ongoingModifyVue: data : ");
           console.log(data);
           if (data === "login") {
             this.$router.push('/user/login');
@@ -196,11 +216,10 @@ export default {
               console.log('성공')
               this.$router.push('/house/ongoing/card');
             }, 500);
-            console.log("sssasdfsdfd")
           }
         })
         .catch((error) => {
-          console.log("ongoingInsertVue: error ");
+          console.log("ongoingModifyVue : error ");
           console.log(error);
           this.$alertify.error('Opps!! 서버에 문제가 발생했습니다.');          
         });
@@ -208,14 +227,25 @@ export default {
   },
   mounted() {
     ClassicEditor
-      .create(document.querySelector('#divEditorInsert'))
+      .create(document.querySelector('#divEditorUpdate'))
       .then(editor => {
-          this.CKEditor = editor;
+        editor.setData(this.storeContent);
+        this.CKEditor = editor;
       })
       .catch(err => {
           console.error(err.stack);
       });
     this.selectHouseNoModal = new Modal(document.getElementById('selectHouseNoModal'));
+    this.houseName = this.storeHouseName
+    this.type = this.storeType
+    this.dealAmount = this.storeDealAmount
+    this.floor = this.storeFloor
+    this.area = this.storeArea
+    this.direction = this.storeDirection
+    this.fee = this.storeFee
+    this.room = this.storeRoom
+    this.bathroom = this.storeBathRoom
+    this.title = this.storeTitle
   }
 }
 </script>
