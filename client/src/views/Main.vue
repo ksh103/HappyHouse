@@ -10,7 +10,7 @@
 
             </div>
             <div class="input-group w-75">
-              <input id="inputSearchWord" type="text" class="form-control form-control-lg" placeholder="원하시는 아파트, 동명을 입력해주세요">
+              <input id="inputSearchWord" type="text" class="form-control form-control-lg"  placeholder="원하시는 아파트, 동명을 입력해주세요">
               <button id="btnSearchWord" class="btn btn-warning" type="button">검색</button>
             </div>
           </div>
@@ -55,6 +55,16 @@
 					</div>
         </div>
         <div class="row g-3 mt-4">
+          <!-- <div class="col-lg-4 col-md-12">
+            <h4>테스트중</h4>
+            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
+              <tbody >
+                  <tr v-for="(item, index) in getOnGoingCard" v-bind:key="index">
+                      <td>{{ item.AptName }}</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div> -->
           <div class="col-lg-4 col-md-12">
             <h4>최근 매물</h4>
             <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
@@ -118,6 +128,7 @@
 <script>
 import http from '@/common/axios.js'
 // import Header from '@/components/Header.vue';
+import { mapActions, mapGetters} from 'vuex';
 
 export default {
   name: 'Main',
@@ -128,7 +139,12 @@ export default {
       notice: { }
     }
   },
+  computed :{
+    ...mapGetters('houseOnGoingStore', ['getOnGoingCard']),
+  },
   methods: {
+    ...mapActions('houseOnGoingStore', ['onGoingCardLatest']),
+
     newsDetail() {
       alert('기사 새 창/탭에 열기 기능 구현하기')
     }
@@ -137,6 +153,7 @@ export default {
     // Header,
   },
   created() {
+    this.onGoingCardLatest();
     http.get( "/info/news")
       .then(({ data }) => {
         this.news = data.newsDto;

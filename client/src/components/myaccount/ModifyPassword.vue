@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 const storeName = 'userStore';
 
@@ -42,16 +42,29 @@ export default {
     }
   },
   methods: {
-    ...mapActions(storeName, ['modifyPassword']),
+    ...mapActions(storeName, ['modifyPassword', 'compModifyPassword']),
     onChangeBtn() {
-      if (this.userPassword === '' || this.userRePassword === '') {
-        this.$swal('비밀번호를 입력하세요.');
-      } else if (this.userPassword === this.userRePassword) {
-        this.modifyPassword(this.userPassword);
-      } else {
-        this.$swal('비밀번호가 일치하지 않습니다. 정확히 입력하세요.', { icons : 'error' })
+      if(this.level == '2'){
+        if (this.userPassword === '' || this.userRePassword === '') {
+          this.$swal('비밀번호를 입력하세요.');
+        } else if (this.userPassword === this.userRePassword) {
+          this.modifyPassword(this.userPassword);
+        } else {
+          this.$swal('비밀번호가 일치하지 않습니다. 정확히 입력하세요.', { icons : 'error' })
+        }
+      }else if(this.level == '3'){
+        if (this.userPassword === '' || this.userRePassword === '') {
+          this.$swal('비밀번호를 입력하세요.');
+        } else if (this.userPassword === this.userRePassword) {
+          this.compModifyPassword(this.userPassword);
+        } else {
+          this.$swal('비밀번호가 일치하지 않습니다. 정확히 입력하세요.', { icons : 'error' })
+        }
       }
     },
+  },
+  computed: {
+    ...mapState(storeName, ['level'])
   },
 }
 </script>

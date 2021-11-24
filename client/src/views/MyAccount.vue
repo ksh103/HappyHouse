@@ -34,8 +34,8 @@
                     <div class="media-body ms-md-5 m-0 mt-4 mt-md-0 text-md-start text-center">
                         <h5 class="font-weight-bold d-inline-block me-2">{{ name }} </h5>님
                         <div class="text-muted mb-4"><span class="text-dark">가입일</span> : {{ regDt.year }}-{{ regDt.month }}-{{ regDt.day }}</div>
-                        <a @click="showFollowers" style="cursor: pointer;" class="text-decoration-none d-inline-block text-primary"> <strong>{{ followers }}</strong> <span class="text-muted">followers</span> </a>
-                        <a @click="showFollowing" style="cursor: pointer;" class="text-decoration-none d-inline-block text-primary ms-3"> <strong>{{ following }}</strong> <span class="text-muted">following</span> </a>
+                        <a v-if="level != '3'" @click="showFollowers" style="cursor: pointer;" class="text-decoration-none d-inline-block text-primary"> <strong>{{ followers }}</strong> <span class="text-muted">followers</span> </a>
+                        <a v-if="level != '3'" @click="showFollowing" style="cursor: pointer;" class="text-decoration-none d-inline-block text-primary ms-3"> <strong>{{ following }}</strong> <span class="text-muted">following</span> </a>
                     </div>
                 </div>
               </div>
@@ -45,8 +45,8 @@
           <div class="col-12">
             <ul class="nav nav-tabs tab-card mt-3 border-bottom-0">
                 <li class="nav-item"><a id="profile" @click="moveTo('Profile')" class="cursor-pointer nav-link active">프로필</a></li>
-                <li class="nav-item"><a id="management" @click="moveTo('Management')" class="cursor-pointer nav-link">북마크 / 리뷰 관리</a></li>
-                <li class="nav-item"><a id="friends" @click="moveTo('Friends')" class="cursor-pointer nav-link">친구</a></li>
+                <li v-if="level != '3'" class="nav-item"><a id="management" @click="moveTo('Management')" class="cursor-pointer nav-link">북마크 / 리뷰 관리</a></li>
+                <li v-if="level != '3'" class="nav-item"><a id="friends" @click="moveTo('Friends')" class="cursor-pointer nav-link">친구</a></li>
             </ul>
           </div>
         </div>
@@ -66,7 +66,7 @@ export default {
   name: 'MyAccount',
   data() {
     return {
-      // 추후 스토어에어 받은 가입일 데이터로 수정할 것
+      // 추후 스토어에서 받은 가입일 데이터로 수정할 것
       regdate: '2020-10-11',
       followers: 22,
       following: 999,
@@ -90,7 +90,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(storeName, ['name', 'id', 'regDt']),
+    ...mapState(storeName, ['name', 'id', 'regDt', 'level']),
     ...mapGetters(storeName, ['profileImgUrl'])
   },
   methods: {
@@ -138,7 +138,8 @@ export default {
       }
     },
     getFriendCount() {
-      http.get('/friend/count')
+      if(this.level == '2'){
+        http.get('/friend/count')
         .then(({ data }) => {
           if (data.result == 'login') {
             this.$swal('세션이 만료되었거나, 로그인되지 않았습니다. 로그인 페이지로 이동합니다.', { icon: 'warning' })
@@ -151,6 +152,7 @@ export default {
             this.following = data.followingCount;
           }
         })
+      }
     }
   },
   created() {

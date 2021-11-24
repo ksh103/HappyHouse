@@ -14,7 +14,7 @@
                 <div class="btn-group position-absolute top-0 right-0">
                   <a href="#" class="nav-link py-2 px-3 text-muted" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
-                    <li><a @click="showFriendBookmarkModal(item.userId)" class="dropdown-item">관심 매물 보기</a></li>
+                    <li><a @click="showFriendBookmarkModal(item.userId, item.userName)" class="dropdown-item">관심 매물 보기</a></li>
                     <li><a @click="deleteFriend(item.userId)" class="dropdown-item">삭제</a></li>
                   </ul>
                 </div>
@@ -65,7 +65,7 @@
       </div> <!-- .row end-->
     </div>
     <friend-insert-modal @modal-close="closeAfterInsert" />
-    <friend-bookmark-modal @modal-close="closeAfterFriendBookmark" :friendId="selectFriendId"/>
+    <friend-bookmark-modal @modal-close="closeAfterFriendBookmark" :friendId="selectFriendId" :friendName="setectFriendName"/>
   </div>
 </template>
 
@@ -85,6 +85,7 @@ export default {
       friendInsertModal: null,
       friendBookmarkModal: null,
       selectFriendId: null,
+      setectFriendName: null,
     }
   },
   components: {
@@ -124,9 +125,11 @@ export default {
     showFriendInsertModal() {
       this.friendInsertModal.show();
     },
-    showFriendBookmarkModal(id) {
+    showFriendBookmarkModal(id, name) {
       console.log(id)
+      console.log(name)
       this.selectFriendId = id;
+      this.setectFriendName = name;
       this.friendBookmarkModal.show();
     },
     closeAfterInsert() {

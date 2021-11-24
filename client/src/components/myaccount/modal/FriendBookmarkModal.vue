@@ -3,19 +3,67 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">리뷰 등록 {{ friendId }}</h5>
+          <h5 class="modal-title">{{ friendName }}님의 북마크</h5>
+          <!-- <h5 class="modal-title">{{ friendId }}님의 북마크</h5> -->
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div>
-            <div class="input-group w-75 d-flex pb-2">
-              <input type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="원하시는 아파트, 동명을 입력해주세요">
-              <button @click="search" class="btn btn-primary d-inline-block" type="button">검색</button>
+            <!-- <div v-for="(item, index) in this.houseList" v-bind:key="index" class="input-group w-75 d-flex pb-2">
+              테스트{{  item.aptName }}
+            </div> -->
+            <div class="bg-white mb-2">
+                <div class="border-bottom"><h5 class="p-3 m-0">관심 건물</h5></div>
+                <div>
+                  <table class="w-100">
+                    <thead class="bg-secondary text-white">
+                      <tr>
+                      <td class="w-40">건물명</td>
+                      <td class="ps-3 py-1">동</td>
+                      <td class="w-20">설립년도</td>
+                      </tr>
+                    </thead>
+                    <tbody class="px-2">
+                      <tr v-if="this.houseList==0" class="border-bottom">
+                      <td colspan="3" class="ps-3 py-2">등록된 매물이 없습니다.</td>
+                      </tr>
+                      <tr v-else v-for="(item, index) in this.houseList" v-bind:key="index" class="border-bottom">
+                      <!-- <tr class="border-bottom"> -->
+                      <!-- <td class="ps-3 py-2">{{ this.houseList[0].aptName }}</td> -->
+                      <td>{{ item.aptName }}</td>
+                      <td>{{ item.dongName }}</td>
+                      <td>{{ item.buildYear }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="border-bottom"><h5 class="p-3 m-0">관심 매물</h5></div>
+                <div>
+                  <table class="w-100">
+                    <thead class="bg-secondary text-white">
+                      <tr>
+                      <td class="w-20">거래유형</td>
+                      <td class="w-40">건물명</td>
+                      </tr>
+                    </thead>
+                  </table>
+                  <tbody class="px-2">
+                    <tr v-if="this.houseOngoingList==0" class="border-bottom">
+                    <td colspan="2" class="ps-3 py-2">등록된 매물이 없습니다.</td>
+                    </tr>
+                    <tr v-else v-for="(item, index) in this.houseOngoingList" v-bind:key="index" class="border-bottom">
+                    <!-- <tr class="border-bottom"> -->
+                    <!-- <td class="ps-3 py-2">{{ this.houseList[0].aptName }}</td> -->
+                    <td >{{ item.type }}</td>
+                    <td >{{ item.title }}</td>
+                    </tr>
+                </tbody>
+                </div>
             </div>
-            sdfafdsfdsfadsfadsfdsfdafdsafsdafsdfdas
-          </div>
+       
+            
           <!-- <div class="pt-2 text-secondary">종합의견</div> -->
-
+          </div>
         </div>
         <div class="modal-footer">
           <button @click="closeModal" class="btn btn-sm btn-secondary btn-outline" data-dismiss="modal" type="button">취소</button>
@@ -30,7 +78,7 @@ import http from "@/common/axios.js";
 
 export default {
   name: 'FriendBookmarkModal',
-  props: ['friendId'],
+  props: ['friendId', 'friendName'],
   data() {
     return {
       inputKeyword: '',
@@ -78,7 +126,7 @@ export default {
       } else {
         console.log('first')
       }
-    }
+    },
   }
 }
 </script>

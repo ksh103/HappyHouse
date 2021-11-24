@@ -74,6 +74,11 @@ const userStore = {
         state.profileImgUrl = `http://localhost:8080${payload.profileImgUrl}`;
       state.regDt = payload.regDt;
     },
+    SET_COMPANY_USER_MODIFY(state, payload) {
+      state.name = payload.name;
+      state.email = payload.email;
+      state.address = payload.address;
+    },
     SET_PROFILE_IMG(state, payload) {
       state.profileImgUrl = payload;
     }
@@ -145,7 +150,7 @@ const userStore = {
           }
         })
         .catch(error => {
-          console.log("RegisterVue: error : ");
+          console.log("modifyPasswordVue: error : ");
           console.log(error);
           Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         })
@@ -159,7 +164,7 @@ const userStore = {
         }
       )
       .then((response) => {
-        console.log("LoginVue: data : ");
+        console.log("CompanyLoginVue: data : ");
         console.log(response.data);
 
         const { 
@@ -193,6 +198,23 @@ const userStore = {
             Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
           }
         });
+      },
+      compModifyPassword({ commit }, newPassword) {
+        http.put('/company/password', {
+            compPassword: newPassword,
+          })
+          .then(response => {
+            if (response.data.result === 1) {
+              commit('SET_PASSWORD', newPassword);
+              Vue.$swal('비밀번호 변경이 완료되었습니다.', { icon: 'success' })
+                .then(() => router.push('/myaccount'));
+            }
+          })
+          .catch(error => {
+            console.log("compModifyPasswordVue: error : ");
+            console.log(error);
+            Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+          })
       },
   }
 }

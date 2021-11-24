@@ -198,7 +198,26 @@ const houseOnGoingStore = {
         console.log(error);
         Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
       });
-    }
+    },
+    onGoingCardLatest({ commit, state }){
+      http.get(
+        "/house/deal/ongoing/latest")
+        .then(({ data }) => {
+          console.log("HouseOnGoingLatestVue: data : ");
+          console.log(data);
+          if( data.result == 'login' ){
+            router.push("/user/login")
+          }else{
+            commit( 'SET_HOUSE_ONGOING_CARD', data.list );
+            commit( 'SET_HOUSE_ONGOING_TOTAL_CARD_ITEM_COUNT', data.count );
+          }
+        })
+        .catch((error) => {
+          console.log("CardVue: error ");
+          console.log(error);
+          Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+        });
+    },
   },
 };
 

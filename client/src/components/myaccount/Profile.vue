@@ -16,6 +16,13 @@
                     <div class="icon text-center">
                         <i class="fa fa-user"></i>
                     </div>
+                    <div class="fw-bold mb-0">이름</div>
+                    <span>{{ name }}</span>
+                  </li>
+                  <li>
+                    <div class="icon text-center">
+                        <i class="fa fa-id-badge"></i>
+                    </div>
                     <div class="fw-bold mb-0">아이디</div>
                     <span>{{ id }}</span>
                   </li>
@@ -25,6 +32,13 @@
                     </div>
                     <div class="fw-bold mb-0">휴대 전화</div>
                     <span>{{ phone }}</span>
+                  </li>
+                  <li v-if="level == '3'">
+                    <div class="icon text-center">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <div class="fw-bold mb-0">주소</div>
+                    <span>{{ address }}</span>
                   </li>
                   <li>
                     <div class="icon text-center">
@@ -54,7 +68,7 @@ const storeName='userStore';
 export default {
   name: 'Profile',
   computed: {
-    ...mapState(storeName, ['id', 'password', 'email', 'phone']),
+    ...mapState(storeName, ['id', 'password', 'name', 'email', 'phone', 'address', 'level']),
   },
   methods: {
     ...mapActions(storeName, ['logout']),
@@ -123,28 +137,55 @@ export default {
         dangerMode: true,
         buttons: true
       }).then(value => {
-        if (value) {
-          if (value === this.password) {
-            http.delete('/user')
-              .then(response => {
-                if (response.data.result === SUCCESS) {
-                  this.$swal('탈퇴 처리가 완료되었습니다.', '지금까지 이용해주셔서 감사합니다.', { icon: 'success' })
-                    .then(() => this.logout());
-                } else {
-                  this.$swal('처리중에 문제가 발생하였습니다.', { icon: 'error' });
-                }
-              })
-              .catch(error => {
-                console.log(error);
-                this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
-              })
-          } else {
-            this.$swal('비밀번호가 일치하지 않습니다.')
+        if(this.level == '2'){
+          if (value) {
+            if (value === this.password) {
+              http.delete('/user')
+                .then(response => {
+                  if (response.data.result === SUCCESS) {
+                    this.$swal('탈퇴 처리가 완료되었습니다.', '지금까지 이용해주셔서 감사합니다.', { icon: 'success' })
+                      .then(() => this.logout());
+                  } else {
+                    this.$swal('처리중에 문제가 발생하였습니다.', { icon: 'error' });
+                  }
+                })
+                .catch(error => {
+                  console.log(error);
+                  this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+                })
+            } else {
+              this.$swal('비밀번호가 일치하지 않습니다.')
+                .then(() => this.deleteUser());
+            }
+          } else if (value == '') {
+            this.$swal('비밀번호를 입력하세요!')
               .then(() => this.deleteUser());
           }
-        } else if (value == '') {
-          this.$swal('비밀번호를 입력하세요!')
-            .then(() => this.deleteUser());
+        }
+        else if(this.level == '3'){
+          if (value) {
+            if (value === this.password) {
+              http.delete('/company')
+                .then(response => {
+                  if (response.data.result === SUCCESS) {
+                    this.$swal('탈퇴 처리가 완료되었습니다.', '지금까지 이용해주셔서 감사합니다.', { icon: 'success' })
+                      .then(() => this.logout());
+                  } else {
+                    this.$swal('처리중에 문제가 발생하였습니다.', { icon: 'error' });
+                  }
+                })
+                .catch(error => {
+                  console.log(error);
+                  this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+                })
+            } else {
+              this.$swal('비밀번호가 일치하지 않습니다.')
+                .then(() => this.deleteUser());
+            }
+          } else if (value == '') {
+            this.$swal('비밀번호를 입력하세요!')
+              .then(() => this.deleteUser());
+          }
         }
       })
     }
