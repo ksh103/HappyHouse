@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -88,6 +88,37 @@ public class HouseOngoingController {
 	        return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}
+    
+    @DeleteMapping(value="/house/deal/ongoing/{ongoingNo}")
+    public ResponseEntity<HouseOnGoingResultDto> houseOnGoingDelete(@PathVariable int ongoingNo, HttpSession session){
+//    	UserDto userDto = (UserDto) session.getAttribute("userDto");
+    	
+    	HouseOnGoingResultDto houseOnGoingResultDto = houseService.houseOnGoingDelete(ongoingNo);
+    	
+    	if( houseOnGoingResultDto.getResult() == SUCCESS ) {
+    		return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.OK);
+    	}else {
+    		return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
+    }
+    
+ 	@PostMapping(value="/house/deal/ongoing/{ongoingId}")
+ 	public ResponseEntity<HouseOnGoingResultDto> houseOnGoingUpdate(HouseOnGoingDto houseOnGoingDto, MultipartHttpServletRequest request) {
+ 		HttpSession session = request.getSession();
+ 	    CompanyDto companyDto = (CompanyDto) session.getAttribute("companyDto");
+ 	    
+ 	    houseOnGoingDto.setCompSeq(companyDto.getCompSeq());
+ 		
+ 		System.out.println("houseOnGoingUpdate " + houseOnGoingDto);
+ 		
+ 		HouseOnGoingResultDto houseOnGoingResultDto = houseService.houseOnGoingUpdate(houseOnGoingDto, request);
+ 		
+ 		if (houseOnGoingResultDto.getResult() == SUCCESS) {
+ 			return new ResponseEntity<>(houseOnGoingResultDto, HttpStatus.OK);
+ 		} else {
+ 			return new ResponseEntity<>(houseOnGoingResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+ 		}
+ 	}
     
     // 등록된 특정 매물 리스트 
     @GetMapping(value="/house/deal/ongoing/list/{houseNo}")

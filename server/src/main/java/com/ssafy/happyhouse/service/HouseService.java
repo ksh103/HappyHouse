@@ -1,7 +1,5 @@
 package com.ssafy.happyhouse.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -28,7 +26,9 @@ public interface HouseService {
 	public HouseOnGoingResultDto houseOnGoingLimitList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(5개)
 	
 	public HouseOnGoingResultDto houseOnGoingDetail(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 보기
-
+	public HouseOnGoingResultDto houseOnGoingDelete(int houseNo);
+	public HouseOnGoingResultDto houseOnGoingUpdate(HouseOnGoingDto houseDto, MultipartHttpServletRequest request);
+			
 	public HouseReviewResultDto houseReviewRegister(HouseReviewDto houseReviewDto, HttpServletRequest request); // 리뷰 등록
 	public HouseReviewResultDto houseReviewList(HouseReviewParamDto houseReviewParamDto); // 리뷰 데이터 조회
 	public HouseReviewResultDto houseReviewAllListByUserSeq(HouseReviewParamDto houseReviewParamDto);	

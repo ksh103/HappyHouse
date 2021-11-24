@@ -1,6 +1,7 @@
 package com.ssafy.happyhouse.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +27,8 @@ import com.ssafy.happyhouse.dto.HouseResultDto;
 import com.ssafy.happyhouse.dto.HouseReviewDto;
 import com.ssafy.happyhouse.dto.HouseReviewParamDto;
 import com.ssafy.happyhouse.dto.HouseReviewResultDto;
+import com.ssafy.happyhouse.dto.NoticeFileDto;
+import com.ssafy.happyhouse.dto.NoticeResultDto;
 import com.ssafy.happyhouse.dto.UserDto;
 
 @Service
@@ -142,7 +145,6 @@ public class HouseServiceImpl implements HouseService {
 				// Table Insert
 				HouseOnGoingFileDto houseOnGoingFileDto = new HouseOnGoingFileDto();
 				houseOnGoingFileDto.setOngoingId(ongoingId);
-				;
 				houseOnGoingFileDto.setFileName(fileName);
 				houseOnGoingFileDto.setFileSize(part.getSize());
 				houseOnGoingFileDto.setFileContentType(part.getContentType());
@@ -167,7 +169,8 @@ public class HouseServiceImpl implements HouseService {
 
 		try {
 			HouseOnGoingDto houseOnGoingDto = houseDao.houseOnGoingDetail(houseOnGoingParamDto);
-			if (houseOnGoingDto.getCompSeq() != 0
+
+			if (houseOnGoingParamDto.getCompSeq() != 0
 					&& houseOnGoingDto.getCompSeq() == houseOnGoingParamDto.getCompSeq()) {
 				houseOnGoingDto.setSameUser(true);
 			} else {
@@ -215,9 +218,93 @@ public class HouseServiceImpl implements HouseService {
 		return houseOnGoingResultDto;
 	}
 
+	@Override
+	public HouseOnGoingResultDto houseOnGoingDelete(int ongoingNo) {
+		HouseOnGoingResultDto resultDto = new HouseOnGoingResultDto();
+		try {
+			List<String> fileUrlList = houseDao.houseOnGoingFileUrlDeleteList(ongoingNo);
+			
+			for(String fileUrl : fileUrlList) {
+  	            File file = new File(uploadPath + File.separator, fileUrl);                
+  	            if(file.exists()) {
+  	                file.delete();
+  	            }
+  	        }
+			houseDao.houseOnGoingFileDelete(ongoingNo);
+			houseDao.houseOnGoingDelete(ongoingNo);
+			resultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultDto.setResult(FAIL);
+		}
+		return resultDto;
+	}
+	
+	@Override
+	public HouseOnGoingResultDto houseOnGoingUpdate(HouseOnGoingDto houseDto, MultipartHttpServletRequest request) {
+		HouseOnGoingResultDto resultDto = new HouseOnGoingResultDto();
+		
+	    try {
+	        houseDao.houseOnGoingUpdate(houseDto);
+	
+	        List<MultipartFile> fileList = request.getFiles("file");
+	        
+	        // 파일 경로 찾기
+	        File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+	        if (!uploadDir.exists()) uploadDir.mkdir();
+	        
+	        // 물리 파일 삭제, 첨부파일 여러개 고려
+	        List<String> fileUrlList = houseDao.houseOnGoingFileUrlDeleteList(houseDto.getOngoingId());   
+	        for(String fileUrl : fileUrlList) {    
+	            File file = new File(uploadPath + File.separator, fileUrl);
+	            if(file.exists()) {
+	                file.delete();
+	            }
+	        }
+	
+	        houseDao.houseOnGoingDelete(houseDto.getOngoingId()); // 테이블 파일 삭제
+	        
+	        for (MultipartFile part : fileList) {
+	            int ongoingId = houseDto.getOngoingId();
+	            
+	            String fileName = part.getOriginalFilename();
+	            
+	            //Random File Id
+	            UUID uuid = UUID.randomUUID();
+	            
+	            //file extension
+	            String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
+	        
+	            String savingFileName = uuid + "." + extension;
+	        
+	            File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+	            
+	            System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+	            part.transferTo(destFile);
+	        
+	            // Table Insert
+	            HouseOnGoingFileDto houseOnGoingFileDto = new HouseOnGoingFileDto();
+				houseOnGoingFileDto.setOngoingId(ongoingId);
+				houseOnGoingFileDto.setFileName(fileName);
+				houseOnGoingFileDto.setFileSize(part.getSize());
+				houseOnGoingFileDto.setFileContentType(part.getContentType());
+				String houseOnGoingFileUrl = "/" + uploadFolder + "/" + savingFileName;
+				houseOnGoingFileDto.setFileUrl(houseOnGoingFileUrl);
+
+				houseDao.houseOnGoingFileInsert(houseOnGoingFileDto);
+	        }
+	        resultDto.setResult(SUCCESS);
+	        
+	    }catch(IOException e) {
+	        e.printStackTrace();
+	        resultDto.setResult(FAIL);
+	    }
+	    return resultDto;
+		
+	}
+	
 	// 등록된 매물 리스트(특정 매물 클릭)
 	@Override
-	@Transactional
 	public HouseOnGoingResultDto houseNoOnGoingList(int houseNo, UserDto userDto) {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
 

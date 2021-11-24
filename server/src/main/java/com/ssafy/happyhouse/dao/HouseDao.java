@@ -30,6 +30,8 @@ public interface HouseDao {
 	public int houseNoOnGoingListTotalCount(int houseNo); // 등록된 매물 리스트 수 (특정 매물 개수)
 	
 	public HouseOnGoingDto houseOnGoingDetail(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 보기
+	public int houseOnGoingDelete(int ongoingNo);
+	public int houseOnGoingUpdate(HouseOnGoingDto dto);
 	
 	public int houseReviewRegister(HouseReviewDto houseReviewDto); // 리뷰 등록
 	public List<HouseReviewDto> houseReviewList(HouseReviewParamDto houseReviewParamDto);
