@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import http from "@/common/axios.js";
 
 const storeName = 'userStore';
@@ -90,7 +90,8 @@ export default {
     }
   },
   computed: {
-    ...mapState(storeName, ['name', 'id', 'regDt', 'profileImgUrl'])
+    ...mapState(storeName, ['name', 'id', 'regDt']),
+    ...mapGetters(storeName, ['profileImgUrl'])
   },
   methods: {
     ...mapMutations('userStore', ['SET_USER_LOGOUT', 'SET_PROFILE_IMG']),
@@ -126,8 +127,11 @@ export default {
                   // 리렌더링!!
                 })
             } else {
-              this.SET_PROFILE_IMG(`http://localhost:8080${data.uploadProfileImgUrl}`);
-              this.$swal('프로필 이미지 변경이 완료되었습니다.', { icon: 'success' });
+              
+              this.$swal('프로필 이미지 변경이 완료되었습니다.', { icon: 'success' })
+                .then((value) => {
+                  this.SET_PROFILE_IMG(`http://localhost:8080${data.uploadProfileImgUrl}`);
+                });
             }
           })
           .catch(error => this.$swal('aa'))

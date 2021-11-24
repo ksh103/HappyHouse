@@ -4,9 +4,38 @@
       <div class="col-md-8">
         <div class="card">
           <div class="card-body">
-            <h4 class="mb-3">🏠 {{ AptName }}</h4>
-            <hr>
-            <h5  style="white-space: pre-line">{{ content }}</h5>
+            <h4 class="mb-3">{{ title }}</h4>
+            <div class="border-top">
+              이미지
+            </div>
+            <div class="border-top">
+              <h4 class="my-3">[{{ AptName }}] {{ dealAmount }} {{ type }}</h4>
+              
+            </div>
+            <div class="border-top d-flex py-2">
+              <div class="d-flex flex-column d-inline-block w-20">
+                <h5>면적</h5>
+                <span>{{ area }}</span>
+              </div>
+              <div class="d-flex flex-column d-inline-block w-20">
+                <h5>층</h5>
+                <span>{{ floor }}</span>
+              </div>
+              <div class="d-flex flex-column d-inline-block w-20">
+                <h5>관리비</h5>
+                <span>{{ fee }}</span>
+              </div>
+              <div class="d-flex flex-column d-inline-block w-20">
+                <h5>방향</h5>
+                <span>{{ direction }}</span>
+              </div>
+              <div class="d-flex flex-column d-inline-block w-20">
+                <h5>방/화장실</h5>
+                <span>{{ room }} / {{ bathroom }}</span>
+              </div>
+            </div>
+            <div class="border-top py-2 content" v-html="content"></div>
+            <!-- <h5 style="white-space: pre-line"></h5> -->
           </div>
         </div>
       </div>
@@ -48,13 +77,19 @@ const storeName = 'houseOnGoingStore';
 export default {
   name: 'HouseOnGoingDetail',
   computed: {
-    ...mapState(storeName, ['ongoingId', 'AptName', 'content', 'compName', 'compAddress', 'fileList']),
+    ...mapState(storeName, ['ongoingId', 'title', 'AptName', 'fileList', 'type', 'dealAmount', 'area', 'floor', 'fee', 'direction', 'room', 'bathroom', 'content', 'compName', 'compAddress']),
   }
 }
 </script>
 
-<style>
+<style scoped>
 .fileName:hover {
     color: #0a58ca;
+}
+.w-20 {
+  width: 20%;
+}
+.content {
+  min-height: 200px;
 }
 </style>

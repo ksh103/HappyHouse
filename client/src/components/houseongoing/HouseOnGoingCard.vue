@@ -3,26 +3,22 @@
     <div class="row"> <!--v-for="(card, index) in getOnGoingCard" v-bind:key="index"-->
       <div class="col-md-3 mb-5" v-for="(item, index) in getOnGoingCard" v-bind:key="index">
         <div class="card h-100" style="width: 18rem;">
-          <img v-if="!item.fileList" src="../../assets/images/apt.jpg" class="card-img-top">
-          <img v-else :src="item.fileList[0].fileUrl" class="card-img-top" >
+          <div @click="onGoingDetail(item.ongoingId)" class="cursor-pointer hover-show">
+            <img v-if="!item.fileList" src="../../assets/images/apt.jpg" class="card-img-top">
+            <img v-else :src="item.fileList[0].fileUrl" class="card-img-top" >
+          </div>
           <div class="card-body">
-            <div class="card-body">
-              <div class="col-md-3 mb-3"> <span class="badge bg-success">{{ item.ongoingId }}</span> </div>
-              <div class="col-mb-3"> <h4 class="card-title">{{ item.AptName }}</h4> </div>
-              <div class="col-mt-3"> <h6 class="card-text">{{ item.compName }}</h6> </div>
-              <p class="mb-4">{{ item.title }}</p>
-              <!-- <p v-if="!item.fileList" class="card-text">없음</p> -->
-              <!-- <p v-else class="card-text">{{ item.fileList[0].fileUrl }}</p> -->
-            </div>
-            <button class="btn btn-block btn-secondary lift fs-6 text-uppercase" @click="onGoingDetail(item.ongoingId)"> 매물 보기 </button>
-            <!-- <a @click="onGoingDetail(item.ongoingId)" class="btn btn-block btn-secondary lift fs-6 text-uppercase">매물 보기</a>  -->
+            <div class="col-mb-2"> <h4 class="card-title">{{ item.AptName }}</h4> </div>
+            <div class="col-mt-2"> <h6 class="card-text">{{ item.compName }}</h6> </div>
+            <p class="mt-2 mb-0">{{ item.title }}</p>
+            <!-- <p v-if="!item.fileList" class="card-text">없음</p> -->
+            <!-- <p v-else class="card-text">{{ item.fileList[0].fileUrl }}</p> -->
           </div>
         </div>
       </div>
       <pagination class="mt-3" v-on:call-parent="movePage"></pagination>
       <router-link class="btn mx-2 px-4 py-2 btn-outline-primary btn-animate-3" to="/house/ongoing/insert">매물 등록</router-link>
     </div>
-    
   </div>
 </template>
 <script>
@@ -81,5 +77,4 @@ export default {
   button.btn {
     margin-top: auto;
   }
-
 </style>

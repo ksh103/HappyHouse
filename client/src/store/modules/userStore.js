@@ -24,6 +24,9 @@ const userStore = {
     isAuth: function(state){
       return state.isAuth;
     },
+    profileImgUrl: function(state) {
+      return state.profileImgUrl;
+    }
   },
 
   mutations: {

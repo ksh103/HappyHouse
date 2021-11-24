@@ -69,8 +69,8 @@ const houseOnGoingStore = {
         return true;
       }
     },
-    getNext: function(getters){
-      if( getters.getEndPageIndex >= getters.getPageCount){
+    getNext: function(state, getters){
+      if( ( Math.floor( getters.getPageCount / state.pageLinkCount ) * state.pageLinkCount ) < state.currentPageIndex){
         return false;
       }else{
         return true;
@@ -122,6 +122,7 @@ const houseOnGoingStore = {
 
   actions: {
     onGoingCard({ commit, state }){
+      console.log('list store!!')
       http.get(
         "/house/deal/ongoing",
         {
@@ -136,8 +137,10 @@ const houseOnGoingStore = {
           if( data.result == 'login' ){
             router.push("/user/login")
           }else{
-            commit( 'SET_HOUSE_ONGOING_CARD', data.list );
-            commit( 'SET_HOUSE_ONGOING_TOTAL_CARD_ITEM_COUNT', data.count );
+            setTimeout(() => {
+              commit( 'SET_HOUSE_ONGOING_CARD', data.list );
+              commit( 'SET_HOUSE_ONGOING_TOTAL_CARD_ITEM_COUNT', data.count );
+            }, 1000)
           }
         })
         .catch((error) => {

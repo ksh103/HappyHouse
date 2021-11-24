@@ -1,10 +1,9 @@
 <template>
-<div class="container">
-
+<div class="container my-5">
     <div class="row g-2">
       <div class="col-lg-3 col-md-6">
         <div class="form-floating">
-          <input v-model="houseNo" type="text" class="form-control" placeholder="실거래가 *">
+          <input @click="selectHouseNo" v-model="houseNo" type="text" class="form-control cursor-pointer" placeholder="실거래가 *">
           <label>건물 정보 *</label>
         </div>
       </div>
@@ -14,60 +13,59 @@
       <div class="col-lg-3 col-md-6">
           <div class="form-floating">
             <select v-model="type" class="form-select" aria-label="Floating label select example">
-                <option selected="">거래 종류</option>
-                <option>매매</option>
+                <option selected="">매매</option>
                 <option>전세</option>
                 <option>월세</option>
             </select>
-            <label>거래 종류</label>
+            <label>거래 종류 <span class="text-danger">*</span></label>
           </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="form-floating">
-              <input v-model="dealAmount" type="text" class="form-control" placeholder="실거래가 *">
-              <label>실거래가 *</label>
+              <input v-model="dealAmount" type="text" class="form-control" placeholder="실거래가">
+              <label>실거래가 <span class="text-danger">*</span></label>
             </div>
         </div>
           <div class="col-lg-3 col-md-6">
             <div class="form-floating">
                 <input v-model="floor" type="text" class="form-control" placeholder="해당 층  *">
-                <label>해당 층 *</label>
+                <label>해당 층 <span class="text-danger">*</span></label>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="form-floating">
                 <input v-model="area" type="text" class="form-control" placeholder="면적(평) *">
-                <label>면적(평) *</label>
+                <label>면적(평) <span class="text-danger">*</span></label>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="form-floating">
                 <input v-model="direction" type="text" class="form-control" placeholder="방향 *">
-                <label>방향 *</label>
+                <label>방향 <span class="text-danger">*</span></label>
             </div>
         </div>
           <div class="col-lg-3 col-md-6">
             <div class="form-floating">
                 <input v-model="fee" type="text" class="form-control" placeholder="관리비 *">
-                <label>관리비 *</label>
+                <label>관리비 <span class="text-danger">*</span></label>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="form-floating">
                 <input v-model="room" type="text" class="form-control" placeholder="방 *">
-                <label>방 *</label>
+                <label>방 <span class="text-danger">*</span></label>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="form-floating">
                 <input v-model="bathroom" type="text" class="form-control" placeholder="욕실 *">
-                <label>욕실 *</label>
+                <label>욕실 <span class="text-danger">*</span></label>
             </div>
         </div>
         <div class="col-12">
             <div class="form-floating">
                 <input v-model="title" type="text" class="form-control" placeholder="매물 특징 *">
-                <label>매물 특징 *</label>
+                <label>매물 특징 <span class="text-danger">*</span></label>
             </div>
         </div>
         <div class="col-12">
@@ -94,7 +92,8 @@
           <button @click.prevent="ongoingInsert" class="btn btn-primary float-end">작성완료</button>
           <router-link to="/house/ongoing/card" class="me-2 ml-3 btn btn-secondary float-end" >취소</router-link>
         </div>
-			</div> 
+			</div>
+      <select-house-no-modal @modal-close="afterClose" />
   </div>
 </template>
 
@@ -102,7 +101,9 @@
 import Vue from 'vue';
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import VueAlertify from 'vue-alertify'; 
+import SelectHouseNoModal from './modal/SelectHouseNoModal.vue';
+import VueAlertify from 'vue-alertify';
+import { Modal } from 'bootstrap';
 
 Vue.use(CKEditor).use(VueAlertify);
 
@@ -110,6 +111,9 @@ import http from "@/common/axios.js";
 
 export default {
   name: 'HouseOnGoingInsert',
+  components: {
+    SelectHouseNoModal
+  },
   data(){
     return{
       houseNo: '',
@@ -124,10 +128,19 @@ export default {
       title: '',
       CKEditor: '',
       attachFile: false,
-      fileList: []
+      fileList: [],
+      selectHouseNoModal: null,
     }
   },
-  methods:{
+  methods: {
+    afterClose(val) {
+      console.log('afterClose')
+      console.log(val)
+      this.selectHouseNoModal.hide();
+    },
+    selectHouseNo() {
+      this.selectHouseNoModal.show();
+    },
     changeFile(e) {
       if (e.target.files && e.target.files.length > 0){
         for (let i = 0; i < e.target.files.length; i++) {
@@ -170,7 +183,11 @@ export default {
             this.$router.push('/user/login');
           } else{
             this.$alertify.success('글이 등록되었습니다.');
-            this.$router.push('/house/ongoing/card');
+            setTimeout(() => {
+              console.log('성공')
+              this.$router.push('/house/ongoing/card');
+            }, 500);
+            console.log("sssasdfsdfd")
           }
         })
         .catch((error) => {
@@ -189,12 +206,13 @@ export default {
       .catch(err => {
           console.error(err.stack);
       });
+    this.selectHouseNoModal = new Modal(document.getElementById('selectHouseNoModal'));
   }
 }
 </script>
 
 <style scope>
 .ck-content {
-	height: 500px;
+	height: 350px;
 }
 </style>
