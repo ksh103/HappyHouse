@@ -3,30 +3,38 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h1 class="h3 m-4">북마크</h1>
+          <h1 class="h3 m-4">관심 매물</h1>
           <div class="card">
             <div class="card-body">
-              <table v-if="houseOngoingList" class="table">
+              <table v-if="houseOngoingList" class="table text-center">
                 <thead>
                   <tr class="fw-bold">
                     <td>유형</td>
-                    <td>아파트(주택)명</td>
+                    <td>아파트 · 주택명</td>
+                    <td>거래금액</td>
+                    <td>방향</td>
+                    <td>면적</td>
                     <td>방</td>
                     <td>층수</td>
+                    <td>화장실</td>
                     <td>삭제</td>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-if="houseOngoingList.length==0">
-                    <td colspan="5">등록된 데이터가 없습니다</td>
+                    <td colspan="9">등록된 데이터가 없습니다</td>
                   </tr>
                   <tr v-else v-for="(item, index) in houseOngoingList" :key="index">
                     <td>{{ item.type }}</td>
                     <td>
                       <h6 class="mb-0">{{ item.title }}</h6>
                     </td>
-                    <td class="amount">{{ item.room }}</td>
-                    <td class="action">{{ item.floor }}</td>
+                    <td>{{ item.dealAmount }}</td>
+                    <td>{{ item.direction }}</td>
+                    <td>{{ item.area }}</td>
+                    <td>{{ item.room }}</td>
+                    <td>{{ item.floor }}</td>
+                    <td class="action">{{ item.bathroom }}</td>
                     <td class="action"><i @click="deleteOngoingItem(item.ongoingId)" class="cursor-pointer bi bi-trash-fill"></i></td>
                   </tr>
                 </tbody>
@@ -35,13 +43,13 @@
           </div>
         </div>
         <div class="col-12">
-          <h1 class="h3 m-4">관심 건물 (아파트/주택)</h1>
+          <h1 class="h3 m-4">관심 건물 정보</h1>
           <div class="card">
             <div class="card-body">
-              <table v-if="houseList" class="table">
+              <table v-if="houseList" class="table text-center">
                 <thead>
                   <tr class="fw-bold">
-                    <td>아파트(주택)명</td>
+                    <td>아파트 · 주택명</td>
                     <td>주소</td>
                     <td>건축년도</td>
                     <td>삭제</td>
@@ -52,7 +60,7 @@
                     <td colspan="4">등록된 데이터가 없습니다</td>
                   </tr>
                   <tr v-else v-for="(item, index) in houseList" :key="index">
-                    <td>
+                    <td class="text-start">
                       <h6 class="mb-0">{{ item.aptName }}</h6>
                     </td>
                     <td class="amount">{{ item.dongName }}  {{ item.jiBun }}</td>
@@ -68,7 +76,7 @@
           <h1 class="h3 m-4">리뷰 관리</h1>
           <div class="card">
             <div class="card-body">
-              <table v-if="myReviewList" class="table">
+              <table v-if="myReviewList" class="table text-center">
                 <thead>
                   <tr class="fw-bold">
                     <td>건물명</td>
@@ -77,7 +85,7 @@
                     <td>거주환경</td>
                     <td>주변환경</td>
                     <td>종합의견</td>
-                    <td>삭제</td>
+                    <td class="text-break">삭제</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -86,7 +94,7 @@
                   </tr>
                   <tr v-else v-for="(item, index) in myReviewList" :key="index">
                     <td>
-                      <h6 class="mb-0">{{ item.aptName }}</h6>
+                      <h6 class="mb-0 text-start">{{ item.aptName }}</h6>
                     </td>
                     <td>
                       <StarRating v-model="item.recommendScore" active-color="#dc3545" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
@@ -100,9 +108,9 @@
                     <td>
                       <StarRating v-model="item.surroundingScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
                     </td>
-                    <td>{{ item.content }}</td>
+                    <td class="text-start">{{ item.content }}</td>
                     <td>
-                      <button @click="deleteReviewItem(item.reviewId)" style="font-size: 14px;" class="btn btn-danger px-2 py-1 lift">삭제</button>
+                      <i @click="deleteReviewItem(item.reviewId)" class="cursor-pointer bi bi-trash-fill"></i>
                     </td>
                   </tr>
                 </tbody>
@@ -116,6 +124,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import http from '@/common/axios.js';
 import StarRating from 'vue-star-rating';
 
@@ -138,6 +147,7 @@ export default {
     this.reviewList();
   },
   methods: {
+    ...mapMutations('userStore', ['SET_USER_LOGOUT']),
     bookmarkList() {
       http.get('/bookmark/user')
         .then(({ data }) => {

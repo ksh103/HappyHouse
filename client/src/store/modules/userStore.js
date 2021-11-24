@@ -12,6 +12,9 @@ const userStore = {
     password: '',
     name: '',
     email: '',
+    phone: '',
+    profileImgUrl: undefined,
+    regDt: '',
   },
 
   getters: {
@@ -29,6 +32,10 @@ const userStore = {
       state.password = payload.password;
       state.name = payload.name;
       state.email = payload.email;
+      state.phone = payload.phone;
+      if (payload.profileImgUrl) 
+        state.profileImgUrl = `http://localhost:8080${payload.profileImgUrl}`;
+      state.regDt = payload.regDt;
     },
     SET_USER_LOGOUT(state){
       state.isAuth = false;
@@ -37,7 +44,8 @@ const userStore = {
       state.level = 0,
       state.password = '',
       state.name = '',
-      state.email = ''
+      state.email = '',
+      state.profileImgUrl = undefined
     },
     SET_USER_MODIFY(state, payload) {
       state.name = payload.name;
@@ -46,6 +54,9 @@ const userStore = {
     SET_PASSWORD(state, payload) {
       state.password = payload;
     },
+    SET_PROFILE_IMG(state, payload) {
+      state.profileImgUrl = payload;
+    }
   },
 
   actions: {
@@ -64,15 +75,20 @@ const userStore = {
         const { 
           dto: {
             userId: id,
-            userLevel: level,
+            code: level,
             userSeq: seq,
             userName: name,
             userPassword: password,
             userEmail: email,
+            userProfileimage: profileImgUrl,
+            userPhone: phone,
+            regDt: {
+              date: regDt
+            }
           }
         } = response.data;
         
-          context.commit('SET_USER', { seq, id, level, password, name, email });
+          context.commit('SET_USER', { seq, id, level, password, name, email, profileImgUrl, phone, regDt });
 
           router.push("/")
         })

@@ -24,7 +24,7 @@
                         <i class="fa fa-mobile"></i>
                     </div>
                     <div class="fw-bold mb-0">휴대 전화</div>
-                    <span>010-9980-0000</span>
+                    <span>{{ phone }}</span>
                   </li>
                   <li>
                     <div class="icon text-center">
@@ -54,7 +54,7 @@ const storeName='userStore';
 export default {
   name: 'Profile',
   computed: {
-    ...mapState(storeName, ['id', 'password', 'email']),
+    ...mapState(storeName, ['id', 'password', 'email', 'phone']),
   },
   methods: {
     ...mapActions(storeName, ['logout']),
