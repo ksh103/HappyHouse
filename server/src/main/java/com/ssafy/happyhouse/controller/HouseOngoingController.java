@@ -37,9 +37,9 @@ public class HouseOngoingController {
 	
 	// 매물 등록
 	@PostMapping(value="/house/deal/ongoing/register")
-	public ResponseEntity<HouseOnGoingResultDto> houseOnGoingRegister(@RequestBody HouseOnGoingDto houseOnGoingDto, MultipartHttpServletRequest request) {
+	public ResponseEntity<HouseOnGoingResultDto> houseOnGoingRegister(HouseOnGoingDto houseOnGoingDto, MultipartHttpServletRequest request) {
 		HttpSession session = request.getSession();
-	    CompanyDto companyDto = (CompanyDto) session.getAttribute("CompanyDto");
+	    CompanyDto companyDto = (CompanyDto) session.getAttribute("companyDto");
 	    
 	    houseOnGoingDto.setCompSeq(companyDto.getCompSeq());
 		

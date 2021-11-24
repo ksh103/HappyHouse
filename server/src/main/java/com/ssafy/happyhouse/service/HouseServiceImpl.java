@@ -38,14 +38,13 @@ public class HouseServiceImpl implements HouseService {
 	private static final int SUCCESS = 1;
 	private static final int FAIL = -1;
 	
-	private static final String uploadFolder = "houseOnGoingImage";
+	private static final String uploadFolder = "upload";
 	private static final String uploadPath = "C:" + File.separator + "apps" + File.separator + "happyhouse"
             + File.separator + "server" 
             + File.separator + "src" 
             + File.separator + "main"
             + File.separator + "resources"
-            + File.separator + "static"
-            + File.separator + "upload";
+            + File.separator + "static";
 	
 	// 매물 검색 (동이름)
 	@Override
@@ -67,7 +66,6 @@ public class HouseServiceImpl implements HouseService {
 	        		}
 	        	}
 	        }
-			
 			houseResultDto.setHouseDetailDto(list);
 			houseResultDto.setResult(SUCCESS);
 		} catch (Exception e) {
@@ -114,8 +112,8 @@ public class HouseServiceImpl implements HouseService {
 	public HouseOnGoingResultDto houseOnGoingRegister(HouseOnGoingDto houseDto, MultipartHttpServletRequest request) {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
 		try {
-			houseDao.houseOnGoingRegister(houseDto);
-			
+			 houseDao.houseOnGoingRegister(houseDto);
+			 System.out.println(houseDto);
 			 List<MultipartFile> fileList = request.getFiles("file");
 
 	         File uploadDir = new File(uploadPath + File.separator + uploadFolder);
