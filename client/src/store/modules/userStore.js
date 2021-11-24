@@ -8,10 +8,13 @@ const userStore = {
     isAuth: false,
     seq: 0,
     id: '',
-    level: 0,
+    code: 0,
     password: '',
     name: '',
     email: '',
+    profileImage: '',
+    regDt: '',
+    address: ''
   },
 
   getters: {
@@ -25,16 +28,18 @@ const userStore = {
       state.isAuth = true;
       state.seq = payload.seq;
       state.id = payload.id,
-      state.level = payload.level;
+      state.code = payload.code;
       state.password = payload.password;
       state.name = payload.name;
       state.email = payload.email;
+      state.profileImage = payload.profileImage;
+      state.regDt = payload.regDt;
     },
     SET_USER_LOGOUT(state){
       state.isAuth = false;
       state.seq = 0,
       state.id = '',
-      state.level = 0,
+      state.code = 0,
       state.password = '',
       state.name = '',
       state.email = ''
@@ -45,6 +50,18 @@ const userStore = {
     },
     SET_PASSWORD(state, payload) {
       state.password = payload;
+    },
+    SET_COMPANY_USER(state, payload) {
+      state.isAuth = true;
+      state.seq = payload.seq;
+      state.id = payload.id,
+      state.code = payload.code;
+      state.password = payload.password;
+      state.name = payload.name;
+      state.email = payload.email;
+      state.address = payload.address;
+      state.profileImage = payload.profileImage;
+      state.regDt = payload.regDt;
     },
   },
 
@@ -58,21 +75,23 @@ const userStore = {
         }
       )
       .then((response) => {
-        console.log("LoginVue: data : ");
+        console.log("UserLoginVue: data : ");
         console.log(response.data);
 
         const { 
           dto: {
             userId: id,
-            userLevel: level,
+            usercode: code,
             userSeq: seq,
             userName: name,
             userPassword: password,
             userEmail: email,
+            userProfileimage: profileImage,
+            regDt: regDt
           }
         } = response.data;
         
-          context.commit('SET_USER', { seq, id, level, password, name, email });
+          context.commit('SET_USER', { seq, id, code, password, name, email, profileImage, regDt });
 
           router.push("/")
         })
@@ -114,6 +133,47 @@ const userStore = {
           Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         })
     },
+    complogin(context, { compId, compPassword }) {
+      http.post(
+        "/company/login",
+        {
+          compId,
+          compPassword
+        }
+      )
+      .then((response) => {
+        console.log("LoginVue: data : ");
+        console.log(response.data);
+
+        const { 
+          dto: {
+            compId: id,
+            compcode: code,
+            compSeq: seq,
+            compName: name,
+            compPassword: password,
+            compEmail: email,
+            compAddress: address,
+            compProfileimage: profileImage,
+            regDt: regDt
+          }
+        } = response.data;
+        
+          context.commit('SET_COMPANY_USER', { seq, id, code, password, name, email, address, profileImage, regDt });
+
+          router.push("/")
+        })
+        .catch( error => {
+          console.log("CompanyLoginVue: error : ");
+          console.log(error);
+
+          if (error.response.status == '404'){
+            Vue.$swal('아이디 또는 비밀번호를 확인하세요.', { icon: 'error' });
+          } else {
+            Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+          }
+        });
+      },
   }
 }
 

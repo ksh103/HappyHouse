@@ -61,15 +61,14 @@ const boardNoticeStore = {
         return true;
       }
     },
-    getNext: function(getters){
-      if( getters.getEndPageIndex >= getters.getPageCount){
+    getNext: function(state, getters){
+      if( ( Math.floor( getters.getPageCount / state.pageLinkCount ) * state.pageLinkCount ) < state.currentPageIndex){
         return false;
       }else{
         return true;
       }
     }
   },
-
   mutations: {
     SET_BOARD_LIST(state, list){
       state.list = list
@@ -92,7 +91,6 @@ const boardNoticeStore = {
       state.sameUser = payload.sameUser;
     },
   },
-
   actions: {
     boardList({ commit, state }){
       http.get(

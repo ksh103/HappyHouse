@@ -6,7 +6,7 @@ const houseOnGoingStore = {
   namespaced: true,
   state: {
     list: [],
-    limit: 10,
+    limit: 8,
     offset: 0,
 
     // pagination
@@ -32,6 +32,7 @@ const houseOnGoingStore = {
     fee: '',
     room: 0,
     bathroom: 0,
+    fileUrl: '',
     fileList: [],
     sameUser: false
   },
@@ -79,6 +80,16 @@ const houseOnGoingStore = {
 
   mutations: {
     SET_HOUSE_ONGOING_CARD(state, list){
+      console.log(list)
+      list.forEach(item => {
+        if (item.fileList) {
+          item.fileList.forEach(file => {
+            let curUrl = file.fileUrl;
+            // file.fileUrl = `http://localhost:8080/upload${curUrl}`
+            file.fileUrl = `http://localhost:8080${curUrl}`
+          })
+        }
+      })
       state.list = list
     },
     SET_HOUSE_ONGOING_TOTAL_CARD_ITEM_COUNT(state, count){
@@ -123,7 +134,7 @@ const houseOnGoingStore = {
           console.log("HouseOnGoingVue: data : ");
           console.log(data);
           if( data.result == 'login' ){
-            router.push("/company/login")
+            router.push("/user/login")
           }else{
             commit( 'SET_HOUSE_ONGOING_CARD', data.list );
             commit( 'SET_HOUSE_ONGOING_TOTAL_CARD_ITEM_COUNT', data.count );
@@ -175,7 +186,6 @@ const houseOnGoingStore = {
                 sameUser: data.dto.sameUser
               }
             );
-
             router.push("/house/ongoing/detail");
           }
         }

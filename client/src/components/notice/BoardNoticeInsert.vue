@@ -61,6 +61,7 @@ export default {
     },
     boardInsert() {
       let formData = new FormData();
+      
       formData.append("title", this.title);
       formData.append("content", this.CKEditor.getData());
 

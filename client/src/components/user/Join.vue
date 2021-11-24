@@ -4,6 +4,16 @@
     <div class="container my-5">
       <div class="d-flex flex-column align-items-center">
         <h2 class="mb-4">Happy House 가입을 환영합니다!</h2>
+          <div class="py-1 px-2 d-flex">
+            <div class="form-check pe-3">
+                <input value="common" v-model="registerType" class="form-check-input" type="radio" id="registerTypeCommon">
+                <label class="form-check-label" for="registerTypeCommon">일반 회원</label>
+            </div>
+            <div class="form-check">
+                <input value="company" v-model="registerType" class="form-check-input" type="radio" id="registerTypeCompany">
+                <label class="form-check-label" for="registerTypeCompany">기업 회원</label>
+            </div>
+          </div>
         <form class="row g-1 p-0 p-md-4 w-100">
           <table>
             <tr>
@@ -25,6 +35,10 @@
             <tr>
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userEmail">이메일 <span class="text-danger">*</span></label></td>
               <td class="px-4"><input v-model="userEmail" id="userEmail" type="email" class="mb-4 form-control form-control-lg"></td>
+            </tr>
+            <tr v-if="registerType === 'company'">
+              <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userAddress">주소 <span class="text-danger">*</span></label></td>
+              <td class="px-4"><input v-model="userAddress" id="userAddress" type="text" class="mb-4 form-control form-control-lg"></td>
             </tr>
           </table>
           <div class="col-12 text-center mt-4">
@@ -50,11 +64,13 @@ export default {
   name: 'Join',
   data() {
     return {
+      registerType: '',
       userId: '',
       userPassword: '',
       userRePassword: '',
       userName: '',
       userEmail: '',
+      userAddress: ''
     }
   },
   components: {
@@ -63,11 +79,12 @@ export default {
   methods: {
     ...mapActions(['login']),
     join() {
-      http.post('/user', {
-        userName: this.userName,
-        userId: this.userId,
-        userPassword: this.userPassword,
-        userEmail: this.userEmail,
+      if(this.registerType == 'common'){
+        http.post('/user', {
+          userName: this.userName,
+          userId: this.userId,
+          userPassword: this.userPassword,
+          userEmail: this.userEmail,
         })
         .then(({ data }) => {
           let $this = this;
@@ -77,7 +94,29 @@ export default {
           }
         })
         .catch(error => {
-          console.log("RegisterVue: error : ");
+          console.log("UserRegisterVue: error : ");
+          console.log(error);
+          if( error.response.status == '404'){
+            this.$swal('서버에 문제가 발생하였습니다.');
+          }
+        })
+      }else if(this.registerType == 'company'){
+        http.post('/company/register', {
+          compName: this.userName,
+          compId: this.userId,
+          compPassword: this.userPassword,
+          compEmail: this.userEmail,
+          compAddress: this.userAddress,
+        })
+        .then(({ data }) => {
+          let $this = this;
+          if (data.result == 1) {
+            this.$swal('회원 가입이 완료되었습니다.', '환영합니다. 로그인 페이지로 이동합니다.', { icon: 'success' })
+              .then(() => $this.$router.push('/user/login/'));
+          }
+        })
+        .catch(error => {
+          console.log("CompanyRegisterVue: error : ");
           console.log(error);
           if( error.response.status == '404'){
             this.$swal('서버에 문제가 발생하였습니다.');
@@ -85,7 +124,8 @@ export default {
         })
       }
     }
-  };
+  }
+}
 </script>
 
 <style></style>

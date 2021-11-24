@@ -26,8 +26,8 @@ import { mapGetters, mapState } from 'vuex';
 export default {
   name: 'Pagination',
   computed: {
-    ...mapState('boardNoticeStore', ['currentPageIndex']),
-    ...mapGetters('boardNoticeStore', {
+    ...mapState('houseOnGoingStore', ['currentPageIndex']),
+    ...mapGetters('houseOnGoingStore', {
       pageCount: 'getPageCount',
       startPageIndex: 'getStartPageIndex',
       endPageIndex: 'getEndPageIndex',

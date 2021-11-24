@@ -32,6 +32,9 @@
           </li>
         </ul>
       </div>
+      <div class="footer">
+        <router-link class="btn btn-sm btn-primary" to="/house/ongoing/card">목록으로</router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -51,5 +54,7 @@ export default {
 </script>
 
 <style>
-
+.fileName:hover {
+    color: #0a58ca;
+}
 </style>

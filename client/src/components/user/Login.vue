@@ -72,14 +72,20 @@ export default {
     BasicHeader,
   },
   methods: {
-    ...mapActions('userStore', ['login']),
+    ...mapActions('userStore', ['login', 'complogin']),
+
     validateForm() {
-      // TODO : id, password validation
-      this.login({
-        loginType:  this.loginType,
-        userId: this.userId,
-        userPassword: this.userPassword
-      });
+      if(this.loginType == 'common'){
+        this.login({
+          userId: this.userId,
+          userPassword: this.userPassword
+        });
+      }else if(this.loginType == 'company'){
+        this.complogin({
+          compId: this.userId,
+          compPassword: this.userPassword
+        });
+      }
     }
   }
 }
