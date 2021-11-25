@@ -198,8 +198,11 @@ public class HouseServiceImpl implements HouseService {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
 
 		try {
-			List<HouseOnGoingDto> list = houseDao.houseOnGoingList(houseOnGoingParamDto);
-
+			List<HouseOnGoingDto> list = null;
+			if (houseOnGoingParamDto.getKeyword() == null || houseOnGoingParamDto.getKeyword().isEmpty())
+				list = houseDao.houseOnGoingList(houseOnGoingParamDto);
+			else list = houseDao.houseOnGoingListByKeyword(houseOnGoingParamDto);
+			
 			for (HouseOnGoingDto item : list) {
 				List<HouseOnGoingFileDto> fileDtoList = houseDao.houseOnGoingDetailFileList(item.getOngoingId());
 				if (fileDtoList != null && !fileDtoList.isEmpty()) {
@@ -208,7 +211,11 @@ public class HouseServiceImpl implements HouseService {
 			}
 
 			houseOnGoingResultDto.setList(list);
-			houseOnGoingResultDto.setCount(houseDao.houseOnGoingListTotalCount());
+			if (houseOnGoingParamDto.getKeyword() == null || houseOnGoingParamDto.getKeyword().isEmpty())
+				houseOnGoingResultDto.setCount(houseDao.houseOnGoingListTotalCount(houseOnGoingParamDto));
+			else
+				houseOnGoingResultDto.setCount(houseDao.houseOnGoingListByKeywordTotalCount(houseOnGoingParamDto));
+				
 			houseOnGoingResultDto.setResult(SUCCESS);
 
 		} catch (Exception e) {

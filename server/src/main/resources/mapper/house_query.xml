@@ -15,7 +15,6 @@
 		(select no as house_no, dong as dong_name, aptname as apt_name, buildyear as buildYear, jibun, lat, lng 
 		from houseinfo
 		where dong like concat(#{dongName}, '%'))
-	
 	</select>
 	
 	<select id="getHouseDeal" resultType="com.ssafy.happyhouse.dto.HouseDealDto">
@@ -54,9 +53,37 @@
 		from house_ongoing h, company c, houseinfo i
 		where h.comp_seq = c.comp_seq
 		and h.houseinfo_no = i.no
+		<if test="dealType != null and dealType != '' and dealType != '전체'.toString()">
+			AND h.type = #{dealType}
+		</if>
+		order by h.ongoing_id desc
+		limit #{limit} offset #{offset}
+		<!-- select h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, i.AptName, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		from house_ongoing h, company c, houseinfo i
+		where h.comp_seq = c.comp_seq
+		and h.houseinfo_no = i.no
+		order by h.ongoing_id desc
+		limit #{limit} offset #{offset} -->
+	</select>
+	
+	<select id="houseOnGoingListByKeyword" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+		select h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, i.AptName, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		from house_ongoing h, company c, houseinfo i
+		where h.comp_seq = c.comp_seq
+		and h.houseinfo_no = i.no
+		<if test="dealType != null and dealType != '' and dealType != '전체'.toString()">
+			AND h.type = #{dealType}
+		</if>
+		<if test="keywordType != null">
+			<if test="keywordType == 'all'.toString()">AND (i.aptname LIKE CONCAT('%', #{keyword} ,'%') OR c.comp_name LIKE CONCAT('%', #{keyword} ,'%') OR h.area=#{keyword})</if>
+			<if test="keywordType == 'houseName'.toString()">AND i.aptname LIKE CONCAT('%', #{keyword} ,'%')</if>
+			<if test="keywordType == 'compName'.toString()">AND c.comp_name LIKE CONCAT('%', #{keyword} ,'%')</if>
+			<if test="keywordType == 'area'.toString()">AND h.area=#{keyword}</if>
+		</if>
 		order by h.ongoing_id desc
 		limit #{limit} offset #{offset}
 	</select>
+	
 	
 	<select id="houseNoOnGoingList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
 		select h.ongoing_id, h.houseinfo_no as house_no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
@@ -75,9 +102,28 @@
 		limit 5
 	</select>
 	
-	<select id="houseOnGoingListTotalCount" parameterType="int" resultType="int">
+	<select id="houseOnGoingListTotalCount" parameterType="map" resultType="int">
 		select count(*)
 		from house_ongoing
+		<if test="dealType != null and dealType != '' and dealType != '전체'.toString()">
+			WHERE type = #{dealType}
+		</if>
+	</select>
+	
+	<select id="houseOnGoingListByKeywordTotalCount" parameterType="map" resultType="int">
+		select count(*)
+		from house_ongoing h, company c, houseinfo i
+		where h.comp_seq = c.comp_seq
+		and h.houseinfo_no = i.no
+		<if test="dealType != null and dealType != '' and dealType != '전체'.toString()">
+			AND h.type = #{dealType}
+		</if>
+		<if test="keywordType != null">
+			<if test="keywordType == 'all'.toString()">AND (i.aptname LIKE CONCAT('%', #{keyword} ,'%') OR c.comp_name LIKE CONCAT('%', #{keyword} ,'%') OR h.area=#{keyword})</if>
+			<if test="keywordType == 'houseName'.toString()">AND i.aptname LIKE CONCAT('%', #{keyword} ,'%')</if>
+			<if test="keywordType == 'compName'.toString()">AND c.comp_name LIKE CONCAT('%', #{keyword} ,'%')</if>
+			<if test="keywordType == 'area'.toString()">AND h.area=#{keyword}</if>
+		</if>
 	</select>
 
 	<select id="houseNoOnGoingListTotalCount" parameterType="int" resultType="int">

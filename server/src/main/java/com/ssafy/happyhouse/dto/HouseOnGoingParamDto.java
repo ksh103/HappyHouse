@@ -11,7 +11,9 @@ public class HouseOnGoingParamDto {
 
 	private int limit;
 	private int offset;
-	private String searchWord;
+	private String keyword;
+	private String keywordType;
+	private String dealType;
 
 	// 특정 게시글에 대한 상세가 들어가기 위해
 	private int ongoingId;

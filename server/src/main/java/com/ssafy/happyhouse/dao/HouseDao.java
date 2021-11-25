@@ -23,10 +23,13 @@ public interface HouseDao {
 	public int houseOnGoingRegister(HouseOnGoingDto houseOnGoingDto); // 매물 등록(현재 진행 중)
 	
 	public List<HouseOnGoingDto> houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(전체)
+	public List<HouseOnGoingDto> houseOnGoingListByKeyword(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(전체)
+	
 	public List<HouseOnGoingDto> houseNoOnGoingList(int houseNo); // 등록된 매물 리스트(특정 매물 클릭)
 	public List<HouseOnGoingDto> houseOnGoingLimitList(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 리스트(5개)
 	
-	public int houseOnGoingListTotalCount(); // 전체 매물 개수
+	public int houseOnGoingListTotalCount(HouseOnGoingParamDto houseOnGoingParamDto); // 전체 매물 개수
+	public int houseOnGoingListByKeywordTotalCount(HouseOnGoingParamDto houseOnGoingParamDto); // 전체 매물 개수
 	public int houseNoOnGoingListTotalCount(int houseNo); // 등록된 매물 리스트 수 (특정 매물 개수)
 	
 	public HouseOnGoingDto houseOnGoingDetail(HouseOnGoingParamDto houseOnGoingParamDto); // 등록된 매물 보기
