@@ -93,6 +93,7 @@
         <div class="col-12">
           <button @click.prevent="ongoingModify" class="btn btn-primary float-end">작성완료</button>
           <router-link to="/house/ongoing/card" class="me-2 ml-3 btn btn-secondary float-end" >취소</router-link>
+          <button @click="test" to="/house/ongoing/card" class="me-2 ml-3 btn btn-secondary float-end" >test소</button>
         </div>
 			</div>
       <select-house-no-modal @modal-close="afterClose" />
@@ -105,7 +106,7 @@ import CKEditor from '@ckeditor/ckeditor5-vue2';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import SelectHouseNoModal from './modal/SelectHouseNoModal.vue';
 import VueAlertify from 'vue-alertify';
-import { mapState, mapMutations} from 'vuex';
+import { mapState } from 'vuex';
 import { Modal } from 'bootstrap';
 
 Vue.use(CKEditor).use(VueAlertify);
@@ -118,8 +119,8 @@ export default {
   components: {
     SelectHouseNoModal
   },
-  data(){
-    return{
+  data() {
+    return {
       houseName: '',
       houseNo:'',
       type: '',
@@ -140,7 +141,7 @@ export default {
   computed: {
     ...mapState('houseOnGoingStore', {
       storeOngoingId: 'ongoingId', 
-      storeHouseNo: 'houseNo',
+      storeHouseNo: 'curHouseNo',
       storeTitle: 'title', 
       storeHouseName: 'AptName', 
       storeFileList: 'fileList', 
@@ -157,6 +158,11 @@ export default {
   },
   
   methods: {
+    test() {
+      console.log(this.content);
+      console.log(this.ongoingId);
+      console.log(this.curHouseNo);
+    },
     afterClose(val) {
       if (val) {
         this.houseName = val.houseName;
@@ -179,7 +185,10 @@ export default {
       let formData = new FormData();
 
       formData.append("ongoingId", this.storeOngoingId);
-      formData.append("houseNo", this.houseNo);
+      console.log(this.curHouseNo);
+      console.log(this.houseNo);
+      if (this.houseNo == '') formData.append("houseNo", this.curHouseNo);
+      else formData.append("houseNo", this.houseNo);
       formData.append("type", this.type);
       formData.append("dealAmount", this.dealAmount);
       formData.append("floor", this.floor);

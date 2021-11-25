@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-12">
           <div class="d-flex justify-content-between align-items-center">
-            <h1 class="h3 m-4">나의 친구</h1>
+            <h1 class="h3 m-4">팔로워 (Follower)</h1>
             <i @click="showFriendInsertModal" class="bi bi-person-plus-fill float-end cursor-pointer me-2"></i>
             <!-- <button @click="showFriendInsertModal" style="font-size: 14px;" class="btn btn-primary mt-4 mb-4 px-2 py-1 lift float-end">친구 추가</button> -->
           </div>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="card-body d-flex align-items-center justify-content-between flex-column">
                   <div class="me-auto ms-auto py-4">
-                    <img src="../../assets/images/profile_av.png" alt="" class="rounded-circle">
+                    <img src="http://localhost:8080/images/profile_av.png" alt="" class="rounded-circle">
                   </div>
                   <div class="mt-2">
                       <h6 class="mb-0">{{ item.userName }}</h6>
@@ -30,15 +30,12 @@
                 </div>
               </div>
             </div>
-          </div> <!-- .row end-->
+          </div>
         </div>
-      </div> <!-- .row end-->
+      </div>
       <div class="row">
         <div class="col-12">
-          <!-- <div class="d-flex justify-content-between align-items-center"> -->
-            <h1 class="h3 m-4">나의 친구</h1>
-            <!-- <button style="font-size: 14px;" class="btn btn-primary mt-4 mb-4 px-2 py-1 lift float-end">친구 추가</button> -->
-          <!-- </div> -->
+        <h1 class="h3 m-4">팔로잉 (Following)</h1>
           <div class="row row-cols-xl-6 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-2 g-1 mb-4 row-deck">
             <div v-for="(item, index) in followerList" :key="index+50" class="col">
               <div class="card text-center">
@@ -52,7 +49,8 @@
                 </div>                                            
                 <div class="card-body d-flex align-items-center justify-content-between flex-column">
                   <div class="me-auto ms-auto py-4">
-                    <img src="../../assets/images/profile_av.png" alt="" class="rounded-circle">
+                    <img v-if="profileImgUrl" :src="profileImgUrl" alt="이미지" style="width: 140px; height: 140px;" class="rounded-circle">
+                    <img v-else src="http://localhost:8080/images/profile_av.png" alt="기본 이미지" class="rounded-circle">
                   </div>
                   <div class="mt-2">
                       <h6 class="mb-0">{{ item.userName }}</h6>
@@ -61,9 +59,9 @@
                 </div>
               </div>
             </div>
-          </div> <!-- .row end-->
+          </div>
         </div>
-      </div> <!-- .row end-->
+      </div>
     </div>
     <friend-insert-modal @modal-close="closeAfterInsert" />
     <friend-bookmark-modal @modal-close="closeAfterFriendBookmark" :friendId="selectFriendId" :friendName="setectFriendName"/>
@@ -71,6 +69,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import http from '@/common/axios.js';
 import FriendInsertModal from './modal/FriendInsertModal.vue';
 import FriendBookmarkModal from './modal/FriendBookmarkModal.vue';
@@ -88,6 +87,9 @@ export default {
       selectFriendId: null,
       setectFriendName: null,
     }
+  },
+  computed: {
+    ...mapGetters('userStore', ['profileImgUrl'])
   },
   components: {
     FriendInsertModal,

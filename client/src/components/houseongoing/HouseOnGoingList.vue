@@ -44,7 +44,9 @@
           <div @click="onGoingDetail(item.ongoingId)" class="cursor-pointer hover-show position-relative">
             <img v-if="!item.fileList" src="http://localhost:8080/images/aptDefault.jpg" class="card-img-top">
             <img v-else :src="item.fileList[0].fileUrl" class="card-img-top">
-            <span class="position-absolute badge bg-success"><h5 class="m-0">{{ item.type }}</h5></span>
+            <span v-if="item.type=='월세'" class="position-absolute badge bg-success"><h5 class="m-0">{{ item.type }}</h5></span>
+            <span v-if="item.type=='전세'" class="position-absolute badge bg-primary"><h5 class="m-0">{{ item.type }}</h5></span>
+            <span v-if="item.type=='매매'" class="position-absolute badge bg-warning"><h5 class="m-0">{{ item.type }}</h5></span>
           </div>
           <div class="card-body">
             <div class="col-mb-2">

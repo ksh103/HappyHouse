@@ -22,11 +22,11 @@
             <td>
               <div class="dropdown">
                 <button class="btn btn-sm text-decoration-none" role="button" data-bs-toggle="dropdown">{{ board.userName }}</button>
-                <ul class="dropdown-menu border-0 shadow p-3">
+                <!-- <ul class="dropdown-menu border-0 shadow p-3">
                   <li><a class="dropdown-item py-2 rounded" href="#">친구 추가</a></li>
                   <li><a class="dropdown-item py-2 rounded" href="#">Another action</a></li>
                   <li><a class="dropdown-item py-2 rounded" href="#">Something else here</a></li>
-                </ul>
+                </ul> -->
               </div>
             </td>
             <td>
@@ -40,7 +40,7 @@
       </table>
       <pagination class="mt-3" v-on:call-parent="movePage"></pagination>
     </div>
-    <div class="my-2 d-flex justify-content-end">
+    <div v-if="isAuth&&level==1" class="my-2 d-flex justify-content-end">
       <router-link class="btn btn-primary" to="/board/notice/insert">글쓰기</router-link>
     </div>  
   </div>
@@ -49,7 +49,7 @@
 <script>
 import Pagination from './Pagination.vue';
 import util from "@/common/util.js";
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'BoardNoticeList',
@@ -57,6 +57,7 @@ export default {
     Pagination
   },
   computed :{
+    ...mapState('userStore', ['isAuth', 'level']),
     ...mapGetters('boardNoticeStore', ['getBoardList']),
   },
   methods : {
