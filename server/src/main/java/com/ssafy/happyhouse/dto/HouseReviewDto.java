@@ -1,5 +1,7 @@
 package com.ssafy.happyhouse.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,7 +16,7 @@ public class HouseReviewDto {
 	int userSeq;
 	String userId;
 	String userName;
-	String regDt;
+	LocalDateTime regDt;
 	String content;
 	int trafficScore;
 	int surroundingScore;

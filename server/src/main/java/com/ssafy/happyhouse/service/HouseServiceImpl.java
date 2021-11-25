@@ -194,7 +194,7 @@ public class HouseServiceImpl implements HouseService {
 
 	// 등록된 매물 리스트(전체)
 	@Override
-	public HouseOnGoingResultDto houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto) {
+	public HouseOnGoingResultDto houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto, UserDto userDto) {
 		HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
 
 		try {
@@ -203,13 +203,59 @@ public class HouseServiceImpl implements HouseService {
 				list = houseDao.houseOnGoingList(houseOnGoingParamDto);
 			else list = houseDao.houseOnGoingListByKeyword(houseOnGoingParamDto);
 			
+//			for (HouseOnGoingDto item : list) {
+//				List<HouseOnGoingFileDto> fileDtoList = houseDao.houseOnGoingDetailFileList(item.getOngoingId());
+//				if (fileDtoList != null && !fileDtoList.isEmpty()) {
+//					item.setFileList(fileDtoList);
+//				}
+//			}
+//			
+//			// 세션(일반 사용자)이 있다면, 해당 사용자의 북마크 데이터인지 여부 판별
+//			if (userDto != null) {
+//				List<HouseOnGoingDto> userBookMarkList = bookmarkDao
+//						.getBookmarkHouseOngoingListById(userDto.getUserId());
+//				System.out.println(userBookMarkList);
+//				for (HouseOnGoingDto item : userBookMarkList) {
+//					for (HouseOnGoingDto innerItem : list) {
+//						if (item.getOngoingId() == innerItem.getOngoingId()) {
+//							innerItem.setBookmark(true);
+//						}
+//					}
+//				}
+//			}
+			List<HouseOnGoingDto> userBookMarkList = null;
+			if (userDto != null) userBookMarkList = bookmarkDao
+						.getBookmarkHouseOngoingListById(userDto.getUserId());
+
+			System.out.println(userBookMarkList);
+			
 			for (HouseOnGoingDto item : list) {
 				List<HouseOnGoingFileDto> fileDtoList = houseDao.houseOnGoingDetailFileList(item.getOngoingId());
 				if (fileDtoList != null && !fileDtoList.isEmpty()) {
 					item.setFileList(fileDtoList);
 				}
+				if (userDto != null) {
+					for (HouseOnGoingDto innerItem : userBookMarkList) {
+						if (item.getOngoingId() == innerItem.getOngoingId()) {
+							item.setBookmark(true);
+						}
+					}
+				}
 			}
-
+			
+			// 세션(일반 사용자)이 있다면, 해당 사용자의 북마크 데이터인지 여부 판별
+//			if (userDto != null) {
+//				List<HouseOnGoingDto> userBookMarkList = bookmarkDao
+//						.getBookmarkHouseOngoingListById(userDto.getUserId());
+//				for (HouseOnGoingDto item : userBookMarkList) {
+//					for (HouseOnGoingDto innerItem : list) {
+//						if (item.getOngoingId() == innerItem.getOngoingId()) {
+//							innerItem.setBookmark(true);
+//						}
+//					}
+//				}
+//			}
+			
 			houseOnGoingResultDto.setList(list);
 			if (houseOnGoingParamDto.getKeyword() == null || houseOnGoingParamDto.getKeyword().isEmpty())
 				houseOnGoingResultDto.setCount(houseDao.houseOnGoingListTotalCount(houseOnGoingParamDto));

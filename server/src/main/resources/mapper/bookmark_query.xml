@@ -8,9 +8,9 @@
 	</select>
 
 	<select id="getBookmarkHouseOngoingListById" parameterType="String" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
-		SELECT h.ongoing_id, h.houseinfo_no as house_no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
-		FROM bookmark_ongoing b, house_ongoing h
-		WHERE b.ongoing_id = h.ongoing_id AND b.user_id=#{userId}
+		SELECT h.ongoing_id, h.houseinfo_no as house_no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom, i.aptName, i.dong, i.jibun
+		FROM bookmark_ongoing b, house_ongoing h, houseinfo i
+		WHERE b.ongoing_id = h.ongoing_id AND b.user_id=#{userId} AND i.no = h.houseinfo_no
 	</select>
 	
 	<insert id="insertBookmarkHouseDetail" parameterType="com.ssafy.happyhouse.dto.BookMarkParamDto">

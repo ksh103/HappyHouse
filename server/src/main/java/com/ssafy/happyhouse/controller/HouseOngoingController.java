@@ -75,10 +75,9 @@ public class HouseOngoingController {
 	
 	// 등록된 매물 리스트 (전체)
     @GetMapping(value="/house/deal/ongoing")
-    public ResponseEntity<HouseOnGoingResultDto> houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto){
-    	HouseOnGoingResultDto houseOnGoingResultDto;
-    	
-    	houseOnGoingResultDto = houseService.houseOnGoingList(houseOnGoingParamDto);
+    public ResponseEntity<HouseOnGoingResultDto> houseOnGoingList(HouseOnGoingParamDto houseOnGoingParamDto, HttpSession session){
+    	UserDto userDto = (UserDto) session.getAttribute("userDto");
+    	HouseOnGoingResultDto houseOnGoingResultDto = houseService.houseOnGoingList(houseOnGoingParamDto, userDto);
     	
     	System.out.println(houseOnGoingParamDto);
     
@@ -135,17 +134,18 @@ public class HouseOngoingController {
     }
     
     // 등록된 매물 리스트 수 (특정 매물 개수)
-//    @GetMapping(value="/house/deal/ongoing/count/{houseNo}")
-//    public int houseNoOnGoingListTotalCount(@PathVariable int houseNo){
-//    	HouseOnGoingResultDto houseOnGoingResultDto = new HouseOnGoingResultDto();
-//    	houseOnGoingResultDto = houseService.houseNoOnGoingList(houseNo);
-//
-//    	if( houseOnGoingResultDto.getResult() == SUCCESS ) {
-//    		return houseOnGoingResultDto.getCount();
-//    	}else {
-//    		return 0;
-//    	}
-//    }
+    @GetMapping(value="/house/deal/ongoing/count/{houseNo}")
+    public ResponseEntity<HouseOnGoingResultDto> houseNoOnGoingListTotalCount(@PathVariable int houseNo, HttpSession session){
+    	UserDto userDto = (UserDto) session.getAttribute("userDto");
+    	
+    	HouseOnGoingResultDto houseOnGoingResultDto = houseService.houseNoOnGoingList(houseNo, userDto);
+
+    	if( houseOnGoingResultDto.getResult() == SUCCESS ) {
+    		return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.OK);
+    	}else {
+    		return new ResponseEntity<HouseOnGoingResultDto>(houseOnGoingResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    	}
+    }
     
 	// 최근 등록 매물 5개까지
     @GetMapping(value="/house/deal/ongoing/latest")

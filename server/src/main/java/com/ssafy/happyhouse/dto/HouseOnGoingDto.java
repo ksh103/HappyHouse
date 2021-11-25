@@ -29,6 +29,8 @@ public class HouseOnGoingDto {
 	String fee; // 관리비
 	int room; // 방 개수
 	int bathroom; // 화장실 개수
+	String dong;
+	String jibun;
 	
 	boolean bookmark;
 	
