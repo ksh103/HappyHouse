@@ -20,7 +20,7 @@ public class WebConfiguration implements WebMvcConfigurer{
     	.excludePathPatterns("/", "/*.html", "favicon.ico")
     	.excludePathPatterns("/include/**", "/js/**", "/css/**", "/img/**", "/images/**", "/board/**", "/assets/**", "/error/**")
     	.excludePathPatterns("/info/**", "/house/**", "/dealinfo/**", "/notices/**")	// 주소 (구/동) 정보, 공지사항, 실거래가 조회 허용
-    	.excludePathPatterns("/user/login", "/user/logout", "/user/password", "/user/register")		// 로그인, 로그아웃 허용
+    	.excludePathPatterns("/user/login", "/user/logout", "/user/password", "/user/idcheck/**")		// 로그인, 로그아웃 허용
     	.excludePathPatterns("/company/login", "/company/logout", "/company/password", "/company/register") // 로그인, 로그아웃 허용
     	.excludePathPatterns("/notice")							// 공지사항 접속 주소 허용
     	.excludePathPatterns("/boards");

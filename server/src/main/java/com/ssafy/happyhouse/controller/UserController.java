@@ -87,7 +87,7 @@ public class UserController {
 		}
 	}
 
-	@GetMapping(value = "/user/info/id/{userId}")
+	@GetMapping(value = "/user/idcheck/{userId}")
 	public ResponseEntity<Integer> userIdCheck(@PathVariable String userId) {
 		return ResponseEntity.ok(userService.userIdCheck(userId));
 	}
