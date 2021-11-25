@@ -5,8 +5,11 @@
         <div class="card">
           <div class="card-body">
             <h4 class="mb-3">{{ title }}</h4>
-            <div v-if="fileList.length" class="border-top">
-              <img class="max-length" v-for="(file, index) in fileList" :key="index" :src="file.fileUrl" alt="매물 이미지">
+            <div v-if="fileList.length" class="border-top my-3">
+              <img class="max-width" v-for="(file, index) in fileList" :key="index" :src="file.fileUrl" alt="매물 이미지">
+            </div>
+            <div v-else class="border-top py-3">
+              <img class="max-width" src="../../assets/images/noImage.gif" alt="매물 이미지가 없습니다">
             </div>
             <div class="border-top">
               <h4 class="my-3">[{{ AptName }}] {{ dealAmount }} {{ type }}</h4>
@@ -34,26 +37,29 @@
               </div>
             </div>
             <div class="border-top py-2 content" v-html="content"></div>
-            <!-- <h5 style="white-space: pre-line"></h5> -->
           </div>
         </div>
-        <router-link class="btn btn-sm btn-primary mt-2" to="/house/ongoing/card">목록</router-link>
-        <button @click="deleteOngoingDetail(ongoingId)" class="btn btn-sm btn-danger float-end ms-2 mt-2">삭제</button>
-        <router-link class="btn btn-sm btn-primary float-end mt-2" to="/house/ongoing/modify">수정</router-link>
+        <router-link class="btn btn-sm btn-primary mt-2" to="/house/ongoing/list">목록</router-link>
+        <button v-if="sameUser" @click="deleteOngoingDetail(ongoingId)" class="btn btn-sm btn-danger float-end ms-2 mt-2">삭제</button>
+        <router-link v-if="sameUser" class="btn btn-sm btn-primary float-end mt-2" to="/house/ongoing/modify">수정</router-link>
       </div>
       <div class="col-md-4">
         <ul class="list-group">
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            글번호 :
-            <span>{{ ongoingId }}</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            작성자 :
+            업체명 :
             <span>{{ compName }}</span>
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            오시는 길 : 
+            주소 : 
             <span>{{ compAddress }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            연락처 : 
+            <span>{{ compPhone }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            이메일 : 
+            <span>{{ compEmail }}</span>
           </li>
           <li v-for="(file, index) in fileList" :key="index" class="list-group-item">
             <a type="button" class="p-0 m-0 btn btn-outline btn-default btn-xs" v-bind:href="file.fileUrl" v-bind:download="file.fileName">
@@ -78,7 +84,7 @@ const storeName = 'houseOnGoingStore';
 export default {
   name: 'HouseOnGoingDetail',
   computed: {
-    ...mapState(storeName, ['sameUser', 'ongoingId', 'title', 'AptName', 'fileList', 'type', 'dealAmount', 'area', 'floor', 'fee', 'direction', 'room', 'bathroom', 'content', 'compName', 'compAddress']),
+    ...mapState(storeName, ['sameUser', 'ongoingId', 'title', 'AptName', 'fileList', 'type', 'dealAmount', 'area', 'floor', 'fee', 'direction', 'room', 'bathroom', 'content', 'compName', 'compAddress', 'compEmail', 'compPhone']),
   },
   methods: {
     deleteOngoingDetail(ongoingId){
@@ -93,10 +99,7 @@ export default {
             `/house/deal/ongoing/${ongoingId}`
           )
             .then(({ data }) => {
-              console.log('DeleteVue: data :');
-              console.log(data);
-              // 현재 route를 /list로 변경.
-              this.$router.push('/house/ongoing/card');
+              this.$router.push('/house/ongoing/list');
             })
             .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
         }
@@ -115,5 +118,8 @@ export default {
 }
 .content {
   min-height: 200px;
+}
+.max-width {
+  max-width: 750px;
 }
 </style>

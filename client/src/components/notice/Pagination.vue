@@ -37,7 +37,6 @@ export default {
   },
   methods:{
     paginationChanged(pageIndex){
-      console.log("paginationVue : paginationChanged : pageIndex : " + pageIndex );
       this.$emit('call-parent', pageIndex);
     }
   },

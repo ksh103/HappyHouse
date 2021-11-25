@@ -22,6 +22,8 @@ const houseOnGoingStore = {
     AptName: '',
     compName: '',
     compAddress: '',
+    compPhone: '',
+    compEmail: '',
     title: '',
     content: '',
     dealAmount: '',
@@ -38,8 +40,8 @@ const houseOnGoingStore = {
 
     // search condition
     searchKeyword: '',
-    searchKeywordType: 'houseName',
-    searchDealType: '매매',
+    searchKeywordType: 'all',
+    searchDealType: '전체',
   },
 
   getters: {
@@ -115,6 +117,8 @@ const houseOnGoingStore = {
       state.AptName = payload.AptName;
       state.compName = payload.compName;
       state.compAddress = payload.compAddress;
+      state.compPhone = payload.compPhone;
+      state.compEmail = payload.compEmail;
       state.title = payload.title;
       state.content = payload.content;
       state.dealAmount = payload.dealAmount;
@@ -129,13 +133,15 @@ const houseOnGoingStore = {
       state.sameUser = payload.sameUser;
     },
     SET_K(state, payload) {
-      state.searchKeyword = payload;
-    },
-    SET_KT(state, payload) {
-      state.searchKeywordType = payload;
+      state.searchKeyword = payload.keyword;
+      state.searchKeywordType = payload.keywordType;
+      state.offset = 0;
+      state.currentPageIndex = 1;
     },
     SET_DT(state, payload) {
       state.searchDealType = payload;
+      state.offset = 0;
+      state.currentPageIndex = 1;
     },
   },
 
@@ -171,52 +177,48 @@ const houseOnGoingStore = {
           Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         });
     },
-    onGoingTest(context) {
-      console.log('click radio');
-      console.log(context.state);
-    },
     onGoingDetail({ commit }, ongoingId){
       http.get(`/house/deal/ongoing/${ongoingId}`)
         .then(({ data }) => {
-          console.log("HouseOnGoingDetailVue: data : ");
-          console.log(data);
+          // console.log("HouseOnGoingDetailVue: data : ");
+          // console.log(data);
           
-          if (data.result == 'login'){
-            router.push("/")
-          } else {
+          // if (data.result == 'login'){
+          //   router.push("/")
+          // } else {
 
-            if (data.dto.fileList) {
-              console.log('exist')
-              data.dto.fileList.forEach(file => {
-                console.log(file)
-              })
-            } else {
-              console.log('not')
-            }
+            // if (data.dto.fileList) {
+            //   console.log('exist')
+            //   data.dto.fileList.forEach(file => {
+            //     console.log(file)
+            //   })
+            // } else {
+            //   console.log('not')
+            // }
 
-            commit( 'SET_HOUSE_ONGOING_CARD_DETAIL',
-              { 
-                ongoingId: data.dto.ongoingId,
-                houseNo: data.dto.houseNo,
-                AptName: data.dto.AptName,
-                compName: data.dto.compName,
-                compAddress: data.dto.compAddress,
-                title: data.dto.title,
-                content: data.dto.content,
-                dealAmount: data.dto.dealAmount,
-                floor: data.dto.floor,
-                area: data.dto.area,
-                direction: data.dto.direction,
-                type: data.dto.type,
-                fee: data.dto.fee,
-                room: data.dto.room,
-                bathroom: data.dto.bathroom,
-                fileList: data.dto.fileList,
-                sameUser: data.dto.sameUser
-              }
+            commit( 'SET_HOUSE_ONGOING_CARD_DETAIL', data.dto
+              // { 
+              //   ongoingId: data.dto.ongoingId,
+              //   houseNo: data.dto.houseNo,
+              //   AptName: data.dto.AptName,
+              //   compName: data.dto.compName,
+              //   compAddress: data.dto.compAddress,
+              //   title: data.dto.title,
+              //   content: data.dto.content,
+              //   dealAmount: data.dto.dealAmount,
+              //   floor: data.dto.floor,
+              //   area: data.dto.area,
+              //   direction: data.dto.direction,
+              //   type: data.dto.type,
+              //   fee: data.dto.fee,
+              //   room: data.dto.room,
+              //   bathroom: data.dto.bathroom,
+              //   fileList: data.dto.fileList,
+              //   sameUser: data.dto.sameUser
+              // }
             );
             router.push("/house/ongoing/detail");
-          }
+          // }
         }
       )
       .catch((error) => {

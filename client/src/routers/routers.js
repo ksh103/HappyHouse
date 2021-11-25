@@ -21,7 +21,7 @@ import Management from '@/components/myaccount/Management.vue';
 import Friends from '@/components/myaccount/Friends.vue';
 import ModifyInfo from '@/components/myaccount/ModifyInfo.vue';
 import ModifyPassword from '@/components/myaccount/ModifyPassword.vue';
-import HouseOnGoingCard from '@/components/houseongoing/HouseOnGoingCard.vue';
+import HouseOnGoingList from '@/components/houseongoing/HouseOnGoingList.vue';
 import HouseOnGoingDetail from '@/components/houseongoing/HouseOnGoingDetail.vue';
 import HouseOnGoingInsert from '@/components/houseongoing/HouseOnGoingInsert.vue';
 import HouseOnGoingModify from '@/components/houseongoing/HouseOnGoingModify.vue';
@@ -43,12 +43,12 @@ export default new VueRouter({
       path: '/house/ongoing',
       name: 'HouseOnGoing',
       component: HouseOnGoing,
-      redirect: '/house/ongoing/card',
+      redirect: '/house/ongoing/list',
       children:[
         {
-          path: 'card',
-          name: 'HouseOnGoingCard',
-          component: HouseOnGoingCard,
+          path: 'list',
+          name: 'HouseOnGoingList',
+          component: HouseOnGoingList,
         },
         {
           path: 'detail',

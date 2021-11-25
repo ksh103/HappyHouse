@@ -12,7 +12,7 @@
             <h6 class="mx-2 mb-3">찾을 친구의 이름 또는 아이디를 입력하세요.</h6>
             <div class="input-group pb-3">
               <input type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="아이디 또는 이름">
-              <button @click="search" class="btn btn-primary d-inline-block" type="button">검색</button>
+              <button @click="search" class="btn btn-primary d-inline-block" type="button"><i class="bi bi-search"></i></button>
             </div>
             <div v-for="(user, index) in userList" :key="index+11">
               {{ user.userName }} : {{ user.userEmail }} <button @click="addFriend(user.userId)"></button>

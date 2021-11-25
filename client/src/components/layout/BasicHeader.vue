@@ -5,7 +5,7 @@
       <div class="row mb-4">
         <div class="col">
           <ul class="breadcrumb bg-transparent mb-0">
-            <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+            <li class="breadcrumb-item"><router-link to="/" class="text-decoration-none">Home</router-link></li>
             <li class="breadcrumb-item active">{{ name }}</li>
           </ul>
         </div>

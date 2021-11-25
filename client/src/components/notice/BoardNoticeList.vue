@@ -40,16 +40,14 @@
       </table>
       <pagination class="mt-3" v-on:call-parent="movePage"></pagination>
     </div>
-    <div class="my-3 d-flex justify-content-end">
-      <router-link class="btn btn-primary float-end" to="/board/notice/insert">글쓰기</router-link>
-    </div>
-      
+    <div class="my-2 d-flex justify-content-end">
+      <router-link class="btn btn-primary" to="/board/notice/insert">글쓰기</router-link>
+    </div>  
   </div>
 </template>
 
 <script>
-import Pagination from '@/components/Pagination.vue';
-
+import Pagination from './Pagination.vue';
 import util from "@/common/util.js";
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
@@ -64,17 +62,15 @@ export default {
   methods : {
     ...mapActions('boardNoticeStore', ['boardList', 'boardDetail']),
     ...mapMutations('boardNoticeStore', ['SET_BOARD_MOVE_PAGE']),
-    // pagination
+    
     movePage(pageIndex){
       console.log("BoardMainVue : movePage : pageIndex : " + pageIndex );
-      // this.$store.commit( 'SET_BOARD_MOVE_PAGE', pageIndex );
       this.SET_BOARD_MOVE_PAGE(pageIndex);
       this.boardList();
       console.log(this.$store._modules.root.state.userStore)
     },
 
     makeDateStr : util.makeDateStr,
-
   },
   created() {
     this.boardList();

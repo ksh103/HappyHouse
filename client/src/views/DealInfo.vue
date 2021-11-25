@@ -43,11 +43,9 @@
           </div>
           <div v-if="searchType == 'K'" class="input-group w-75 d-flex pb-2">
             <input type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="원하시는 아파트, 동명을 입력해주세요">
-            <button @click="onKeywordSearch" class="btn btn-primary d-inline-block" type="button">검색</button>
+            <button @click="onKeywordSearch" class="btn btn-primary d-inline-block" type="button"><i class="bi bi-search"></i></button>
           </div>
         </div>
-        <!-- <button @click="toggleList" class="btn btn-primary" type="button">결과 리스트</button> -->
-        <!-- <button @click="showReviewInsertModal" class="btn btn-primary" type="button">test</button> -->
       </div>
       <div v-if="listVisible" id="showList" class="card p-0 bg-secondary">
         <div class="text-center text-white py-2"><h5>현재 매물 개수 : 0개</h5></div>

@@ -180,22 +180,17 @@ export default {
         headers: { 'Content-Type': 'multipart/form-data' } 
       })
         .then(({ data }) => {
-          console.log("ongoingInsertVue: data : ");
-          console.log(data);
           if (data === "login") {
             this.$router.push('/user/login');
           } else{
             this.$swal('글이 등록되었습니다.', { icon: 'success' })
             setTimeout(() => {
-              console.log('성공')
-              this.$router.push('/house/ongoing/card');
+              this.$router.push('/house/ongoing/list');
             }, 500);
             console.log("sssasdfsdfd")
           }
         })
         .catch(error => {
-          console.log("ongoingInsertVue: error ");
-          console.log(error);
           this.$swal('서버에 문제가 발생하였습니다.' , { icon: 'error' });
         })
     },
