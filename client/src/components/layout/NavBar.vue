@@ -23,7 +23,7 @@
           <div class="dropdown" v-show="isAuth">
             <a href="javascript:void(0);" role="button" data-bs-toggle="dropdown" >
               <img v-if="profileImgUrl" :src="profileImgUrl" alt="프로필 이미지" class="avatar rounded-circle">
-              <img v-else src="../../assets/images/profile_av.png" alt="기본 프로필 이미지" class="avatar rounded-circle">
+              <img v-else :src="require(`@/assets/images/profile_av.png`)" alt="기본 프로필 이미지" class="avatar rounded-circle">
             </a>
             {{ name }}님 환영합니다.
             <ul class="dropdown-menu dropdown-menu-end shadow border-0 m-0 p-3">

@@ -95,4 +95,7 @@ export default {
     width: 50px !important;
     height: 50px !important;
   }
+  .bi-check-circle:hover {
+    color: dodgerblue;
+  }
 </style>

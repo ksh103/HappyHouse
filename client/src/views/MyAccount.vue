@@ -29,7 +29,7 @@
               <div class="card-body">
                 <div class="d-flex align-items-center flex-column flex-md-row">
                   <img v-if="profileImgUrl" :src="profileImgUrl" alt="프로필 이미지" style="width: 140px; height: 140px;" class="rounded-circle">
-                  <img v-else src="../assets/images/profile_av.png" alt="프로필 이미지" class="rounded-circle">
+                  <img v-else src="http://localhost:8080/images/profile_av.png" alt="기본 프로필 이미지" class="rounded-circle">
                   <div class="media-body ms-md-5 m-0 mt-4 mt-md-0 text-md-start text-center">
                     <h5 class="font-weight-bold d-inline-block me-2">{{ name }} </h5>님
                     <div class="text-muted mb-4"><span class="text-dark">가입일</span> : {{ regDt.year }}-{{ regDt.month }}-{{ regDt.day }}</div>
