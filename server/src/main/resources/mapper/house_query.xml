@@ -29,7 +29,7 @@
 	</insert>
 	
 	<select id="houseOnGoingDetail" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto" >
-		select h.comp_seq, h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, c.comp_address, i.AptName, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		select h.comp_seq, h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, c.comp_address, c.comp_email, c.comp_phone, i.AptName, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
 		from house_ongoing h, company c, houseinfo i
 		where h.ongoing_id = #{ongoingId}
 		and h.comp_seq = c.comp_seq
@@ -75,7 +75,7 @@
 			AND h.type = #{dealType}
 		</if>
 		<if test="keywordType != null">
-			<if test="keywordType == 'all'.toString()">AND (i.aptname LIKE CONCAT('%', #{keyword} ,'%') OR c.comp_name LIKE CONCAT('%', #{keyword} ,'%') OR h.area=#{keyword})</if>
+			<if test="keywordType == 'all'.toString()">AND (h.title LIKE CONCAT('%', #{keyword} ,'%') OR h.content LIKE CONCAT('%', #{keyword} ,'%'))</if>
 			<if test="keywordType == 'houseName'.toString()">AND i.aptname LIKE CONCAT('%', #{keyword} ,'%')</if>
 			<if test="keywordType == 'compName'.toString()">AND c.comp_name LIKE CONCAT('%', #{keyword} ,'%')</if>
 			<if test="keywordType == 'area'.toString()">AND h.area=#{keyword}</if>
