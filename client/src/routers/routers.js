@@ -151,16 +151,5 @@ export default new VueRouter({
         },
       ]
     },
-    // {
-    //   name: 'User',
-    //   path: '/user',
-    //   component: User
-    // },
-
-    // {
-    //   name: 'Register',
-    //   path: '/register',
-    //   component: Register
-    // },
   ],
 });

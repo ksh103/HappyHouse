@@ -119,4 +119,7 @@ export default {
     width: 50px !important;
     height: 50px !important;
   }
+  .bi-plus:hover {
+    color: dodgerblue
+  }
 </style>

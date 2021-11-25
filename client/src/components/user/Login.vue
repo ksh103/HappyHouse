@@ -45,7 +45,7 @@
 <script>
 
 import Vue from "vue";
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import VueAlertify from 'vue-alertify';
 import BasicHeader from '@/components/layout/BasicHeader.vue';
 
@@ -55,7 +55,7 @@ export default {
   name: 'Login',
   data() {
     return {
-      userType: 'company',
+      userType: 'common',
       userId: '',
       userPassword: '',
     }

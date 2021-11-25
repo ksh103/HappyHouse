@@ -36,15 +36,19 @@
                 <input v-model="userPassword"  id="userPassword" type="password" class="mb-4 form-control form-control-lg">
               </td>
               <td v-else class="px-4 form-floating">
-                <input v-model="userPassword"  id="userPassword" type="password" class="mb-4 form-control form-control-lg">
+                <input v-model="userPassword"  id="userPassword" type="password" class="mb-4 form-control is-invalid form-control-lg">
                 <label for="userPassword" class="ps-5 text-danger">비밀번호가 일치하지 않습니다. </label>
               </td>
             </tr>
             <tr>
-              <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userRePassword">비밀번호 확인<span class="text-danger">*</span></label>
+              <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userRePassword">비밀번호 확인 <span class="text-danger">*</span></label>
               </td>
-              <td class="px-4">
+              <td v-if="userPwdChk" class="px-4">
                 <input v-model="userRePassword" @change="passwordcheck" id="userRePassword" type="password" class="mb-4 form-control form-control-lg">
+              </td>
+              <td v-else class="px-4 form-floating">
+                <input v-model="userRePassword" @change="passwordcheck" id="userRePassword" type="password" class="mb-4 form-control is-invalid form-control-lg">
+                <label for="userRePassword" class="ps-5 text-danger">비밀번호가 일치하지 않습니다. </label>
               </td>
             </tr>
             <tr>
@@ -126,15 +130,12 @@ export default {
     passwordcheck(){
       if(this.userPassword === this.userRePassword){
         this.userPwdChk = true;
-        return; 
       }else if(this.userPassword != this.userRePassword) {
         this.userPwdChk = false;
-        return;
       }
     },
     validateForm() {
-      //if (!this.userIdChk || !this.userPwdCheck) {
-      if (!this.userIdChk) {
+      if (!this.userIdChk || !this.userPwdChk) {
         this.$swal('가입 양식을 다시 한 번 확인해주세요.', { icon: 'error' });
         return false;
       }

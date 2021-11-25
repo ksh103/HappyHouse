@@ -42,7 +42,7 @@
       <div class="col-md-3 mb-5" v-for="(item, index) in getOnGoingCard" v-bind:key="index">
         <div class="card h-100">
           <div @click="onGoingDetail(item.ongoingId)" class="cursor-pointer hover-show position-relative">
-            <img v-if="!item.fileList" src="../../assets/images/apt.jpg" class="card-img-top">
+            <img v-if="!item.fileList" src="http://localhost:8080/images/aptDefault.jpg" class="card-img-top">
             <img v-else :src="item.fileList[0].fileUrl" class="card-img-top">
             <span class="position-absolute badge bg-success"><h5 class="m-0">{{ item.type }}</h5></span>
           </div>
@@ -57,7 +57,7 @@
       </div>
       <pagination class="mt-3" v-on:call-parent="movePage"></pagination>
     </div>
-    <div class="my-2 d-flex justify-content-end">
+    <div v-if="isAuth&&level==3" class="my-2 d-flex justify-content-end">
       <router-link class="btn btn-primary lift" to="/house/ongoing/insert">매물 등록</router-link>
     </div>
   </div>
@@ -75,8 +75,7 @@ export default {
     return {
       keyword: '',
       dealType: '전체',
-      keywordType: 'all',
-      bm: true
+      keywordType: 'all'
     }
   },
   components: {
@@ -94,11 +93,6 @@ export default {
     ...mapGetters(storeName, ['getOnGoingCard']),
   },
   methods : {
-    hh(value) {
-      console.log('HHHH')
-      console.log(value)
-      this.bm=false
-    },
     ...mapActions(storeName, ['onGoingCard', 'onGoingDetail', 'setBookmark']),
     ...mapMutations(storeName, ['SET_BOARD_MOVE_PAGE', 'SET_K', 'SET_KT', 'SET_DT', 'SET_BOOKMARK']),
     search() {

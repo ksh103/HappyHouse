@@ -10,7 +10,7 @@
             </div>
             <div class="input-group w-75 ">
                 <input @keyup.enter="search" type="text" v-model="keyword" class="form-control form-control-lg"  placeholder="원하시는 아파트, 동명을 입력해주세요">
-                <button @click="search" class="btn btn-warning" type="button">검색</button>
+                <button @click="search" class="btn btn-warning" type="button"><i class="bi bi-search text-white" style="font-size: 1.5rem;"></i></button>
               </div>
           </div>
         </div>
@@ -19,7 +19,7 @@
     <!-- Main Content -->
     <div class="body_area py-4 py-md-5">
       <div class="container">
-        <div class="row g-3 row-deck">
+        <!-- <div class="row g-3 row-deck">
           <div class="col-lg-3 col-md-6 col-sm-6 text-center">
 						<div class="card border-0">
 							<div class="card-body">
@@ -52,8 +52,8 @@
 							</div>
 						</div>
 					</div>
-        </div>
-        <div class="row g-3 mt-4">
+        </div> -->
+        <div class="row g-3 my-3">
           <div class="col-lg-4 col-md-12">
             <h4>최근 매물</h4>
             <table class="myDataTable w-100 table align-middle table-bordered mb-0 custom-table nowrap dataTable">
