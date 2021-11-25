@@ -86,7 +86,7 @@
         <div class="mb-3" v-show="attachFile" id="imgFileUploadInsertWrapper">
           <input @change="changeFile" type="file" id="inputFileUploadUpdate" class="form-control" multiple>
             <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
-              <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index" class="mx-2" style="max-width: 200px; max-height: 200px;">
+              <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index" class="m-2" style="max-width: 200px; max-height: 200px;">
             </div>
         </div>
 

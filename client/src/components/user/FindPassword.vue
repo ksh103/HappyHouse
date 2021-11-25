@@ -54,28 +54,54 @@ export default {
   },
   methods: {
     confirmBtn(){
-      http.post(
-        "/user/password",
-        {
-          userId: this.userId,
-          userEmail: this.userEmail
-        }
-      )
-      .then(response => {
-        // console.log(response.data);
-        this.$swal('비밀번호가 초기화되었습니다.', `${this.userEmail}(으)로 임시비밀번호를 보냈습니다. 로그인 후 비밀번호를 변경해주세요.`, { icon: 'success' })
-              .then(() => this.$router.push("/"));
-      })
-      .catch( error => {
-        console.log("FindPW: error : ");
-        console.log(error);
+      if (this.userType == 'common') {
+        http.post(
+          "/user/password",
+          {
+            userId: this.userId,
+            userEmail: this.userEmail
+          }
+        )
+        .then(response => {
+          // console.log(response.data);
+          this.$swal('비밀번호가 초기화되었습니다.', `${this.userEmail}(으)로 임시비밀번호를 보냈습니다. 로그인 후 비밀번호를 변경해주세요.`, { icon: 'success' })
+                .then(() => this.$router.push("/"));
+        })
+        .catch( error => {
+          console.log("FindPW: error : ");
+          console.log(error);
 
-        if (error.response.status == '404'){
-          this.$swal('요청하신 사용자 정보가 존재하지 않습니다. 정보를 다시 한 번 확인하세요.', { icon: 'error' });
-        } else {
-          this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
-        }
-      });
+          if (error.response.status == '404'){
+            this.$swal('요청하신 사용자 정보가 존재하지 않습니다. 정보를 다시 한 번 확인하세요.', { icon: 'error' });
+          } else {
+            this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+          }
+        });
+      } else if (this.userType=='company') {
+        http.post(
+          "/company/password",
+          {
+            compId: this.userId,
+            compEmail: this.userEmail
+          }
+        )
+        .then(response => {
+          // console.log(response.data);
+          this.$swal('비밀번호가 초기화되었습니다.', `${this.userEmail}(으)로 임시비밀번호를 보냈습니다. 로그인 후 비밀번호를 변경해주세요.`, { icon: 'success' })
+                .then(() => this.$router.push("/"));
+        })
+        .catch( error => {
+          console.log("FindPW: error : ");
+          console.log(error);
+
+          if (error.response.status == '404'){
+            this.$swal('요청하신 사용자 정보가 존재하지 않습니다. 정보를 다시 한 번 확인하세요.', { icon: 'error' });
+          } else {
+            this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+          }
+        });
+      }
+      
     }
   }
 }
