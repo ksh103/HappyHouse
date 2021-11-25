@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="wrapper">
-      <div id="map" style="width: 100%; height: 100vh;"></div>
+      <div id="map" style="width: 100%; height: 90vh;"></div>
       <div id="searchBox" class="card">
         <div>
           <div class="p-2">

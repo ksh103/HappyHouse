@@ -10,7 +10,7 @@ const houseOnGoingStore = {
     offset: 0,
 
     // pagination
-    listRowCount: 10,
+    listRowCount: 8,
     pageLinkCount: 10,
     currentPageIndex: 1,
 
@@ -34,7 +34,12 @@ const houseOnGoingStore = {
     bathroom: 0,
     fileUrl: '',
     fileList: [],
-    sameUser: false
+    sameUser: false,
+
+    // search condition
+    searchKeyword: '',
+    searchKeywordType: 'houseName',
+    searchDealType: '매매',
   },
 
   getters: {
@@ -123,6 +128,15 @@ const houseOnGoingStore = {
       state.fileList = payload.fileList;
       state.sameUser = payload.sameUser;
     },
+    SET_K(state, payload) {
+      state.searchKeyword = payload;
+    },
+    SET_KT(state, payload) {
+      state.searchKeywordType = payload;
+    },
+    SET_DT(state, payload) {
+      state.searchDealType = payload;
+    },
   },
 
   actions: {
@@ -134,6 +148,9 @@ const houseOnGoingStore = {
           params: {
             limit: state.limit,
             offset: state.offset,
+            keyword: state.searchKeyword,
+            keywordType: state.searchKeywordType,
+            dealType: state.searchDealType,
           }
         })
         .then(({ data }) => {
@@ -153,6 +170,10 @@ const houseOnGoingStore = {
           console.log(error);
           Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
         });
+    },
+    onGoingTest(context) {
+      console.log('click radio');
+      console.log(context.state);
     },
     onGoingDetail({ commit }, ongoingId){
       http.get(`/house/deal/ongoing/${ongoingId}`)
