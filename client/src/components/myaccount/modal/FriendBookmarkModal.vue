@@ -1,69 +1,66 @@
 <template>
   <div class="modal" tabindex="-1" id="friendBookmarkModal">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
+          <i class="bi bi-bookmark-star-fill ms-2 me-2" style="font-size: 1.5rem;"></i>
           <h5 class="modal-title">{{ friendName }}님의 북마크</h5>
-          <!-- <h5 class="modal-title">{{ friendId }}님의 북마크</h5> -->
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div>
-            <!-- <div v-for="(item, index) in this.houseList" v-bind:key="index" class="input-group w-75 d-flex pb-2">
-              테스트{{  item.aptName }}
-            </div> -->
+            <h5 class="p-3 m-0">관심 매물</h5>
             <div class="bg-white mb-2">
-                <div class="card">
-                  <h5 class="p-3 m-0">관심 건물</h5>
-                  <div class="card-body">
-                    <table class="table text-center">
-                      <thead class="fw-bold">
-                        <tr>
-                        <td class="w-40">건물명</td>
-                        <td class="ps-3 py-1">동</td>
-                        </tr>
-                      </thead>
-                      <tbody class="px-2">
-                        <tr v-if="this.houseList==0" class="border-bottom">
-                        <td colspan="3" class="ps-3 py-2">등록된 매물이 없습니다.</td>
-                        </tr>
-                        <tr v-else v-for="(item, index) in this.houseList" v-bind:key="index" class="border-bottom">
-                        <!-- <tr class="border-bottom"> -->
-                        <!-- <td class="ps-3 py-2">{{ this.houseList[0].aptName }}</td> -->
-                        <td>{{ item.aptName }}</td>
-                        <td>{{ item.dongName }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+              <div class="card">
+                <div class="card-body">
+                  <table class="table text-center table-hover">
+                    <thead class="fw-bold">
+                      <tr>
+                        <td>거래유형</td>
+                        <td>아파트 · 주택명</td>
+                        <td>주소</td>
+                        <td>거래금액</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-if="houseOngoingList==0" class="border-bottom">
+                        <td colspan="4">등록된 관심 매물이 없습니다.</td>
+                      </tr>
+                      <tr v-else v-for="(item, index) in this.houseOngoingList" v-bind:key="index" class="border-bottom">
+                        <td>{{ item.type }}</td>
+                        <td>{{ item.AptName }}</td>
+                        <td>{{ item.dong }} {{ item.jibun }}</td>
+                        <td>{{ item.dealAmount }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="card mt-4">
-                  <h5 class="p-3 m-0">관심 건물</h5>
-                  <div class="card-body">
-                    <table class="table text-center">
-                      <thead class="fw-bold">
-                        <tr>
-                        <td class="w-20">거래유형</td>
-                        <td class="ps-3 py-1">건물명</td>
-                        </tr>
-                      </thead>
-                      
-                      <tbody class="px-2">
-                        <tr v-if="this.houseOngoingList==0" class="border-bottom">
-                        <td colspan="2" class="ps-3 py-2">등록된 매물이 없습니다.</td>
-                        </tr>
-                        <tr v-else v-for="(item, index) in this.houseOngoingList" v-bind:key="index" class="border-bottom">
-                        <!-- <tr class="border-bottom"> -->
-                        <!-- <td class="ps-3 py-2">{{ this.houseList[0].aptName }}</td> -->
-                        <td >{{ item.type }}</td>
-                        <td >{{ item.title }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+              </div>
+              <h5 class="p-3 m-0">관심 건물 정보</h5>
+              <div class="card">
+                <div class="card-body">
+                  <table class="table text-center table-hover">
+                    <thead class="fw-bold">
+                      <tr>
+                        <td>아파트 · 주택명</td>
+                        <td>주소</td>
+                        <td>건축년도</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-if="houseList==0" class="border-bottom">
+                        <td colspan="3">등록된 관심 건물 정보가 없습니다.</td>
+                      </tr>
+                      <tr v-else v-for="(item, index) in this.houseList" v-bind:key="index" class="border-bottom">
+                        <td class="text-start">{{ item.aptName }}</td>
+                        <td>{{ item.dongName }} {{ item.jiBun }}</td>
+                        <td>{{ item.buildYear }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          <!-- <div class="pt-2 text-secondary">종합의견</div> -->
           </div>
         </div>
         <div class="modal-footer">
@@ -100,6 +97,7 @@ export default {
       // 친구의 관심 매물이 없을 때 예외 처리
       http.get(`/bookmark/friend/${this.friendId}`)
         .then(({ data }) => {
+          console.log('!!!!!!!')
           console.log(data);
           this.houseList = data.houseList;
           this.houseOngoingList = data.houseOngoingList;

@@ -5,6 +5,16 @@
       <div class="d-flex flex-column align-items-center">
         <h2>회원가입 시 등록한 아이디와 이메일 입력해주세요.</h2>
         <form class="row g-1 p-0 p-md-4" style="max-width: 32rem;">
+          <ul class="nav nav-tabs tab-body-header rounded d-inline-flex w-50 mb-4">
+            <li class="nav-item flex-grow-1 text-center">
+              <input value="common" v-model="userType" class="d-none" type="radio" id="common">
+              <label :class="[userType=='common' ? 'active' : '']" class="nav-link cursor-pointer" for="common">일반 회원</label>
+            </li>
+            <li class="nav-item flex-grow-1 text-center">
+              <input value="company" v-model="userType" class="d-none" type="radio" id="company">
+              <label :class="[userType=='company' ? 'active' : '']" class="nav-link cursor-pointer" for="company">기업 회원</label>
+            </li>
+          </ul>
           <div class="col-12">
             <div class="mb-2">
               <label class="form-label" for="userId">아이디</label>
@@ -36,6 +46,7 @@ export default {
     return {
       userId: '',
       userEmail: '',
+      userType: 'common',
     }
   },
   components: {

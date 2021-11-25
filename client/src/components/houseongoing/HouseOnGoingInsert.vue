@@ -76,21 +76,19 @@
         </div>
 
         <!-- 파일 첨부 -->
-        <div class="form-check mb-3">
+        <div class="form-check mb-3 ms-2">
           <input v-model="attachFile" class="form-check-input" type="checkbox" value="" id="chkFileUploadInsert">
           <label class="form-check-label" for="chkFileUploadInsert">파일 추가</label>
         </div>
         <div class="mb-3" v-show="attachFile" id="imgFileUploadInsertWrapper">
-          <input @change="changeFile" type="file" id="inputFileUploadInsert" multiple>
-          <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
-            <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
-            <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index">
+          <input @change="changeFile" type="file" id="inputFileUploadInsert" class="form-control" multiple>
+          <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper d-flex mt-3">
+            <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index" class="mx-2" style="max-width: 200px; max-height: 200px;">
           </div>
         </div>
-
         <div class="col-12">
-          <button @click.prevent="ongoingInsert" class="btn btn-primary float-end">작성완료</button>
-          <router-link to="/house/ongoing/card" class="me-2 ml-3 btn btn-secondary float-end" >취소</router-link>
+          <button @click.prevent="ongoingInsert" class="btn btn-primary float-end lift">작성완료</button>
+          <router-link to="/house/ongoing/list" class="me-2 ml-3 btn btn-secondary float-end lift" >취소</router-link>
         </div>
 			</div>
       <select-house-no-modal @modal-close="afterClose" />

@@ -4,16 +4,16 @@
     <div class="container my-5">
       <div class="d-flex flex-column align-items-center">
         <h2 class="mb-4">Happy House 가입을 환영합니다!</h2>
-          <div class="py-1 px-2 d-flex">
-            <div class="form-check pe-3">
-                <input value="common" v-model="registerType" class="form-check-input" type="radio" id="registerTypeCommon">
-                <label class="form-check-label" for="registerTypeCommon">일반 회원</label>
-            </div>
-            <div class="form-check">
-                <input value="company" v-model="registerType" class="form-check-input" type="radio" id="registerTypeCompany">
-                <label class="form-check-label" for="registerTypeCompany">기업 회원</label>
-            </div>
-          </div>
+        <ul class="nav nav-tabs tab-body-header rounded d-inline-flex w-25 mb-4">
+          <li class="nav-item flex-grow-1 text-center">
+            <input value="common" v-model="userType" class="d-none" type="radio" id="common">
+            <label :class="[userType=='common' ? 'active' : '']" class="nav-link cursor-pointer" for="common">일반 회원</label>
+          </li>
+          <li class="nav-item flex-grow-1 text-center">
+            <input value="company" v-model="userType" class="d-none" type="radio" id="company">
+            <label :class="[userType=='company' ? 'active' : '']" class="nav-link cursor-pointer" for="company">기업 회원</label>
+          </li>
+        </ul>
         <form class="row g-1 p-0 p-md-4 w-100">
           <table>
             <tr>
@@ -22,7 +22,13 @@
             </tr>
             <tr>
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userId">아이디 <span class="text-danger">*</span></label></td>
-              <td class="px-4"><input  v-model="userId" @change="idcheck(userId)" id="userId" type="text" class="mb-4 form-control form-control-lg"></td>
+              <td v-if="userIdChk" class="px-4">
+                <input v-model="userId" @change="idcheck" id="userId" type="text" class="mb-4 form-control form-control-lg">
+              </td>
+              <td v-else class="px-4 form-floating">
+                <input v-model="userId" @change="idcheck" id="userId" type="text" class="mb-4 form-control is-invalid form-control-lg">
+                <label for="userId" class="ps-5 text-danger">중복된 아이디가 존재합니다. 다른 아이디를 입력하세요.</label>
+              </td>
             </tr>
             <tr>
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userPassword">비밀번호 <span class="text-danger">*</span></label></td>
@@ -40,7 +46,7 @@
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userEmail">휴대전화 <span class="text-danger">*</span></label></td>
               <td class="px-4"><input v-model="userPhone" id="userPhone" type="text" class="mb-4 form-control form-control-lg"></td>
             </tr>
-            <tr v-if="registerType === 'company'">
+            <tr v-if="userType === 'company'">
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userAddress">주소 <span class="text-danger">*</span></label></td>
               <td class="px-4"><input v-model="userAddress" id="userAddress" type="text" class="mb-4 form-control form-control-lg"></td>
             </tr>
@@ -57,18 +63,14 @@
 
 <script>
 import http from "@/common/axios.js";
-import Vue from 'vue';
-import VueSwal from 'vue-swal'
 import { mapActions } from 'vuex';
 import BasicHeader from '@/components/layout/BasicHeader.vue';
-
-Vue.use(VueSwal);
 
 export default {
   name: 'Join',
   data() {
     return {
-      registerType: '',
+      userType: 'common',
       userId: '',
       userPassword: '',
       userRePassword: '',
@@ -76,7 +78,8 @@ export default {
       userEmail: '',
       userPhone: '',
       userAddress: '',
-      userIdChk: false,
+      userIdChk: true,
+      userPwdChk: false,
     }
   },
   components: {
@@ -84,30 +87,44 @@ export default {
   },
   methods: {
     ...mapActions(['login']),
-    idcheck(userId){
-      if(this.registerType == 'common'){
-        http.get(`/user/idcheck/${userId}`)
-          .then(({data})=> {
+    idcheck(){
+      if(this.userId=='' || this.userId==null) {
+        this.userIdChk = false;
+        return;
+      }
+      if(this.userType == 'common'){
+        http.get(`/user/idcheck/${this.userId}`)
+          .then(({data}) => {
             if(data.result == 3){
-              this.$swal('이미 사용중인 아이디 입니다.', { icon: 'warning' })
+              this.userIdChk = false;
             } else if (data.result == 4) {
-              this.$swal('사용가능한 아이디입니다.', { icon: 'success' })
+              this.userIdChk = true;
             }
           })
           .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
-      }else if(this.registerType == 'company'){
-         http.get(`/company/idcheck/${userId}`)
-          .then(({data})=> {
+      } else if(this.userType == 'company'){
+        http.get(`/company/idcheck/${this.userId}`)
+          .then(({data}) => {
             if(data.result == 3){
-              this.$swal('이미 사용중인 아이디 입니다.', { icon: 'warning' })
+              this.userIdChk = false;
             } else if (data.result == 4) {
-              this.$swal('사용가능한 아이디입니다.', { icon: 'success' })
+              this.userIdChk = true;
             }
-         })
+          })
+          .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
       }
     },
+    validateForm() {
+      //if (!this.userIdChk || !this.userPwdCheck) {
+      if (!this.userIdChk) {
+        this.$swal('가입 양식을 다시 한 번 확인해주세요.', { icon: 'error' });
+        return false;
+      }
+      return true;
+    },
     join() {
-      if(this.registerType == 'common'){
+      if (!this.validateForm()) return;
+      if(this.userType == 'common'){
         http.post('/user/register', {
           userName: this.userName,
           userId: this.userId,
@@ -116,24 +133,17 @@ export default {
           userPhone: this.userPhone,
         })
         .then(({ data }) => {
-          let $this = this;
-          if(this.userPassword === this.userRePassword){
-            if (data.result == 1) {
+          if (data.result == 1) {
             this.$swal('회원 가입이 완료되었습니다.', '환영합니다. 로그인 페이지로 이동합니다.', { icon: 'success' })
-              .then(() => $this.$router.push('/user/login/'));
-            }
-          }else{
-            this.$swal('비밀번호를 다시 입력해주세요.', { icon: 'error' })
+              .then((value) => this.$router.push('/user/login/'));
           }
         })
         .catch(error => {
           console.log("UserRegisterVue: error : ");
           console.log(error);
-          if( error.response.status == '404'){
-            this.$swal('서버에 문제가 발생하였습니다.');
-          }
+          this.$swal('서버에 문제가 발생하였습니다.');
         })
-      }else if(this.registerType == 'company'){
+      }else if(this.userType == 'company'){
         http.post('/company/register', {
           compName: this.userName,
           compId: this.userId,
@@ -143,22 +153,15 @@ export default {
           compPhone: this.userPhone,
         })
         .then(({ data }) => {
-          let $this = this;
-          if(this.userPassword === this.userRePassword){
-            if (data.result == 1) {
-              this.$swal('회원 가입이 완료되었습니다.', '환영합니다. 로그인 페이지로 이동합니다.', { icon: 'success' })
-                .then(() => $this.$router.push('/user/login/'));
-            }
-          }else{
-            this.$swal('비밀번호를 다시 입력해주세요.', { icon: 'error' })
+          if (data.result == 1) {
+            this.$swal('회원 가입이 완료되었습니다.', '환영합니다. 로그인 페이지로 이동합니다.', { icon: 'success' })
+              .then((value) => this.$router.push('/user/login/'));
           }
         })
         .catch(error => {
           console.log("CompanyRegisterVue: error : ");
           console.log(error);
-          if( error.response.status == '404'){
             this.$swal('서버에 문제가 발생하였습니다.');
-          }
         })
       }
     },

@@ -14,14 +14,14 @@
                 <ul class="resume-box">
                   <li>
                     <div class="icon text-center">
-                        <i class="fa fa-id-badge"></i>
+                      <i class="bi bi-person-badge-fill" style="font-size: 1.3rem;"></i>
                     </div>
                     <div class="fw-bold mb-0">아이디</div>
                     <span>{{ id }}</span>
                   </li>
                   <li>
                     <div class="icon text-center">
-                        <i class="fa fa-mobile"></i>
+                      <i class="bi bi-telephone-fill"></i>
                     </div>
                     <div class="fw-bold mb-0">휴대 전화</div>
                     <span>{{ phone }}</span>

@@ -32,13 +32,13 @@
           </select>
         </div>
         <div class="ms-3 input-group d-flex w-50">
-          <input type="text" v-model="keyword" class="form-control d-inline-block" placeholder="키워드를 입력해주세요">
-          <button @click="test" class="btn btn-primary d-inline-block" type="button"><i class="bi bi-search"></i></button>
+          <input @enter="search" type="text" v-model="keyword" class="form-control d-inline-block" placeholder="키워드를 입력해주세요">
+          <button @click="search" class="btn btn-primary d-inline-block" type="button"><i class="bi bi-search"></i></button>
         </div>
       </div>
     </div>
     <!-- 게시글 리스트 -->
-    <div class="row"> <!--v-for="(card, index) in getOnGoingCard" v-bind:key="index"-->
+    <div class="row">
       <div class="col-md-3 mb-5" v-for="(item, index) in getOnGoingCard" v-bind:key="index">
         <div class="card h-100">
           <div @click="onGoingDetail(item.ongoingId)" class="cursor-pointer hover-show position-relative">
@@ -58,13 +58,12 @@
       <pagination class="mt-3" v-on:call-parent="movePage"></pagination>
     </div>
     <div class="my-2 d-flex justify-content-end">
-      <router-link class="btn px-4 py-2 btn-outline-primary btn-animate-3" to="/house/ongoing/insert">매물 등록</router-link>
+      <router-link class="btn btn-primary lift" to="/house/ongoing/insert">매물 등록</router-link>
     </div>
   </div>
 </template>
 <script>
 import Pagination from './Pagination.vue';
-
 import util from "@/common/util.js";
 import { mapActions, mapState, mapGetters, mapMutations } from 'vuex';
 
@@ -77,7 +76,11 @@ export default {
       keyword: '',
       dealType: '전체',
       keywordType: 'all',
+      bm: true
     }
+  },
+  components: {
+    Pagination,
   },
   watch: {
     dealType(val) {
@@ -85,17 +88,20 @@ export default {
       this.onGoingCard();
     }
   },
-  components: {
-    Pagination,
-  },
   computed: {
+    ...mapState('userStore', ['isAuth', 'level']),
     ...mapState(storeName, ['searchKeyword', 'searchKeywordType', 'searchDealType']),
     ...mapGetters(storeName, ['getOnGoingCard']),
   },
   methods : {
-    ...mapActions(storeName, ['onGoingCard', 'onGoingDetail']),
-    ...mapMutations(storeName, ['SET_BOARD_MOVE_PAGE', 'SET_K', 'SET_KT', 'SET_DT']),
-    test() {
+    hh(value) {
+      console.log('HHHH')
+      console.log(value)
+      this.bm=false
+    },
+    ...mapActions(storeName, ['onGoingCard', 'onGoingDetail', 'setBookmark']),
+    ...mapMutations(storeName, ['SET_BOARD_MOVE_PAGE', 'SET_K', 'SET_KT', 'SET_DT', 'SET_BOOKMARK']),
+    search() {
       this.SET_K({
         keyword: this.keyword,
         keywordType: this.keywordType
@@ -110,10 +116,9 @@ export default {
     },
     
     makeDateStr : util.makeDateStr,
-
   },
   created() {
-    console.log("created list!!!!!!!!!!!!!!")
+    // console.log("created list!!!!!!!!!!!!!!")
     this.onGoingCard();
     this.keyword = this.searchKeyword;
     this.keywordType = this.searchKeywordType;

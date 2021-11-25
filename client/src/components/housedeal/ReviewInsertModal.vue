@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState } from "vuex";
 import http from "@/common/axios.js";
 import StarRating from 'vue-star-rating';
 
@@ -69,7 +69,6 @@ export default {
       livingScore: 0,
       recommendScore: 0,
       content: '',
-      // title: 'www'
     }
   },
   components: {
@@ -87,7 +86,6 @@ export default {
         recommendScore: this.recommendScore,
         livingScore: this.livingScore,
         content: this.content,
-        // title: this.title,
       })
         .then(() => {
           this.$swal('리뷰가 등록되었습니다.', '참여해 주셔서 감사합니다.', { icon: 'success' })
@@ -106,14 +104,13 @@ export default {
       this.content = '';
     },
     closeModal() {
-      this.$emit('parent-modal-close');
+      this.$emit('parent-modal-close', this.houseList[this.index].houseNo);
     }
   },
   computed: {
     ...mapState(storeName, ['houseList']),
   },
   mounted() {
-    console.log('modal mounted');
     let $this = this;
     this.$el.addEventListener('show.bs.modal', function () {
       $this.initModal();

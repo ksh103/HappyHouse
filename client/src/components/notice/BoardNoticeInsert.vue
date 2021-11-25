@@ -15,10 +15,9 @@
           <label class="form-check-label" for="chkFileUploadInsert">파일 추가</label>
         </div>
         <div class="mb-3" v-show="attachFile" id="imgFileUploadInsertWrapper">
-          <input @change="changeFile" type="file" id="inputFileUploadInsert" multiple>
-          <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
-            <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
-            <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index">
+          <input @change="changeFile" type="file" id="inputFileUploadInsert" class="form-control" multiple>
+          <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper mt-3">
+            <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index" class="mx-2" style="max-width: 200px; max-height: 200px;">
           </div>
         </div>
       </div>

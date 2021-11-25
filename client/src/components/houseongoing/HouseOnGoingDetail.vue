@@ -5,10 +5,10 @@
         <div class="card">
           <div class="card-body">
             <h4 class="mb-3">{{ title }}</h4>
-            <div v-if="fileList.length" class="border-top my-3">
-              <img class="max-width" v-for="(file, index) in fileList" :key="index" :src="file.fileUrl" alt="매물 이미지">
+            <div v-if="fileList.length" class="border-top my-3 text-center">
+              <img class="max-width my-2" v-for="(file, index) in fileList" :key="index" :src="file.fileUrl" alt="매물 이미지">
             </div>
-            <div v-else class="border-top py-3">
+            <div v-else class="border-top py-3 text-center">
               <img class="max-width" src="../../assets/images/noImage.gif" alt="매물 이미지가 없습니다">
             </div>
             <div class="border-top">
@@ -39,7 +39,7 @@
             <div class="border-top py-2 content" v-html="content"></div>
           </div>
         </div>
-        <!-- <router-link class="btn btn-sm btn-primary mt-2" to="/house/ongoing/list">목록</router-link> -->
+        <router-link class="btn btn-sm btn-primary mt-2" to="/house/ongoing/list">목록</router-link>
         <button @click="test" class="btn btn-sm btn-danger float-end ms-2 mt-2">TEST</button>
         <button v-if="sameUser" @click="deleteOngoingDetail(ongoingId)" class="btn btn-sm btn-danger float-end ms-2 mt-2">삭제</button>
         <router-link v-if="sameUser" class="btn btn-sm btn-primary float-end mt-2" to="/house/ongoing/modify">수정</router-link>

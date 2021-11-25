@@ -7,7 +7,7 @@
           <div class="p-2">
             <div class="d-flex">
               <i class="fa fa-search"></i>
-              <h6 class="ps-2">검색 방법을 선택하세요 {{heart}}</h6>
+              <h6 class="ps-2">검색 방법을 선택하세요</h6>
             </div>
             <div class="py-1 px-2 d-flex">
               <div class="form-check pe-3">
@@ -16,7 +16,7 @@
               </div>
               <div class="form-check">
                   <input value="K" v-model="searchType" class="form-check-input" type="radio" id="searchByKeyword">
-                  <label class="form-check-label" for="searchByKeyword">키워드 검색{{ listVisible }}</label>
+                  <label class="form-check-label" for="searchByKeyword">키워드 검색</label>
               </div>
             </div>
           </div>
@@ -41,23 +41,24 @@
               </fieldset>
             </div>
           </div>
-          <div v-if="searchType == 'K'" class="input-group w-75 d-flex pb-2">
-            <input type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="원하시는 아파트, 동명을 입력해주세요">
+          <div v-if="searchType == 'K'" class="input-group pb-2 px-3">
+            <input @keyup.enter="onKeywordSearch" type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="아파트 또는 동이름">
             <button @click="onKeywordSearch" class="btn btn-primary d-inline-block" type="button"><i class="bi bi-search"></i></button>
           </div>
         </div>
       </div>
       <div v-if="listVisible" id="showList" class="card p-0 bg-secondary">
-        <div class="text-center text-white py-2"><h5>현재 매물 개수 : 0개</h5></div>
-        <div class="text-center text-primary py-2 bg-warning" style="cursor: pointer;">
-          <h5>현재 매물 개수 : 4개</h5>
-          <h5>(보러 가기)</h5>
+        <div @click="moveOngoingList" v-if="ongoingCount==0" class="text-center text-white py-2" style="background-color: #ccc;">
+          <h6>매물 보기 (0개)</h6>
+        </div>
+        <div @click="moveOngoingList" v-else class="text-center text-primary py-2 bg-warning" style="cursor: pointer;">
+          <h6>매물 보기 ({{ ongoingCount }}개)</h6>
         </div>
         <!-- 아파트 정보 요약 -->
         <div class="bg-white mb-2">
           <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
             <h4 class="m-0">{{ houseList[curIndex].aptName }}</h4>
-            <HeartBtn class="px-1" :enabled="houseList[curIndex].bookmark" v-if="isAuth" @changeHeartBtn="onBookmarkHouse" />
+            <HeartBtn v-if="isAuth&&level==2" class="px-1" :enabled="houseList[curIndex].bookmark" @changeHeartBtn="onBookmarkHouse" />
           </div>
           <!-- contents -->
           <div class="px-3">
@@ -75,8 +76,7 @@
         <div class="bg-white mb-2">
           <div class="d-flex justify-content-between align-items-center">
             <h5 class="p-3 m-0">거주민 리뷰</h5>
-            <!-- <button @click="showReviewInsertModal" style="font-size: 14px;" class="btn px-2 py-1 btn-animate-2 fill">리뷰 남기기</button> -->
-            <i @click="showReviewInsertModal" class="bi bi-plus-circle px-3 cursor-pointer"></i>
+            <i v-if="isAuth&&level==2" @click="showReviewInsertModal" class="bi bi-plus-circle px-3 cursor-pointer"></i>
           </div>
 
           <div v-if="reviewList.length==0" class="p-3 border-top">
@@ -88,7 +88,7 @@
               <div class="text-secondary ps-2 pe-3"><img class="avatar rounded-circle" width=25px src="../assets/images/profile_av.png"></div>
               <div class="d-flex flex-column">
                 <h6 class="m-0">{{ review.userName }}</h6>
-                <div class="text-secondary" style="font-size: 0.9rem;">{{ review.regDt }} 가입</div>
+                <div class="text-secondary" style="font-size: 0.9rem;">{{ makeDateStr(review.regDt.date.year, review.regDt.date.month, review.regDt.date.day, '.') }} 가입</div>
               </div>
             </div>
             <div class="px-3">
@@ -185,6 +185,7 @@ import StarRating from 'vue-star-rating';
 import HeartBtn from '@/components/icon/HeartBtn.vue';
 import ReviewInsertModal from '@/components/housedeal/ReviewInsertModal.vue';
 import { Modal } from 'bootstrap';
+import util from "@/common/util.js";
 
 const storeName = 'dealInfoStore';
 
@@ -213,6 +214,7 @@ export default {
       dealInfo: [],
       reviewList: [],
       ongoingList: [],
+      ongoingCount: 0,
       heart: true,
       reviewInsertModal: null,
 
@@ -226,7 +228,7 @@ export default {
   },
   computed: {
     ...mapState(storeName, ['gu', 'dong', 'houseList', 'fromMainKeyword']),
-    ...mapState('userStore', ['isAuth']),
+    ...mapState('userStore', ['isAuth', 'level']),
   },
   created() {
     this.initSearchByDongBox();
@@ -288,14 +290,12 @@ export default {
       }
     },
     onBookmarkHouse({ enabled }) {
-      // 정상처리 된다는 가정... 비동기 then 안에 넣는게 더 정확할듯
-      this.houseList[this.curIndex].bookmark = enabled;
-      
       if (enabled) {
         http.post('/bookmark/house', {
           houseNo: this.houseList[this.curIndex].houseNo
         })
         .then(({ data }) => {
+          this.houseList[this.curIndex].bookmark = enabled;
           if (data.result == 'login') {
             this.$swal('세션이 만료되었거나, 로그인되지 않았습니다. 로그인 페이지로 이동합니다.', { icon: 'warning' })
               .then(() => {
@@ -308,6 +308,7 @@ export default {
       } else {
         http.delete(`/bookmark/house/${this.houseList[this.curIndex].houseNo}`)
           .then(({ data }) => {
+            this.houseList[this.curIndex].bookmark = enabled;
             if (data.result == 'login') {
               this.$swal('세션이 만료되었거나, 로그인되지 않았습니다. 로그인 페이지로 이동합니다.', { icon: 'warning' })
                 .then(() => {
@@ -392,6 +393,7 @@ export default {
       http.get(`/house/review/${houseNo}`)
         .then(({ data }) => {
           this.reviewList = data.list;
+          console.log(data);
         })
         .catch(error => {
           this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
@@ -401,8 +403,8 @@ export default {
       console.log('ongoing!')
       http.get(`/house/deal/ongoing/list/${houseNo}`)
         .then(({ data }) => {
+          this.ongoingCount = data.count;
           this.ongoingList = data.list;
-          console.log(data)
         })
         .catch(error => {
           this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
@@ -417,7 +419,8 @@ export default {
     showReviewInsertModal() {
       this.reviewInsertModal.show();
     },
-    reviewInsertModalClose() {
+    reviewInsertModalClose(houseNo) {
+      this.getHouseReview(houseNo);
       this.reviewInsertModal.hide();
     },
 
@@ -495,6 +498,10 @@ export default {
       this.markers.forEach(m => m.setMap(null));
       this.markers = [];
     },
+    moveOngoingList() {
+      this.$router.push('/house/ongoing');
+    },
+    makeDateStr : util.makeDateStr,
   },
   mounted() {
     // kakao map 초기화
@@ -509,8 +516,6 @@ export default {
 
     console.log(this.prevRoute)
     console.log(this.prevRoute.name);
-    // Modal 초기화
-    // this.reviewInsertModal = new Modal(document.getElementById('reviewInsertModal'));
   },
   updated() {
     console.log('updated')
@@ -537,6 +542,7 @@ export default {
     z-index: 100;
     /* background-color:rgba(255, 244, 244, 0.8); */
     /* opacity: 0.5; */
+    background-color: rgba( 255, 255, 255, 0.7 );
     
     overflow-y: auto;
   }

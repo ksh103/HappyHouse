@@ -14,8 +14,9 @@
               <li>
                 <input @change="uploadProfileImg" type="file" class="form-control d-none" id="avatar">
                 <label class="position-relative" for="avatar">
-                  <span class="btn btn-primary btn-sm">
-                    Upload avatar
+                  <span class="btn btn-primary btn-sm border lift">
+                    <i class="bi bi-upload"></i>&nbsp;
+                    프로필 이미지 첨부
                   </span>
                 </label>
               </li>
@@ -32,8 +33,8 @@
                   <div class="media-body ms-md-5 m-0 mt-4 mt-md-0 text-md-start text-center">
                     <h5 class="font-weight-bold d-inline-block me-2">{{ name }} </h5>님
                     <div class="text-muted mb-4"><span class="text-dark">가입일</span> : {{ regDt.year }}-{{ regDt.month }}-{{ regDt.day }}</div>
-                    <a v-if="level != '3'" style="cursor: pointer;" class="text-decoration-none d-inline-block text-primary"> <strong>{{ followers }}</strong> <span class="text-muted">followers</span> </a>
-                    <a v-if="level != '3'" style="cursor: pointer;" class="text-decoration-none d-inline-block text-primary ms-3"> <strong>{{ following }}</strong> <span class="text-muted">following</span> </a>
+                    <a v-if="level != '3'" class="text-decoration-none d-inline-block text-primary"> <strong>{{ followers }}</strong> <span class="text-muted">followers</span> </a>
+                    <a v-if="level != '3'" class="text-decoration-none d-inline-block text-primary ms-3"> <strong>{{ following }}</strong> <span class="text-muted">following</span> </a>
                   </div>
                 </div>
               </div>
@@ -41,9 +42,6 @@
           </div>
           <div class="col-12">
             <ul class="nav nav-tabs tab-card mt-3 border-bottom-0">
-                <!-- <li class="nav-item"><a id="profile" @click="moveTo('Profile')" class="cursor-pointer nav-link active">{{ $route.name }}</a></li>
-                <li v-if="level != '3'" class="nav-item"><a id="management" @click="moveTo('Management')" class="cursor-pointer nav-link">북마크 / 리뷰 관리</a></li>
-                <li v-if="level != '3'" class="nav-item"><a id="friends" @click="moveTo('Friends')" class="cursor-pointer nav-link">친구</a></li> -->
                 <li class="nav-item">
                   <router-link to="/myaccount/profile" :class="[$route.name=='Profile' ? 'active' : '']" class="cursor-pointer nav-link">프로필</router-link>
                 </li>

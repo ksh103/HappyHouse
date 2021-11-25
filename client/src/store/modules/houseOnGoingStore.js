@@ -143,6 +143,13 @@ const houseOnGoingStore = {
       state.offset = 0;
       state.currentPageIndex = 1;
     },
+    SET_BOOKMARK(state, { enabled, index }) {
+      console.log(state.list);
+      let newList = state.list.slice();
+      console.log(newList);
+      newList[index].bookmark = enabled;
+      state.list = newList;
+    },
   },
 
   actions: {
@@ -190,6 +197,9 @@ const houseOnGoingStore = {
         Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
       });
     },
+    setBookmark({ commit }, payload) {
+      commit('SET_BOOKMARK', payload);
+    }
   },
 };
 

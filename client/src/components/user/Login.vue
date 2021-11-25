@@ -6,16 +6,16 @@
         <h2>아이디와 비밀번호를 입력해 로그인해주세요.</h2>
         <h2>아직 회원이 아니라면 회원가입을 먼저 해주시기 바랍니다.</h2>
         <form class="row g-1 p-0 p-md-4" style="max-width: 32rem;">
-           <div class="py-1 px-2 d-flex">
-              <div class="form-check pe-3">
-                  <input value="common" v-model="loginType" class="form-check-input" type="radio" id="loginTypeCommon">
-                  <label class="form-check-label" for="loginTypeCommon">일반 회원</label>
-              </div>
-              <div class="form-check">
-                  <input value="company" v-model="loginType" class="form-check-input" type="radio" id="loginTypeCompany">
-                  <label class="form-check-label" for="loginTypeCompany">기업 회원</label>
-              </div>
-            </div>
+          <ul class="nav nav-tabs tab-body-header rounded d-inline-flex w-50 mb-4">
+            <li class="nav-item flex-grow-1 text-center">
+              <input value="common" v-model="userType" class="d-none" type="radio" id="common">
+              <label :class="[userType=='common' ? 'active' : '']" class="nav-link cursor-pointer" for="common">일반 회원</label>
+            </li>
+            <li class="nav-item flex-grow-1 text-center">
+              <input value="company" v-model="userType" class="d-none" type="radio" id="company">
+              <label :class="[userType=='company' ? 'active' : '']" class="nav-link cursor-pointer" for="company">기업 회원</label>
+            </li>
+          </ul>
           <div class="col-12">
             <div class="mb-2">
               <label class="form-label" for="userId">아이디</label>
@@ -26,14 +26,6 @@
             <div class="mb-2">
               <div class="form-label" for="userPassword">비밀번호</div>
               <input v-model="userPassword" id="userPassword" type="password" class="form-control form-control-lg" placeholder="비밀번호를 입력하세요">
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="form-check">
-              <input class="form-check-input" v-model="idSave" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                아이디 저장
-              </label>
             </div>
           </div>
           <div class="col-12 text-center mt-4">
@@ -63,7 +55,7 @@ export default {
   name: 'Login',
   data() {
     return {
-      loginType: '',
+      userType: 'company',
       userId: '',
       userPassword: '',
     }
@@ -75,12 +67,12 @@ export default {
     ...mapActions('userStore', ['login', 'complogin']),
 
     validateForm() {
-      if(this.loginType == 'common'){
+      if(this.userType == 'common'){
         this.login({
           userId: this.userId,
           userPassword: this.userPassword
         });
-      }else if(this.loginType == 'company'){
+      }else if(this.userType == 'company'){
         this.complogin({
           compId: this.userId,
           compPassword: this.userPassword

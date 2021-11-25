@@ -5,7 +5,8 @@
         <div class="col-12">
           <div class="d-flex justify-content-between align-items-center">
             <h1 class="h3 m-4">나의 친구</h1>
-            <button @click="showFriendInsertModal" style="font-size: 14px;" class="btn btn-primary mt-4 mb-4 px-2 py-1 lift float-end">친구 추가</button>
+            <i @click="showFriendInsertModal" class="bi bi-person-plus-fill float-end cursor-pointer me-2"></i>
+            <!-- <button @click="showFriendInsertModal" style="font-size: 14px;" class="btn btn-primary mt-4 mb-4 px-2 py-1 lift float-end">친구 추가</button> -->
           </div>
           <div class="row row-cols-xl-6 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-2 g-1 mb-4 row-deck">
             <div v-for="(item, index) in followingList" :key="index" class="col">
@@ -150,5 +151,11 @@ export default {
 </script>
 
 <style>
+  .bi-person-plus-fill{
+    font-size: 1.7rem;
 
+  }
+  .bi-person-plus-fill:hover {
+    color: dodgerblue;
+  }
 </style>

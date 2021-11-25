@@ -1,6 +1,6 @@
 <template>
   <div class="modal" tabindex="-1" id="friendInsertModal">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <i class="bi bi-person-plus-fill ms-2 me-2" style="font-size: 1.5rem;"></i>

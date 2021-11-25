@@ -6,7 +6,7 @@
           <h1 class="h3 m-4">관심 매물</h1>
           <div class="card">
             <div class="card-body">
-              <table v-if="houseOngoingList" class="table text-center">
+              <table v-if="houseOngoingList" class="table text-center table-hover">
                 <thead>
                   <tr class="fw-bold">
                     <td>유형</td>
@@ -17,7 +17,7 @@
                     <td>방</td>
                     <td>층수</td>
                     <td>화장실</td>
-                    <td>삭제</td>
+                    <td></td>
                   </tr>
                 </thead>
                 <tbody>
@@ -47,13 +47,13 @@
           <h1 class="h3 m-4">관심 건물 정보</h1>
           <div class="card">
             <div class="card-body">
-              <table v-if="houseList" class="table text-center">
+              <table v-if="houseList" class="table text-center table-hover">
                 <thead>
                   <tr class="fw-bold">
                     <td>아파트 · 주택명</td>
                     <td>주소</td>
                     <td>건축년도</td>
-                    <td>삭제</td>
+                    <td></td>
                   </tr>
                 </thead>
                 <tbody>
@@ -77,7 +77,7 @@
           <h1 class="h3 m-4">리뷰 관리</h1>
           <div class="card">
             <div class="card-body">
-              <table v-if="myReviewList" class="table text-center">
+              <table v-if="myReviewList" class="table text-center table-hover">
                 <thead>
                   <tr class="fw-bold">
                     <td>건물명</td>
@@ -86,7 +86,7 @@
                     <td>거주환경</td>
                     <td>주변환경</td>
                     <td>종합의견</td>
-                    <td class="text-break">삭제</td>
+                    <td class="text-break"></td>
                   </tr>
                 </thead>
                 <tbody>
@@ -94,23 +94,23 @@
                     <td colspan="7">등록한 리뷰가 없습니다</td>
                   </tr>
                   <tr v-else v-for="(item, index) in myReviewList" :key="index">
-                    <td>
+                    <td class="align-middle">
                       <h6 class="mb-0 text-start">{{ item.aptName }}</h6>
                     </td>
-                    <td>
+                    <td class="align-middle">
                       <StarRating v-model="item.recommendScore" active-color="#dc3545" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
                     </td>
-                    <td>
+                    <td class="align-middle">
                       <StarRating v-model="item.trafficScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
                     </td>
-                    <td>
+                    <td class="align-middle">
                       <StarRating v-model="item.livingScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
                     </td>
-                    <td>
+                    <td class="align-middle">
                       <StarRating v-model="item.surroundingScore" :read-only="true" :show-rating="false" :rounded-corners="true" :star-size="20" :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"></StarRating>
                     </td>
-                    <td class="text-start">{{ item.content }}</td>
-                    <td>
+                    <td class="text-start align-middle">{{ item.content }}</td>
+                    <td class="align-middle">
                       <i @click="deleteReviewItem(item.reviewId)" class="cursor-pointer bi bi-trash-fill"></i>
                     </td>
                   </tr>
@@ -215,7 +215,7 @@ export default {
     },
     deleteReviewItem(reviewId) {
       this.$swal({
-        title: `삭제하시겠습니까? ${reviewId}`,
+        title: `삭제하시겠습니까?`,
         icon: 'warning',
         dangerMode: true,
         buttons: true
@@ -241,5 +241,7 @@ export default {
 </script>
 
 <style>
-
+  .bi-trash-fill:hover {
+    color: dodgerblue;
+  }
 </style>

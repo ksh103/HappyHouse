@@ -79,15 +79,14 @@
         <div v-if="storeFileList.length > 0" class="mb-3">
           첨부파일 : <span><div v-for="(file, index) in storeFileList" class="fileName" :key="index">{{file.fileName}}</div></span>
         </div>
-        <div class="form-check mb-3">
+        <div class="form-check mb-3 ms-2">
           <input v-model="attachFile" class="form-check-input" type="checkbox" value="" id="chkFileUploadUpdate">
           <label class="form-check-label" for="chkFileUploadUpdate">파일 추가</label>
         </div>
         <div class="mb-3" v-show="attachFile" id="imgFileUploadInsertWrapper">
-          <input @change="changeFile" type="file" id="inputFileUploadUpdate" multiple>
+          <input @change="changeFile" type="file" id="inputFileUploadUpdate" class="form-control" multiple>
             <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
-              <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
-              <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index">
+              <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index" class="mx-2" style="max-width: 200px; max-height: 200px;">
             </div>
         </div>
 
