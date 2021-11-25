@@ -120,7 +120,7 @@ export default {
       console.log(this.$store);
       console.log(this.$store.state.houseOnGoingStore);
       this.SET_K(this.keyword);
-      this.SET_DT(this.dealType);
+      this.SET_KT(this.keywordType);
       // api 호출
       this.onGoingCard();
 
