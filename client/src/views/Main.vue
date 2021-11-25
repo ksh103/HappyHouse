@@ -4,15 +4,14 @@
       <div class="carousel-inner" style="background-color: rgb(54, 54, 54);">
         <div class="carousel-item active">
           <img src="../assets/images/mainHeaderImg.jpg" style="object-fit: cover" class="d-block w-100" height="10%" alt="header image">
-          <div class="carousel-caption d-flex flex-column align-items-center d-md-block text-shadow">
-            <div>
-            <h1>Happy House</h1>
-
+          <div class="carousel-caption d-flex flex-column align-items-center">
+            <div class="text-re mb-3">
+            Happy House
             </div>
-            <div class="input-group w-75">
-              <input @keyup.enter="search" type="text" v-model="keyword" class="form-control form-control-lg"  placeholder="원하시는 아파트, 동명을 입력해주세요">
-              <button @click="search" class="btn btn-warning" type="button">검색</button>
-            </div>
+            <div class="input-group w-75 ">
+                <input @keyup.enter="search" type="text" v-model="keyword" class="form-control form-control-lg"  placeholder="원하시는 아파트, 동명을 입력해주세요">
+                <button @click="search" class="btn btn-warning" type="button">검색</button>
+              </div>
           </div>
         </div>
       </div>
@@ -70,7 +69,7 @@
             <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable">
               <tbody>
                 <tr v-for="(item, index) in news" :key="index">
-                  <td class="text-nowrap"><a class="text-decoration-none" :href="item.link" target="_blank" v-html="item.title"></a></td>
+                  <td class="text-nowrap"><a class="news-link" :href="item.link" target="_blank" v-html="item.title"></a></td>
                 </tr>
               </tbody>
             </table>
@@ -156,6 +155,7 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@900&display=swap');
   .carousel-item {
     height: 500px;
   }
@@ -167,8 +167,18 @@ export default {
     min-height: 500px;
   }
 
-  .text-shadow {
-    color: white;
+  .text-re{
+    color: rgb(221, 221, 221);
     text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+    /* text-shadow: 3px 3px 3px rgb(223, 223, 223); */
+    font-size : 80px;
+    word-spacing: -25px;
+    letter-spacing: -5px;
+    font-family: 'Merriweather', serif;
+  }
+  .news-link{
+    text-decoration: none;
+    color: #333;
+    
   }
 </style>

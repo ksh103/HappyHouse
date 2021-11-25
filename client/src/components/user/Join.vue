@@ -32,11 +32,20 @@
             </tr>
             <tr>
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userPassword">비밀번호 <span class="text-danger">*</span></label></td>
-              <td class="px-4"><input v-model="userPassword" id="userPassword" type="password" class="mb-4 form-control form-control-lg"></td>
+              <td v-if="userPwdChk" class="px-4">
+                <input v-model="userPassword"  id="userPassword" type="password" class="mb-4 form-control form-control-lg">
+              </td>
+              <td v-else class="px-4 form-floating">
+                <input v-model="userPassword"  id="userPassword" type="password" class="mb-4 form-control form-control-lg">
+                <label for="userPassword" class="ps-5 text-danger">비밀번호가 일치하지 않습니다. </label>
+              </td>
             </tr>
             <tr>
-              <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userRePassword">비밀번호 확인<span class="text-danger">*</span></label></td>
-              <td class="px-4"><input v-model="userRePassword" id="userRePassword" type="password" class="mb-4 form-control form-control-lg"></td>
+              <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userRePassword">비밀번호 확인<span class="text-danger">*</span></label>
+              </td>
+              <td class="px-4">
+                <input v-model="userRePassword" @change="passwordcheck" id="userRePassword" type="password" class="mb-4 form-control form-control-lg">
+              </td>
             </tr>
             <tr>
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userEmail">이메일 <span class="text-danger">*</span></label></td>
@@ -79,7 +88,7 @@ export default {
       userPhone: '',
       userAddress: '',
       userIdChk: true,
-      userPwdChk: false,
+      userPwdChk: true,
     }
   },
   components: {
@@ -112,6 +121,15 @@ export default {
             }
           })
           .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
+      }
+    },
+    passwordcheck(){
+      if(this.userPassword === this.userRePassword){
+        this.userPwdChk = true;
+        return; 
+      }else if(this.userPassword != this.userRePassword) {
+        this.userPwdChk = false;
+        return;
       }
     },
     validateForm() {
