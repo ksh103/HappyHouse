@@ -95,7 +95,7 @@
 	</select>
 	
 	<select id="houseOnGoingLimitList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
-		select h.ongoing_id, h.houseinfo_no as house_no, h.title, i.AptName, h.title
+		select h.ongoing_id, h.type, h.deal_amount, h.houseinfo_no as house_no, h.title, i.AptName, h.title
 		from house_ongoing h, houseinfo i
 		where h.houseinfo_no = i.no
 		order by ongoing_id desc
@@ -152,19 +152,19 @@
 	</select>
 	
 	<insert id="houseReviewRegister" parameterType="com.ssafy.happyhouse.dto.HouseReviewDto">
-		insert into review(no, user_seq, title, content, traffic_score, surrounding_score, living_score, recommend_score) 
-					values(#{houseNo}, #{userSeq}, #{title}, #{content}, #{trafficScore} , #{surroundingScore}, #{livingScore}, #{recommendScore});
+		insert into review(no, user_seq, content, traffic_score, surrounding_score, living_score, recommend_score) 
+					values(#{houseNo}, #{userSeq}, #{content}, #{trafficScore} , #{surroundingScore}, #{livingScore}, #{recommendScore});
 	</insert>
 	
 	<select id="houseReviewList" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">
-		select r.review_id, r.no as house_no, u.user_seq, u.user_name, u.reg_dt, r.title, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score
+		select r.review_id, r.no as house_no, u.user_seq, u.user_name, u.reg_dt, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score
 		from review r, user u
 		where r.no = #{houseNo}
 		and r.user_seq = u.user_seq;
 	</select>
 
 	<select id="houseReviewAllListByUserSeq" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">
-		select r.review_id, r.no as house_no, u.user_seq, u.user_name, u.reg_dt, r.title, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score, h.aptName
+		select r.review_id, r.no as house_no, u.user_seq, u.user_name, u.reg_dt, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score, h.aptName
 		from review r, user u, houseinfo h
 		where r.user_seq = u.user_seq and r.no = h.no
 		and u.user_seq=#{user_seq}

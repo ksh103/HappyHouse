@@ -15,12 +15,11 @@ public class HouseReviewDto {
 	String userId;
 	String userName;
 	String regDt;
-	String title;
 	String content;
-	double trafficScore;
-	double surroundingScore;
-	double livingScore;
-	double recommendScore;
+	int trafficScore;
+	int surroundingScore;
+	int livingScore;
+	int recommendScore;
 	
 	private boolean sameUser;
 	
