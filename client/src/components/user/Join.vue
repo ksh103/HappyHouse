@@ -22,8 +22,7 @@
             </tr>
             <tr>
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userId">아이디 <span class="text-danger">*</span></label></td>
-              <td class="px-4"><input v-model="userId" id="userId" type="text" class="mb-4 form-control form-control-lg"></td>
-              <button @click="idCheck" class="btn btn-primary">중복확인</button>
+              <td class="px-4"><input  v-model="userId" @change="idcheck(userId)" id="userId" type="text" class="mb-4 form-control form-control-lg"></td>
             </tr>
             <tr>
               <td class="px-4 border-top border-dark"><label class="mb-4 form-label" for="userPassword">비밀번호 <span class="text-danger">*</span></label></td>
@@ -76,7 +75,8 @@ export default {
       userName: '',
       userEmail: '',
       userPhone: '',
-      userAddress: ''
+      userAddress: '',
+      userIdChk: false,
     }
   },
   components: {
@@ -84,6 +84,15 @@ export default {
   },
   methods: {
     ...mapActions(['login']),
+    idcheck(userId){
+      if(this.registerType == 'common'){
+        http.get(`/user/idcheck/${userId}`)
+          .then(({data})=> {
+            console.log(data)
+          })
+          .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
+      }
+    },
     join() {
       if(this.registerType == 'common'){
         http.post('/user/register', {
@@ -140,15 +149,6 @@ export default {
         })
       }
     },
-      
-    idCheck({ commit }, userId) {
-      http.get(`/user/info/id/${userId}`)
-        .then(({ data }) => {
-          console.log("idCheckVue: data : ");
-          console.log(data);
-
-      })
-    }
   }
 }
 </script>

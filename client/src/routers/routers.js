@@ -24,6 +24,7 @@ import ModifyPassword from '@/components/myaccount/ModifyPassword.vue';
 import HouseOnGoingCard from '@/components/houseongoing/HouseOnGoingCard.vue';
 import HouseOnGoingDetail from '@/components/houseongoing/HouseOnGoingDetail.vue';
 import HouseOnGoingInsert from '@/components/houseongoing/HouseOnGoingInsert.vue';
+import HouseOnGoingModify from '@/components/houseongoing/HouseOnGoingModify.vue';
 
 
 export default new VueRouter({
@@ -58,6 +59,11 @@ export default new VueRouter({
           path: 'insert',
           name: 'HouseOnGoingInsert',
           component: HouseOnGoingInsert,
+        },
+        {
+          path: 'modify',
+          name: 'HouseOnGoingModify',
+          component: HouseOnGoingModify,
         },
       ]
     },
