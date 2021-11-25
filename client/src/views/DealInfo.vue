@@ -57,7 +57,7 @@
         <div class="bg-white mb-2">
           <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
             <h4 class="m-0">{{ houseList[curIndex].aptName }}</h4>
-            <HeartBtn :enabled="houseList[curIndex].bookmark" v-if="isAuth" @changeHeartBtn="onBookmarkHouse" />
+            <HeartBtn class="px-1" :enabled="houseList[curIndex].bookmark" v-if="isAuth" @changeHeartBtn="onBookmarkHouse" />
           </div>
           <!-- contents -->
           <div class="px-3">
@@ -75,7 +75,8 @@
         <div class="bg-white mb-2">
           <div class="d-flex justify-content-between align-items-center">
             <h5 class="p-3 m-0">거주민 리뷰</h5>
-            <button @click="showReviewInsertModal" style="font-size: 14px;" class="btn px-2 py-1 btn-animate-2 fill">리뷰 남기기</button>
+            <!-- <button @click="showReviewInsertModal" style="font-size: 14px;" class="btn px-2 py-1 btn-animate-2 fill">리뷰 남기기</button> -->
+            <i @click="showReviewInsertModal" class="bi bi-plus-circle px-3 cursor-pointer"></i>
           </div>
 
           <div v-if="reviewList.length==0" class="p-3 border-top">
@@ -87,7 +88,7 @@
               <div class="text-secondary ps-2 pe-3"><img class="avatar rounded-circle" width=25px src="../assets/images/profile_av.png"></div>
               <div class="d-flex flex-column">
                 <h6 class="m-0">{{ review.userName }}</h6>
-                <div class="text-secondary">{{ review.regDt }} 가입</div>
+                <div class="text-secondary" style="font-size: 0.9rem;">{{ review.regDt }} 가입</div>
               </div>
             </div>
             <div class="px-3">
@@ -116,7 +117,7 @@
                 </div>
               </div>
               <div class="pt-2 text-secondary">종합의견</div>
-              <div class="py-2">{{ review.content }}</div>
+              <div class="py-2"><h6>{{ review.content }}</h6></div>
             </div>
           </div>
         </div> 
@@ -214,15 +215,29 @@ export default {
       ongoingList: [],
       heart: true,
       reviewInsertModal: null,
+
+      prevRoute: null,
     }
   },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.prevRoute = from
+    })
+  },
   computed: {
-    ...mapState(storeName, ['gu', 'dong', 'houseList']),
+    ...mapState(storeName, ['gu', 'dong', 'houseList', 'fromMainKeyword']),
     ...mapState('userStore', ['isAuth']),
   },
   created() {
-    console.log('watch D');
     this.initSearchByDongBox();
+    
+    if (this.fromMainKeyword) {
+      console.log('yes')
+      this.inputKeyword = this.fromMainKeyword;
+      this.CLEAR_KEYWORD();
+      this.searchType = 'K';
+      this.onKeywordSearch();
+    }
   },
   watch: {
     searchType: function(val) {
@@ -253,6 +268,7 @@ export default {
   },
   methods: {
     ...mapActions(storeName, ['getGu', 'getDong', 'getHouseListByDong', 'getHouseListByKeyword']),
+    ...mapMutations(storeName, ['CLEAR_KEYWORD']),
     ...mapMutations('userStore', ['SET_USER_LOGOUT']),
     initMap() {
       const mapContainer = document.getElementById('map');
@@ -348,7 +364,6 @@ export default {
       }
     },
     onKeywordSearch() {
-      // alert(this.inputKeyword)
       if (this.inputKeyword == '') {
         this.$swal('키워드를 입력하세요.', { icon: 'error' });
       } else {
@@ -358,8 +373,6 @@ export default {
     },
     showHouseDetail(index) {
       this.curIndex = index;
-      // console.log(index)
-      // console.log(this.houseList[index]);
       const houseNo = this.houseList[index].houseNo;
       this.getHouseDeal(houseNo);
       this.getOngoingList(houseNo);
@@ -379,7 +392,6 @@ export default {
       http.get(`/house/review/${houseNo}`)
         .then(({ data }) => {
           this.reviewList = data.list;
-          // console.log(data)
         })
         .catch(error => {
           this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
@@ -494,6 +506,9 @@ export default {
       script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=8abe79c672729ad9f23c1abc169bb162';
       document.head.appendChild(script);
     }
+
+    console.log(this.prevRoute)
+    console.log(this.prevRoute.name);
     // Modal 초기화
     // this.reviewInsertModal = new Modal(document.getElementById('reviewInsertModal'));
   },
@@ -540,5 +555,11 @@ export default {
     /* opacity: 0.5; */
     
     overflow-y: auto;
+  }
+  .bi-plus-circle {
+    font-size: 1.5rem;
+  }
+  .bi-plus-circle:hover {
+    color: dodgerblue;
   }
 </style>

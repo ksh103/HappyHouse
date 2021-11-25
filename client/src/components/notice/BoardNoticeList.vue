@@ -30,7 +30,7 @@
               </div>
             </td>
             <td>
-              <span class="d-block">{{ makeDateStr(board.regDt.date.year, board.regDt.date.month, board.regDt.date.day, '.') }}</span>
+              <span v-if="board.regDt" class="d-block">{{ makeDateStr(board.regDt.date.year, board.regDt.date.month, board.regDt.date.day, '.') }}</span>
             </td>
             <td>
               <span class="d-block">{{ board.readCount }}</span>

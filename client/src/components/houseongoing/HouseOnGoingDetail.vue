@@ -39,7 +39,8 @@
             <div class="border-top py-2 content" v-html="content"></div>
           </div>
         </div>
-        <router-link class="btn btn-sm btn-primary mt-2" to="/house/ongoing/list">목록</router-link>
+        <!-- <router-link class="btn btn-sm btn-primary mt-2" to="/house/ongoing/list">목록</router-link> -->
+        <button @click="test" class="btn btn-sm btn-danger float-end ms-2 mt-2">TEST</button>
         <button v-if="sameUser" @click="deleteOngoingDetail(ongoingId)" class="btn btn-sm btn-danger float-end ms-2 mt-2">삭제</button>
         <router-link v-if="sameUser" class="btn btn-sm btn-primary float-end mt-2" to="/house/ongoing/modify">수정</router-link>
       </div>
@@ -83,10 +84,18 @@ const storeName = 'houseOnGoingStore';
 
 export default {
   name: 'HouseOnGoingDetail',
+  data() {
+    return {
+      prevRoute: null
+    }
+  },
   computed: {
     ...mapState(storeName, ['sameUser', 'ongoingId', 'title', 'AptName', 'fileList', 'type', 'dealAmount', 'area', 'floor', 'fee', 'direction', 'room', 'bathroom', 'content', 'compName', 'compAddress', 'compEmail', 'compPhone']),
   },
   methods: {
+    test() {
+      console.log(this.prevRoute);
+    },
     deleteOngoingDetail(ongoingId){
       this.$swal({
         title: '삭제하시겠습니까?',
@@ -105,6 +114,11 @@ export default {
         }
       })
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.prevRoute = from
+    })
   }
 }
 </script>

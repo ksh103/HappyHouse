@@ -33,10 +33,12 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
+      name: 'Main',
       component: Main
     },
     {
       path: '/dealInfo',
+      name: 'DealInfo',
       component: DealInfo
     },
     {

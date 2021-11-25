@@ -3,13 +3,14 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
+          <i class="bi bi-card-text ms-2 me-2" style="font-size: 1.5rem;"></i>
           <h5 class="modal-title">리뷰 등록</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div>
             <div class="border-bottom d-flex pb-2">
-              <h3>{{ houseList[index].aptName }} {{ content }}</h3>
+              <h5>{{ houseList[index].aptName }}</h5>
             </div>
             <div class="border-bottom d-flex py-2">
               <div class="text-secondary w-25">교통요건</div>
@@ -37,10 +38,9 @@
               </div>
             </div>
           </div>
-          <!-- <div class="pt-2 text-secondary">종합의견</div> -->
           <div class="pt-2 form-group">
             <label class="form-label">종합의견</label>
-            <textarea v-model="content" class="form-control" rows="4" placeholder="사용자에게 도움이 되는 의견을 남겨주세요~!" aria-label="With textarea"></textarea>
+            <textarea @keyup.enter="insertReview" v-model="content" class="form-control" rows="4" placeholder="사용자에게 도움이 되는 의견을 남겨주세요~!" aria-label="With textarea"></textarea>
           </div>
         </div>
         <div class="modal-footer">
@@ -64,12 +64,12 @@ export default {
   props: ['buildingName', 'index'],
   data() {
     return {
-      trafficScore: 4,
-      surroundingScore: 3,
-      livingScore: 2,
-      recommendScore: 5,
+      trafficScore: 0,
+      surroundingScore: 0,
+      livingScore: 0,
+      recommendScore: 0,
       content: '',
-      title: 'www'
+      // title: 'www'
     }
   },
   components: {
@@ -87,7 +87,7 @@ export default {
         recommendScore: this.recommendScore,
         livingScore: this.livingScore,
         content: this.content,
-        title: this.title,
+        // title: this.title,
       })
         .then(() => {
           this.$swal('리뷰가 등록되었습니다.', '참여해 주셔서 감사합니다.', { icon: 'success' })
@@ -96,13 +96,13 @@ export default {
         .catch(error => {
               console.log(error);
               this.$swal('서버에 문제가 발생하였습니다.' , { icon: 'error' });
-         })
+        })
     },
     initModal() {
-      this.trafficScore = 3;
-      this.surroundingScore = 3
-      this.livingScore = 2;
-      this.recommendScore = 4;
+      this.trafficScore = 0;
+      this.surroundingScore = 0
+      this.livingScore = 0;
+      this.recommendScore = 0;
       this.content = '';
     },
     closeModal() {

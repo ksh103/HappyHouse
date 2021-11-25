@@ -10,8 +10,8 @@
 
             </div>
             <div class="input-group w-75">
-              <input id="inputSearchWord" type="text" class="form-control form-control-lg"  placeholder="원하시는 아파트, 동명을 입력해주세요">
-              <button id="btnSearchWord" class="btn btn-warning" type="button">검색</button>
+              <input @keyup.enter="search" type="text" v-model="keyword" class="form-control form-control-lg"  placeholder="원하시는 아파트, 동명을 입력해주세요">
+              <button @click="search" class="btn btn-warning" type="button">검색</button>
             </div>
           </div>
         </div>
@@ -57,80 +57,34 @@
         <div class="row g-3 mt-4">
           <div class="col-lg-4 col-md-12">
             <h4>최근 매물</h4>
-            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
-              <tbody >
-                  <tr v-for="(item, index) in getOnGoingCard" :key="index">
-                      <td>{{ item.ongoingId }}</td>
-                      <td>{{ item.AptName }}</td>
+            <table class="myDataTable w-100 table align-middle table-bordered mb-0 custom-table nowrap dataTable">
+              <tbody>
+                  <tr class="cursor-pointer" @click="houseOngoingDetail(item.ongoingId)" v-for="(item, index) in latestTradeData" :key="index">
+                      <td>{{ item.AptName }} / {{ item.type }} / {{ item.dealAmount }}</td>
                   </tr>
               </tbody>
             </table>
           </div>
-          <!-- <div class="col-lg-4 col-md-12">
-            <h4>최근 매물</h4>
-            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
-              <tbody>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-                  <tr>
-                      <td>Ava Alexander</td>
-                  </tr>
-              </tbody>
-            </table>
-          </div> -->
           <div class="overflow-hidden col-lg-4 col-md-12">
             <h4>부동산 관련 뉴스</h4>
-            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
+            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable">
               <tbody>
-                <tr v-for="(item, index) in news" @click="newsDetail" :key="index">
-                    <td class="text-nowrap" v-html="item.title"></td>
+                <tr v-for="(item, index) in news" :key="index">
+                  <td class="text-nowrap"><a class="text-decoration-none" :href="item.link" target="_blank" v-html="item.title"></a></td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="col-lg-4 col-md-12">
             <h4>공지사항</h4>
-            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
+            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable">
               <tbody>
-                <tr v-for="(item, index) in getBoardList" :key="index">
-                  <td>{{ item.noticeId }}</td>
+                <tr class="cursor-pointer" @click="noticeBoardDetail(item.noticeId)" v-for="(item, index) in noticeList" :key="index">
                   <td>{{ item.title }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <!-- <div class="col-lg-4 col-md-12">
-            <h4>공지사항</h4>
-            <table class="myDataTable table align-middle table-bordered mb-0 custom-table nowrap dataTable" style="width: 100%;">
-              <tbody>
-                <tr>
-                  <td>Ava Alexander</td>
-                </tr>
-                <tr>
-                  <td>Ava Alexander</td>
-                </tr>
-                <tr>
-                  <td>Ava Alexander</td>
-                </tr>
-                <tr>
-                  <td>Ava Alexander</td>
-                </tr>
-                <tr>
-                  <td>Ava Alexander</td>
-                </tr>
-              </tbody>
-            </table>
-          </div> -->
         </div>
       </div>
     </div>
@@ -139,59 +93,82 @@
 
 <script>
 import http from '@/common/axios.js'
-// import Header from '@/components/Header.vue';
-import { mapActions, mapGetters} from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'Main',
   data() {
     return {
-      latestTradeData: { },
-      news: { },
-      notice: { }
+      latestTradeData: [],
+      news: [],
+      noticeList: [],
+      keyword: '',
     }
-  },
-  computed :{
-    ...mapGetters('houseOnGoingStore', ['getOnGoingCard']),
-    ...mapGetters('boardNoticeStore', ['getBoardList']),
   },
   methods: {
-    ...mapActions('houseOnGoingStore', ['onGoingCardLatest']),
-    ...mapActions('boardNoticeStore', ['boardListLatest']),
-
-    newsDetail() {
-      alert('기사 새 창/탭에 열기 기능 구현하기')
+    ...mapActions('houseOnGoingStore', ['onGoingDetail']),
+    ...mapActions('boardNoticeStore', ['boardDetail']),
+    ...mapMutations('dealInfoStore', ['SET_KEYWORD']),
+    search() {
+      if (this.keyword == '') {
+        this.$swal('키워드를 입력하세요.', { icon: 'warning' });
+        return;
+      }
+      this.SET_KEYWORD(this.keyword);
+      this.$router.push('/dealInfo');
+    },
+    houseOngoingDetail(id) {
+      this.onGoingDetail(id);
+    },
+    noticeBoardDetail(id) {
+      this.boardDetail(id);
     }
   },
-  components: {
-    // Header,
-  },
   created() {
-    this.onGoingCardLatest();
-    this.boardListLatest();
     http.get( "/info/news")
       .then(({ data }) => {
         this.news = data.newsDto;
       })
+      .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }));
+
+    http.get("/notices/latest")
+      .then(({ data }) => {
+        this.noticeList = data.list;
+      })
+      .catch((error) => {
+        // console.log("Main: error ");
+        // console.log(error);
+        this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+      });
+
+    http.get(
+      "/house/deal/ongoing/latest")
+      .then(({ data }) => {
+        this.latestTradeData = data.list;
+      })
+      .catch((error) => {
+        // console.log("Main: error ");
+        // console.log(error);
+        this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
+      });
   }
 }
 </script>
 
 <style>
-.carousel-item {
-  height: 500px;
-}
+  .carousel-item {
+    height: 500px;
+  }
 
-.carousel-item img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-height: 500px;
-}
+  .carousel-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 500px;
+  }
 
-.text-shadow {
-  color: white;
-  text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
-}
-
+  .text-shadow {
+    color: white;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+  }
 </style>

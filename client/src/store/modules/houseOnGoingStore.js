@@ -180,45 +180,8 @@ const houseOnGoingStore = {
     onGoingDetail({ commit }, ongoingId){
       http.get(`/house/deal/ongoing/${ongoingId}`)
         .then(({ data }) => {
-          // console.log("HouseOnGoingDetailVue: data : ");
-          // console.log(data);
-          
-          // if (data.result == 'login'){
-          //   router.push("/")
-          // } else {
-
-            // if (data.dto.fileList) {
-            //   console.log('exist')
-            //   data.dto.fileList.forEach(file => {
-            //     console.log(file)
-            //   })
-            // } else {
-            //   console.log('not')
-            // }
-
-            commit( 'SET_HOUSE_ONGOING_CARD_DETAIL', data.dto
-              // { 
-              //   ongoingId: data.dto.ongoingId,
-              //   houseNo: data.dto.houseNo,
-              //   AptName: data.dto.AptName,
-              //   compName: data.dto.compName,
-              //   compAddress: data.dto.compAddress,
-              //   title: data.dto.title,
-              //   content: data.dto.content,
-              //   dealAmount: data.dto.dealAmount,
-              //   floor: data.dto.floor,
-              //   area: data.dto.area,
-              //   direction: data.dto.direction,
-              //   type: data.dto.type,
-              //   fee: data.dto.fee,
-              //   room: data.dto.room,
-              //   bathroom: data.dto.bathroom,
-              //   fileList: data.dto.fileList,
-              //   sameUser: data.dto.sameUser
-              // }
-            );
-            router.push("/house/ongoing/detail");
-          // }
+          commit( 'SET_HOUSE_ONGOING_CARD_DETAIL', data.dto);
+          router.push("/house/ongoing/detail");
         }
       )
       .catch((error) => {
@@ -226,25 +189,6 @@ const houseOnGoingStore = {
         console.log(error);
         Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
       });
-    },
-    onGoingCardLatest({ commit, state }){
-      http.get(
-        "/house/deal/ongoing/latest")
-        .then(({ data }) => {
-          console.log("HouseOnGoingLatestVue: data : ");
-          console.log(data);
-          if( data.result == 'login' ){
-            router.push("/user/login")
-          }else{
-            commit( 'SET_HOUSE_ONGOING_CARD', data.list );
-            commit( 'SET_HOUSE_ONGOING_TOTAL_CARD_ITEM_COUNT', data.count );
-          }
-        })
-        .catch((error) => {
-          console.log("CardVue: error ");
-          console.log(error);
-          Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
-        });
     },
   },
 };

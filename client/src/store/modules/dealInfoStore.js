@@ -7,6 +7,9 @@ const dealInfoStore = {
     gu: [],
     dong: [],
     houseList: [],
+
+    // 메인 페이지에서 받을 키워드
+    fromMainKeyword: ''
   },
 
   getters: {
@@ -23,6 +26,12 @@ const dealInfoStore = {
     SET_HOUSE_LIST(state, payload) {
       state.houseList = payload;
     },
+    SET_KEYWORD(state, payload) {
+      state.fromMainKeyword = payload;
+    },
+    CLEAR_KEYWORD(state, payload) {
+      state.fromMainKeyword = '';
+    }
   },
 
   actions: {

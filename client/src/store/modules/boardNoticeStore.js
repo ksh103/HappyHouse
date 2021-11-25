@@ -9,7 +9,6 @@ const boardNoticeStore = {
     list: [],
     limit: 10,
     offset: 0,
-    searchWord: '',
 
     // pagination
     listRowCount: 10,
@@ -99,18 +98,12 @@ const boardNoticeStore = {
           params: {
             limit: state.limit,
             offset: state.offset,
-            searchWord: state.searchWord
+            searchWord: ''
           }
         })
         .then(({ data }) => {
-          console.log("BoardMainVue: data : ");
-          console.log(data);
-          if( data.result == 'login' ){
-            router.push("/user/login")
-          }else{
-            commit( 'SET_BOARD_LIST', data.list );
-            commit( 'SET_BOARD_TOTAL_LIST_ITEM_COUNT', data.count );
-          }
+          commit( 'SET_BOARD_LIST', data.list );
+          commit( 'SET_BOARD_TOTAL_LIST_ITEM_COUNT', data.count );
         })
         .catch((error) => {
           console.log("ListVue: error ");
@@ -123,35 +116,35 @@ const boardNoticeStore = {
         .then(({ data }) => {
           console.log("DetailVue: data : ");
           console.log(data);
-          
-          if (data.result == 'login'){
-            router.push("/login")
+
+          if (data.dto.fileList) {
+            console.log('exist')
+            data.dto.fileList.forEach(file => {
+              console.log(file)
+            })
           } else {
-
-            if (data.dto.fileList) {
-              console.log('exist')
-              data.dto.fileList.forEach(file => {
-                console.log(file)
-              })
-            } else {
-              console.log('not')
-            }
-
-            commit( 'SET_BOARD_DETAIL',
-              { 
-                noticeId: data.dto.noticeId,
-                title: data.dto.title,
-                content: data.dto.content,
-                userName: data.dto.userName,
-                readCount : data.dto.readCount,
-                regDt: util.makeDateStr(data.dto.regDt.date.year, data.dto.regDt.date.month, data.dto.regDt.date.day, '.'),
-                fileList: data.dto.fileList,
-                sameUser: data.dto.sameUser, // not data.dto.sameUser
-              }
-            );
-
-            router.push("/board/notice/detail");
+            console.log('not')
           }
+
+          commit( 'SET_BOARD_DETAIL', {
+            ...data.dto,
+            regDt: util.makeDateStr(data.dto.regDt.date.year, data.dto.regDt.date.month, data.dto.regDt.date.day, '.'),            
+          });
+          
+          // commit( 'SET_BOARD_DETAIL',
+          //   { 
+          //     noticeId: data.dto.noticeId,
+          //     title: data.dto.title,
+          //     content: data.dto.content,
+          //     userName: data.dto.userName,
+          //     readCount : data.dto.readCount,
+          //     regDt: util.makeDateStr(data.dto.regDt.date.year, data.dto.regDt.date.month, data.dto.regDt.date.day, '.'),
+          //     fileList: data.dto.fileList,
+          //     sameUser: data.dto.sameUser
+          //   }
+          // );
+
+          router.push("/board/notice/detail");
         }
       )
       .catch((error) => {
@@ -159,25 +152,6 @@ const boardNoticeStore = {
         console.log(error);
         Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
       });
-    },
-    boardListLatest({ commit, state }){
-      http.get(
-        "/notices/latest")
-        .then(({ data }) => {
-          console.log("BoardListLatestVue: data : ");
-          console.log(data);
-          if( data.result == 'login' ){
-            router.push("/user/login")
-          }else{
-            commit( 'SET_BOARD_LIST', data.list );
-            commit( 'SET_BOARD_TOTAL_LIST_ITEM_COUNT', data.count );
-          }
-        })
-        .catch((error) => {
-          console.log("ListVue: error ");
-          console.log(error);
-          Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
-        });
     },
   },
 };
