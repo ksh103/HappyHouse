@@ -9,7 +9,7 @@ import com.ssafy.happyhouse.dto.NoticeResultDto;
 //@ControllerAdvice 
 public class GlobalExceptionHandler {
 	
-	@ExceptionHandler(Exception.class)
+//	@ExceptionHandler(Exception.class)
 	public ResponseEntity<NoticeResultDto> noticeErrorResponseEntity() { // 비동기 방식
 		System.out.println("!!!");
 		NoticeResultDto noticeResultDto = new NoticeResultDto();

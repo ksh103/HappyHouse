@@ -43,7 +43,7 @@
 	</select>
 	
 	<select id="findPassword" parameterType="string" resultType="com.ssafy.happyhouse.dto.CompanyDto">
-		select comp_name, comp_id
+		select comp_name, comp_id, comp_email
 		from company where comp_id = #{compId}
 	</select>
 	

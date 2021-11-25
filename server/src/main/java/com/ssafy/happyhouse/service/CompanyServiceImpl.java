@@ -9,6 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -16,10 +17,9 @@ import com.ssafy.happyhouse.dao.CompanyDao;
 import com.ssafy.happyhouse.dto.CompanyDto;
 import com.ssafy.happyhouse.dto.CompanyImgFileDto;
 import com.ssafy.happyhouse.dto.CompanyResultDto;
-import com.ssafy.happyhouse.dto.UserImgFileDto;
-import com.ssafy.happyhouse.dto.UserResultDto;
 
 @Service
+@Transactional
 public class CompanyServiceImpl implements CompanyService {
 	@Autowired
 	private CompanyDao companyDao;
@@ -148,7 +148,7 @@ public class CompanyServiceImpl implements CompanyService {
 //		System.out.println(userDto);
 		try {
 			CompanyDto findPwResultDto = companyDao.findPassword(companyDto.getCompId());
-//			System.out.println(findPwResultDto);
+			System.out.println(findPwResultDto);
 			if (findPwResultDto != null && findPwResultDto.getCompEmail().equals(companyDto.getCompEmail())) {
 				// 랜덤 PW로 변경
 				final String newPassword = getRandomPassword(12);
@@ -156,8 +156,10 @@ public class CompanyServiceImpl implements CompanyService {
 				// 변경된 PW로 DB에 반영 후, 메일 전송
 				// ?? 트랜잭션..??
 				if (companyDao.updatePassword(findPwResultDto) == 1 && sendInitPwEmail(findPwResultDto)) {
+					System.out.println(findPwResultDto);
 					companyResultDto.setResult(SUCCESS);
 				} else {
+					System.out.println(findPwResultDto);
 					companyResultDto.setResult(FAIL);
 				}
 			} else {
