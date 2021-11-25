@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssafy.happyhouse.dto.CompanyDto;
 import com.ssafy.happyhouse.dto.CompanyResultDto;
+import com.ssafy.happyhouse.dto.UserResultDto;
 
 public interface CompanyService {
 	public CompanyResultDto companyRegister(CompanyDto companyDto);
@@ -13,6 +14,7 @@ public interface CompanyService {
 	
 	public CompanyResultDto companyDelete(CompanyDto companyDto);
 	
+	public CompanyResultDto companyIdCheck(String compId);
 	public CompanyResultDto login(CompanyDto companyDto);
 	
 	public CompanyResultDto findPassword(CompanyDto companyDto);

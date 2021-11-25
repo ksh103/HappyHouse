@@ -17,6 +17,7 @@ import com.ssafy.happyhouse.dto.CompanyDto;
 import com.ssafy.happyhouse.dto.CompanyImgFileDto;
 import com.ssafy.happyhouse.dto.CompanyResultDto;
 import com.ssafy.happyhouse.dto.UserImgFileDto;
+import com.ssafy.happyhouse.dto.UserResultDto;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -25,6 +26,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 	private static final int SUCCESS = 1;
 	private static final int INCORRECT_INFO = 2;
+	private static final int DUPLICATED = 3; 
+	private static final int NOT_DUPLICATED = 4; 
 	private static final int FAIL = -1;
 	
 	private static final String uploadFolder = "companyProfileImage";
@@ -116,6 +119,22 @@ public class CompanyServiceImpl implements CompanyService {
 				companyResultDto.setResult(FAIL);
 			}
 		} catch(Exception e) {
+			e.printStackTrace();
+			companyResultDto.setResult(FAIL);
+		}
+		return companyResultDto;
+	}
+	
+	@Override
+	public CompanyResultDto companyIdCheck(String compId) {
+		CompanyResultDto companyResultDto = new CompanyResultDto();
+		try {
+			if (companyDao.companyIdCheck(compId) == 1) {
+				companyResultDto.setResult(DUPLICATED);
+			} else {
+				companyResultDto.setResult(NOT_DUPLICATED);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 			companyResultDto.setResult(FAIL);
 		}

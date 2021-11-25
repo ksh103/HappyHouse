@@ -18,6 +18,12 @@
     	where comp_id = #{compId}
 	</update>
 	
+	<!-- 아이디 중복 체크 -->
+    <select id="companyIdCheck" parameterType="String" resultType="int">
+        select count(comp_id) from company 
+        where comp_id= #{compId}
+    </select>
+	
 	<update id="companyPasswordModify" parameterType="com.ssafy.happyhouse.dto.CompanyDto">
     	update company set comp_password = #{compPassword}
     	where comp_id = #{compId}

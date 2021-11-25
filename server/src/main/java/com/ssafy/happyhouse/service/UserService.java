@@ -14,7 +14,7 @@ public interface UserService {
 	
 	public UserResultDto userDelete(UserDto userDto);
 	
-	public int userIdCheck(String userId);
+	public UserResultDto userIdCheck(String userId);
 	
 	public UserResultDto login(UserDto UserDto);
 	

@@ -38,7 +38,8 @@ public class UserController {
 	
 	private static final int SUCCESS = 1;
 	private static final int INCORRECT_INFO = 2;
-	
+	private static final int DUPLICATED = 3; 
+	private static final int NOT_DUPLICATED = 4; 
 	
 	@PostMapping(value="/user/register")
 	public ResponseEntity<UserResultDto> register(@RequestBody UserDto userDto) {
@@ -88,8 +89,16 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/user/idcheck/{userId}")
-	public ResponseEntity<Integer> userIdCheck(@PathVariable String userId) {
-		return ResponseEntity.ok(userService.userIdCheck(userId));
+	public ResponseEntity<UserResultDto> userIdCheck(@PathVariable String userId) {
+		UserResultDto userResultDto = userService.userIdCheck(userId);
+		
+		System.out.println("userIdCheck " + userResultDto);
+		
+		if (userResultDto.getResult() == NOT_DUPLICATED || userResultDto.getResult() == DUPLICATED) {
+			return new ResponseEntity<UserResultDto>(userResultDto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<UserResultDto>(userResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@PostMapping(value = "/user/login")

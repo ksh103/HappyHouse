@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.ssafy.happyhouse.dto.CompanyDto;
 import com.ssafy.happyhouse.dto.CompanyResultDto;
 import com.ssafy.happyhouse.dto.UserDto;
+import com.ssafy.happyhouse.dto.UserResultDto;
 import com.ssafy.happyhouse.service.CompanyService;
 
 @CrossOrigin(
@@ -35,7 +37,8 @@ public class CompanyController {
 	
 	private static final int SUCCESS = 1;
 	private static final int INCORRECT_INFO = 2;
-	
+	private static final int DUPLICATED = 3; 
+	private static final int NOT_DUPLICATED = 4; 
 	
 	@PostMapping(value="/company/register")
 	public ResponseEntity<CompanyResultDto> register(@RequestBody CompanyDto companyDto) {
@@ -45,6 +48,19 @@ public class CompanyController {
 			return new ResponseEntity<>(companyResultDto, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(companyResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping(value = "/company/idcheck/{compId}")
+	public ResponseEntity<CompanyResultDto> compIdCheck(@PathVariable String compId) {
+		CompanyResultDto companyResultDto = companyService.companyIdCheck(compId);
+		
+		System.out.println("compIdCheck " + companyResultDto);
+		
+		if (companyResultDto.getResult() == NOT_DUPLICATED || companyResultDto.getResult() == DUPLICATED) {
+			return new ResponseEntity<CompanyResultDto>(companyResultDto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<CompanyResultDto>(companyResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

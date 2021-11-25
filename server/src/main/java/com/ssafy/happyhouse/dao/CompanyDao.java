@@ -14,6 +14,7 @@ public interface CompanyDao {
 	
 	public int companyDelete(CompanyDto companyDto);
 	
+	public int companyIdCheck(String compId);
 	public CompanyDto login(String compId);
 	
 	public CompanyDto findPassword(String compId);

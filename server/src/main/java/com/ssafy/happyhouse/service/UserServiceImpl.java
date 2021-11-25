@@ -31,6 +31,8 @@ public class UserServiceImpl implements UserService {
 
 	private static final int SUCCESS = 1;	
 	private static final int INCORRECT_INFO = 2;
+	private static final int DUPLICATED = 3; 
+	private static final int NOT_DUPLICATED = 4; 
 	private static final int FAIL = -1;
 	
 	@Value("${app.fileupload.uploadDir}")
@@ -107,10 +109,20 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public int userIdCheck(String userId){
-		return userDao.userIdCheck(userId);
+	public UserResultDto userIdCheck(String userId){
+		UserResultDto userResultDto = new UserResultDto();
+		try {
+			if (userDao.userIdCheck(userId) == 1) {
+				userResultDto.setResult(DUPLICATED);
+			} else {
+				userResultDto.setResult(NOT_DUPLICATED);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			userResultDto.setResult(FAIL);
+		}
+		return userResultDto;
 	}
-
 	
 	@Override
 	public UserResultDto login(UserDto userDto) {
