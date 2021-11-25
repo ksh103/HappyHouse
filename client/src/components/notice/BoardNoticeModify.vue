@@ -99,14 +99,15 @@ export default {
           if (data.result == 'login'){
             this.$router.push("/login")
           } else {
-            this.$alertify.success('글이 수정되었습니다.');
+            this.$swal('글이 수정되었습니다.', { icon: 'success' })
             // 페이지 이동 처리
           }
         })
-        .catch((error) => {
-          console.log("UpdateModalVue: error ");
+        .catch(error => {
+          console.log("noticeModifyVue: error ");
           console.log(error);
-        });
+          this.$swal('서버에 문제가 발생하였습니다.' , { icon: 'error' });
+        })
     },
   },
   mounted() {

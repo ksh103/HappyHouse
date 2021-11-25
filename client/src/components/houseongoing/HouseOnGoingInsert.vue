@@ -185,7 +185,7 @@ export default {
           if (data === "login") {
             this.$router.push('/user/login');
           } else{
-            this.$alertify.success('글이 등록되었습니다.');
+            this.$swal('글이 등록되었습니다.', { icon: 'success' })
             setTimeout(() => {
               console.log('성공')
               this.$router.push('/house/ongoing/card');
@@ -193,11 +193,11 @@ export default {
             console.log("sssasdfsdfd")
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log("ongoingInsertVue: error ");
           console.log(error);
-          this.$alertify.error('Opps!! 서버에 문제가 발생했습니다.');          
-        });
+          this.$swal('서버에 문제가 발생하였습니다.' , { icon: 'error' });
+        })
     },
   },
   mounted() {

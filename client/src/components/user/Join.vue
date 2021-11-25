@@ -88,9 +88,22 @@ export default {
       if(this.registerType == 'common'){
         http.get(`/user/idcheck/${userId}`)
           .then(({data})=> {
-            console.log(data)
+            if(data.result == 3){
+              this.$swal('이미 사용중인 아이디 입니다.', { icon: 'warning' })
+            } else if (data.result == 4) {
+              this.$swal('사용가능한 아이디입니다.', { icon: 'success' })
+            }
           })
           .catch(error => this.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' }))
+      }else if(this.registerType == 'company'){
+         http.get(`/company/idcheck/${userId}`)
+          .then(({data})=> {
+            if(data.result == 3){
+              this.$swal('이미 사용중인 아이디 입니다.', { icon: 'warning' })
+            } else if (data.result == 4) {
+              this.$swal('사용가능한 아이디입니다.', { icon: 'success' })
+            }
+         })
       }
     },
     join() {

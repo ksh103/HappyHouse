@@ -72,9 +72,9 @@ export default {
           console.log(this.userList)
         })
         .catch(error => {
-          console.log(error);
-          this.$swal('서버에 문제가 발생하였습니다.');
-        })
+              console.log(error);
+              this.$swal('서버에 문제가 발생하였습니다.' , { icon: 'error' });
+            })
     },
     addFriend(name, toId) {
       this.$swal(`${name}님을 친구로 추가하시겠습니까?`, {
@@ -88,7 +88,7 @@ export default {
             })
             .catch(error => {
               console.log(error);
-              this.$swal('서버에 문제가 발생하였습니다.');
+              this.$swal('서버에 문제가 발생하였습니다.' , { icon: 'error' });
             })
         }
       })

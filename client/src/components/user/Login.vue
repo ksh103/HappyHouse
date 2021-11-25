@@ -30,7 +30,7 @@
           </div>
           <div class="col-12">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+              <input class="form-check-input" v-model="idSave" type="checkbox" value="" id="flexCheckDefault">
               <label class="form-check-label" for="flexCheckDefault">
                 아이디 저장
               </label>
@@ -53,7 +53,7 @@
 <script>
 
 import Vue from "vue";
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import VueAlertify from 'vue-alertify';
 import BasicHeader from '@/components/layout/BasicHeader.vue';
 

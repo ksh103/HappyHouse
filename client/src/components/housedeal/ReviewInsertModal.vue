@@ -94,9 +94,9 @@ export default {
               .then(() => this.closeModal());
         })
         .catch(error => {
-          console.log(error);
-          this.$swal('서버에 문제가 발생하였습니다.');
-        })
+              console.log(error);
+              this.$swal('서버에 문제가 발생하였습니다.' , { icon: 'error' });
+         })
     },
     initModal() {
       this.trafficScore = 3;
