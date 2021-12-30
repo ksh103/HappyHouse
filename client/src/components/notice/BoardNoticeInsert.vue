@@ -2,12 +2,12 @@
   <div class="container my-5">
     <form class="row g-3 basic-form">
       <div class="col-md-12">
-          <label class="form-label">제목 <sup class="text-danger">*</sup></label>
+          <label class="form-label ms-3">제목 <sup class="text-danger">*</sup></label>
           <input v-model="title" type="text" class="form-control" placeholder="제목을 입력하세요" required>
       </div>
       <div class="col-12">
         <div class="my-3">
-          <label class="form-label">내용 <sup class="text-danger">*</sup></label>
+          <label class="form-label ms-3">내용 <sup class="text-danger">*</sup></label>
           <div id=divEditorInsert></div>
         </div>
         <div class="form-check mb-3">
@@ -33,9 +33,8 @@
 import Vue from 'vue';
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import VueAlertify from 'vue-alertify'; 
 
-Vue.use(CKEditor).use(VueAlertify);
+Vue.use(CKEditor);
 
 import http from "@/common/axios.js";
 
@@ -66,10 +65,8 @@ export default {
 
       // file upload
       let attachFiles = document.querySelector("#inputFileUploadInsert");
-      console.log("InsertModalVue: data 1 : ");
-      console.log(attachFiles);
-
       let cnt = attachFiles.files.length;
+
       for (let i = 0; i < cnt; i++) {
         formData.append("file", attachFiles.files[i]);
       }
@@ -78,12 +75,9 @@ export default {
         headers: { 'Content-Type': 'multipart/form-data' } 
       })
         .then(({ data }) => {
-          console.log("InsertVue: data : ");
-          console.log(data);
           if (data === "login") {
             this.$router.push('/user/login');
           } else{
-            this.$swal('글이 등록되었습니다.', { icon: 'success' })
             this.$router.push('/board/notice');
           }
         })

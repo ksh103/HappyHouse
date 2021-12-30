@@ -25,10 +25,9 @@
               <img v-if="profileImgUrl" :src="profileImgUrl" alt="프로필 이미지" class="avatar rounded-circle">
               <img v-else :src="require(`@/assets/images/profile_av.png`)" alt="기본 프로필 이미지" class="avatar rounded-circle">
             </a>
-            {{ name }}님 환영합니다.
+            &nbsp;{{ name }}님 환영합니다.
             <ul class="dropdown-menu dropdown-menu-end shadow border-0 m-0 p-3">
-              <li><router-link class="dropdown-item py-2 rounded" to="/myaccount/profile"><i class="fa fa-user me-3"></i>프로필</router-link></li>
-              <li><router-link class="dropdown-item py-2 rounded" to="/myaccount/management"><i class="fa fa-heart me-3"></i>관심 매물</router-link></li>
+              <li><router-link class="dropdown-item py-2 rounded" to="/myaccount/profile"><i class="fa fa-user me-3"></i>마이 페이지</router-link></li>
               <li><a class="dropdown-item py-2 rounded" @click="onClickLogout"><i class="fa fa-info-circle me-3"></i>로그아웃</a></li>
             </ul>
           </div>
@@ -45,12 +44,7 @@
 </template>
 
 <script>
-
-import Vue from "vue";
 import { mapActions, mapState, mapGetters } from 'vuex';
-import VueAlertify from 'vue-alertify';
-
-Vue.use(VueAlertify);
 
 export default {
   name: 'NavBar',
@@ -59,7 +53,6 @@ export default {
     onClickLogout(){
       this.logout();
       this.$router.push("/user/login");
-      this.$alertify.message("로그아웃 완료");
     },
   },
   computed: {

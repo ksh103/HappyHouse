@@ -130,25 +130,11 @@ const boardNoticeStore = {
             ...data.dto,
             regDt: util.makeDateStr(data.dto.regDt.date.year, data.dto.regDt.date.month, data.dto.regDt.date.day, '.'),            
           });
-          
-          // commit( 'SET_BOARD_DETAIL',
-          //   { 
-          //     noticeId: data.dto.noticeId,
-          //     title: data.dto.title,
-          //     content: data.dto.content,
-          //     userName: data.dto.userName,
-          //     readCount : data.dto.readCount,
-          //     regDt: util.makeDateStr(data.dto.regDt.date.year, data.dto.regDt.date.month, data.dto.regDt.date.day, '.'),
-          //     fileList: data.dto.fileList,
-          //     sameUser: data.dto.sameUser
-          //   }
-          // );
 
           router.push("/board/notice/detail");
         }
       )
       .catch((error) => {
-        console.log("DetailVue: error ");
         console.log(error);
         Vue.$swal('서버에 문제가 발생하였습니다.', { icon: 'error' });
       });

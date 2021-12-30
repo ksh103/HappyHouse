@@ -4,7 +4,7 @@
       <div class="col-lg-3 col-md-6">
         <div class="form-floating">
           <input @click="selectHouseNo" v-model="houseName" type="text" class="form-control cursor-pointer" placeholder="실거래가 *">
-          <label>건물 정보 *</label>
+          <label>건물 정보 <span class="text-danger">*</span></label>
         </div>
       </div>
       <div class="col-lg-3 col-md-6"></div>
@@ -100,10 +100,9 @@ import Vue from 'vue';
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import SelectHouseNoModal from './modal/SelectHouseNoModal.vue';
-import VueAlertify from 'vue-alertify';
 import { Modal } from 'bootstrap';
 
-Vue.use(CKEditor).use(VueAlertify);
+Vue.use(CKEditor);
 
 import http from "@/common/axios.js";
 
@@ -152,7 +151,6 @@ export default {
     },
     ongoingInsert(){
       let formData = new FormData();
-
       formData.append("houseNo", this.houseNo);
       formData.append("type", this.type);
       formData.append("dealAmount", this.dealAmount);
@@ -166,10 +164,8 @@ export default {
 
       // file upload
       let attachFiles = document.querySelector("#inputFileUploadInsert");
-      console.log("InsertModalVue: data 1 : ");
-      console.log(attachFiles);
-
       let cnt = attachFiles.files.length;
+
       for (let i = 0; i < cnt; i++) {
         formData.append("file", attachFiles.files[i]);
       }
@@ -181,11 +177,9 @@ export default {
           if (data === "login") {
             this.$router.push('/user/login');
           } else{
-            this.$swal('글이 등록되었습니다.', { icon: 'success' })
             setTimeout(() => {
               this.$router.push('/house/ongoing/list');
-            }, 500);
-            console.log("sssasdfsdfd")
+            }, 1000);
           }
         })
         .catch(error => {

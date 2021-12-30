@@ -21,12 +21,7 @@
             </td>
             <td>
               <div class="dropdown">
-                <button class="btn btn-sm text-decoration-none" role="button" data-bs-toggle="dropdown">{{ board.userName }}</button>
-                <!-- <ul class="dropdown-menu border-0 shadow p-3">
-                  <li><a class="dropdown-item py-2 rounded" href="#">친구 추가</a></li>
-                  <li><a class="dropdown-item py-2 rounded" href="#">Another action</a></li>
-                  <li><a class="dropdown-item py-2 rounded" href="#">Something else here</a></li>
-                </ul> -->
+                <button class="btn btn-sm text-decoration-none" role="button">{{ board.userName }}</button>
               </div>
             </td>
             <td>
@@ -76,10 +71,5 @@ export default {
   created() {
     this.boardList();
   },
-  mounted() {},
 }
 </script>
-
-<style>
-
-</style>

@@ -4,7 +4,7 @@
       <div class="col-lg-3 col-md-6">
         <div class="form-floating">
           <input @click="selectHouseNo" v-model="houseName" type="text" class="form-control cursor-pointer" placeholder="실거래가 *">
-          <label>건물 정보 *</label>
+          <label>건물 정보 <span class="text-danger">*</span></label>
         </div>
       </div>
       <div class="col-lg-3 col-md-6"></div>
@@ -92,8 +92,7 @@
 
         <div class="col-12">
           <button @click.prevent="ongoingModify" class="btn btn-primary float-end">작성완료</button>
-          <router-link to="/house/ongoing/card" class="me-2 ml-3 btn btn-secondary float-end" >취소</router-link>
-          <button @click="test" to="/house/ongoing/card" class="me-2 ml-3 btn btn-secondary float-end" >test소</button>
+          <router-link to="/house/ongoing/list" class="me-2 ml-3 btn btn-secondary float-end">취소</router-link>
         </div>
 			</div>
       <select-house-no-modal @modal-close="afterClose" />
@@ -141,7 +140,7 @@ export default {
   computed: {
     ...mapState('houseOnGoingStore', {
       storeOngoingId: 'ongoingId', 
-      storeHouseNo: 'curHouseNo',
+      storeHouseNo: 'houseNo',
       storeTitle: 'title', 
       storeHouseName: 'AptName', 
       storeFileList: 'fileList', 
@@ -158,11 +157,6 @@ export default {
   },
   
   methods: {
-    test() {
-      console.log(this.content);
-      console.log(this.ongoingId);
-      console.log(this.curHouseNo);
-    },
     afterClose(val) {
       if (val) {
         this.houseName = val.houseName;
@@ -183,12 +177,8 @@ export default {
     },
     ongoingModify(){
       let formData = new FormData();
-
       formData.append("ongoingId", this.storeOngoingId);
-      console.log(this.curHouseNo);
-      console.log(this.houseNo);
-      if (this.houseNo == '') formData.append("houseNo", this.curHouseNo);
-      else formData.append("houseNo", this.houseNo);
+      formData.append("houseNo", this.houseNo);
       formData.append("type", this.type);
       formData.append("dealAmount", this.dealAmount);
       formData.append("floor", this.floor);
@@ -202,10 +192,8 @@ export default {
 
       // file upload
       let attachFiles = document.querySelector("#inputFileUploadUpdate");
-      console.log("UpdateModalVue: data 1 : ");
-      console.log(attachFiles);
-
       let cnt = attachFiles.files.length;
+
       for (let i = 0; i < cnt; i++) {
         formData.append("file", attachFiles.files[i]);
       }
@@ -214,16 +202,12 @@ export default {
         headers: { 'Content-Type': 'multipart/form-data' } 
       })
         .then(({ data }) => {
-          console.log("ongoingModifyVue: data : ");
-          console.log(data);
           if (data === "login") {
             this.$router.push('/user/login');
           } else{
-            this.$swal('글이 수정되었습니다.', { icon: 'success' })
             setTimeout(() => {
-              console.log('성공')
-              this.$router.push('/house/ongoing/card');
-            }, 500);
+              this.$router.push('/house/ongoing/list');
+            }, 1000);
           }
         })
         .catch(error => {
@@ -245,6 +229,7 @@ export default {
       });
     this.selectHouseNoModal = new Modal(document.getElementById('selectHouseNoModal'));
     this.houseName = this.storeHouseName
+    this.houseNo = this.storeHouseNo
     this.type = this.storeType
     this.dealAmount = this.storeDealAmount
     this.floor = this.storeFloor

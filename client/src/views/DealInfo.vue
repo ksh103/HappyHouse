@@ -42,7 +42,7 @@
             </div>
           </div>
           <div v-if="searchType == 'K'" class="input-group pb-2 px-3">
-            <input @keyup.enter="onKeywordSearch" type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="아파트 또는 동이름">
+            <input @keyup.enter="onKeywordSearch" type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="건물명 또는 동을 입력하세요">
             <button @click="onKeywordSearch" class="btn btn-primary d-inline-block" type="button"><i class="bi bi-search"></i></button>
           </div>
         </div>
@@ -85,7 +85,10 @@
           <!-- 등록 리뷰 있을 때 v-for 속성 추가-->
           <div v-else v-for="(review, index) in reviewList" :key="index">
             <div class="border-top border-bottom d-flex align-items-center p-2">
-              <div class="text-secondary ps-2 pe-3"><img class="avatar rounded-circle" width=25px src="../assets/images/profile_av.png"></div>
+              <div class="text-secondary ps-2 pe-3">
+                <img v-if="review.userProfileImage" class="avatar rounded-circle" width=25px :src="review.userProfileImage">
+                <img v-else class="avatar rounded-circle" width=25px src="../assets/images/profile_av.png">
+              </div>
               <div class="d-flex flex-column">
                 <h6 class="m-0">{{ review.userName }}</h6>
                 <div class="text-secondary" style="font-size: 0.9rem;">{{ makeDateStr(review.regDt.date.year, review.regDt.date.month, review.regDt.date.day, '.') }} 가입</div>

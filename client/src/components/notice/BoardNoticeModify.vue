@@ -2,12 +2,12 @@
 <div class="container my-5">
   <form class="row g-3 basic-form">
     <div class="col-md-12">
-      <label class="form-label">제목2 <sup class="text-danger">*</sup></label>
+      <label class="form-label ms-3">제목 <sup class="text-danger">*</sup></label>
       <input v-model="title" type="text" class="form-control" required="">
     </div>
     <div class="col-12">
       <div class="my-3">
-        <label class="form-label">내용 <sup class="text-danger">*</sup></label>
+        <label class="form-label ms-3">내용 <sup class="text-danger">*</sup></label>
         <div id=divEditorUpdate></div>
       </div>
       <div v-if="storeFileList.length > 0" class="mb-3">
@@ -20,13 +20,12 @@
       <div class="mb-3" v-show="attachFile" id="imgFileUploadInsertWrapper">
         <input @change="changeFile" type="file" id="inputFileUploadUpdate" class="form-control" multiple>
         <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
-          <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
           <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index" class="m-2" style="max-width: 200px; max-height: 200px;">
         </div>
       </div>
     </div>
     <div class="col-12">
-      <button @click="boardUpdate" class="btn btn-primary float-end">수정완료</button>
+      <button @click.prevent="boardUpdate" class="btn btn-primary float-end">수정완료</button>
       <router-link to="/board/notice" class="me-2 btn btn-secondary float-end">취소</router-link>
     </div>
   </form>
@@ -35,12 +34,11 @@
 
 <script>
 import Vue from 'vue';
-import { mapState, mapMutations } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import VueAlertify from 'vue-alertify'; 
 
-Vue.use(CKEditor).use(VueAlertify);
+Vue.use(CKEditor);
 
 import http from "@/common/axios.js";
 
@@ -66,7 +64,7 @@ export default {
     }),
   },
   methods: {
-    // ...mapActions(storeName, [''])
+    ...mapActions(storeName, ['boardDetail']),
     ...mapMutations(storeName, ['SET_BOARD_TITLE']),
     changeFile(e) {
       if (e.target.files && e.target.files.length > 0){
@@ -77,18 +75,15 @@ export default {
       }
     },
     boardUpdate(){
-      var formData = new FormData();
+      let formData = new FormData();
       formData.append("boardId", this.storeBoardId);
       formData.append("title", this.title);
       formData.append("content", this.CKEditor.getData());
-
       
-      var attachFiles = document.querySelector("#inputFileUploadUpdate");
-      console.log("UpdateModalVue: data 1 : ");
-      console.log(attachFiles);
+      let attachFiles = document.querySelector("#inputFileUploadUpdate");
+      let cnt = attachFiles.files.length;
 
-      var cnt = attachFiles.files.length;
-      for (var i = 0; i < cnt; i++) {
+      for (let i = 0; i < cnt; i++) {
         formData.append("file", attachFiles.files[i]);
       }
       
@@ -96,13 +91,10 @@ export default {
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } })
         .then(({ data }) => {
-          console.log("UpdateModalVue: data : ");
-          console.log(data);
           if (data.result == 'login'){
-            this.$router.push("/login")
+            this.$router.push("/login");
           } else {
-            this.$swal('글이 수정되었습니다.', { icon: 'success' })
-            // 페이지 이동 처리
+            this.boardDetail(this.storeBoardId);
           }
         })
         .catch(error => {

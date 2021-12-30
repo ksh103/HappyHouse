@@ -56,6 +56,7 @@ const userStore = {
     SET_USER_MODIFY(state, payload) {
       state.name = payload.name;
       state.email = payload.email;
+      state.phone = payload.phone;
     },
     SET_PASSWORD(state, payload) {
       state.password = payload;
@@ -77,6 +78,7 @@ const userStore = {
     SET_COMPANY_USER_MODIFY(state, payload) {
       state.name = payload.name;
       state.email = payload.email;
+      state.phone = payload.phone;
       state.address = payload.address;
     },
     SET_PROFILE_IMG(state, payload) {
@@ -105,7 +107,7 @@ const userStore = {
             userName: name,
             userPassword: password,
             userEmail: email,
-            userProfileimage: profileImgUrl,
+            userProfileImage: profileImgUrl,
             userPhone: phone,
             regDt: {
               date: regDt

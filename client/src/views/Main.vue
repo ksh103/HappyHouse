@@ -9,7 +9,7 @@
             Happy House
             </div>
             <div class="input-group w-75 ">
-                <input @keyup.enter="search" type="text" v-model="keyword" class="form-control form-control-lg"  placeholder="원하시는 아파트, 동명을 입력해주세요">
+                <input @keyup.enter="search" type="text" v-model="keyword" class="form-control form-control-lg"  placeholder="원하시는 건물명 또는 동을 입력해주세요">
                 <button @click="search" class="btn btn-warning" type="button"><i class="bi bi-search text-white" style="font-size: 1.5rem;"></i></button>
               </div>
           </div>

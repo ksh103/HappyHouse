@@ -11,18 +11,15 @@
           <div>
             <h6 class="mx-2 mb-3">찾을 친구의 이름 또는 아이디를 입력하세요.</h6>
             <div class="input-group pb-3">
-              <input type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="아이디 또는 이름">
+              <input @keyup.enter="search" type="text" v-model="inputKeyword" class="form-control d-inline-block" placeholder="아이디 또는 이름">
               <button @click="search" class="btn btn-primary d-inline-block" type="button"><i class="bi bi-search"></i></button>
-            </div>
-            <div v-for="(user, index) in userList" :key="index+11">
-              {{ user.userName }} : {{ user.userEmail }} <button @click="addFriend(user.userId)"></button>
             </div>
           </div>
           <ul v-if="userList" class="list-unstyled list-group list-group-custom list-group-flush mb-0 border-top">
             <li v-for="(user, index) in userList" :key="index" class="list-group-item px-md-4 py-3 d-flex justify-content-between">
               <a class="d-flex align-items-center text-decoration-none">
-                  <img v-if="user.userProfileimage" class="rounded-circle" src="../../../assets/images/xs/avatar1.jpg" alt="1">
-                  <img v-else class="rounded-circle" src="../../../assets/images/profile_av.png" alt="2">
+                  <img v-if="user.userProfileImage" class="rounded-circle" :src="user.userProfileImage">
+                  <img v-else class="rounded-circle" src="http://localhost:8080/images/profile_av.png">
                   <div class="flex-fill ms-3 text-truncate">
                       <h6 class="d-flex justify-content-between mb-0"><span>{{ user.userName }} ({{ user.userId }})</span></h6>
                       <span class="text-muted">{{ user.userEmail }}</span>
@@ -32,7 +29,7 @@
             </li>
             <li v-if="userList.length==0" class="list-group-item px-md-4 py-3">
               <a class="d-flex align-items-center text-decoration-none">
-                데이터가 존재하지 않습니다.
+                사용자가 존재하지 않습니다.
               </a>
             </li>
           </ul>
@@ -67,9 +64,9 @@ export default {
       http.get(`/user/${this.inputKeyword}`)
         .then(({ data }) => {
           let list = data.userDto;
-          console.log(list)
+          // console.log(list)
           this.userList = list.filter(item => !item.sameUser && !item.friend);
-          console.log(this.userList)
+          // console.log(this.userList)
         })
         .catch(error => {
               console.log(error);

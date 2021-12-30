@@ -73,7 +73,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-12 mb-4">
           <h1 class="h3 m-4">리뷰 관리</h1>
           <div class="card">
             <div class="card-body">

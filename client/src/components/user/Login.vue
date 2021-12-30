@@ -25,7 +25,7 @@
           <div class="col-12">
             <div class="mb-2">
               <div class="form-label" for="userPassword">비밀번호</div>
-              <input v-model="userPassword" id="userPassword" type="password" class="form-control form-control-lg" placeholder="비밀번호를 입력하세요">
+              <input @keyup.enter="validateForm" v-model="userPassword" id="userPassword" type="password" class="form-control form-control-lg" placeholder="비밀번호를 입력하세요">
             </div>
           </div>
           <div class="col-12 text-center mt-4">
@@ -43,13 +43,8 @@
 </template>
 
 <script>
-
-import Vue from "vue";
 import { mapActions } from 'vuex';
-import VueAlertify from 'vue-alertify';
 import BasicHeader from '@/components/layout/BasicHeader.vue';
-
-Vue.use(VueAlertify);
 
 export default {
   name: 'Login',
