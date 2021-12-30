@@ -19,6 +19,6 @@ public class FriendDto {
 	private String userName;
 	private String userEmail;
 	private LocalDateTime regDt;
-	private String userProfileimage;
+	private String userProfileImage;
 	private int code;
 }

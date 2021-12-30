@@ -87,7 +87,7 @@ public class HouseController {
 	    HttpSession session = request.getSession();
 	    UserDto userDto = (UserDto) session.getAttribute("userDto");
 	    
-	    userDto.setUserSeq(userDto.getUserSeq());
+	    houseReviewDto.setUserSeq(userDto.getUserSeq());
 	            
 	    HouseReviewResultDto houseReviewResultDto = houseService.houseReviewRegister(houseReviewDto, request);
 		

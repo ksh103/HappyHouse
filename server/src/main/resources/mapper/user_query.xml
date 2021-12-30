@@ -33,7 +33,7 @@
     </select>
 	
 	<select id="login" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
-		SELECT u.user_seq, user_name, user_id, user_password, user_email, user_phone, u.reg_dt, f.file_url user_profileimage, code
+		SELECT u.user_seq, user_name, user_id, user_password, user_email, user_phone, u.reg_dt, f.file_url user_profile_image, code
 		from user u LEFT JOIN user_img_file f
 		ON u.user_seq = f.user_seq
 		where user_id = #{userId}

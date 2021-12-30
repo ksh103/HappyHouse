@@ -18,7 +18,7 @@ public class UserDto {
 	private String userEmail;
 	private String userPhone;
 	private LocalDateTime regDt;
-	private String userProfileimage;
+	private String userProfileImage;
 	private int code;
 	
 	private boolean sameUser;

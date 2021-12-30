@@ -16,6 +16,7 @@ public class HouseReviewDto {
 	int userSeq;
 	String userId;
 	String userName;
+	String userProfileImage;
 	LocalDateTime regDt;
 	String content;
 	int trafficScore;

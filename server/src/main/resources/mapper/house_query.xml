@@ -157,10 +157,11 @@
 	</insert>
 	
 	<select id="houseReviewList" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">
-		select r.review_id, r.no as house_no, u.user_seq, u.user_name, u.reg_dt, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score
-		from review r, user u
-		where r.no = #{houseNo}
-		and r.user_seq = u.user_seq;
+		select r.review_id, r.no as house_no, uf.user_seq, uf.user_name, uf.reg_dt, user_profile_image, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score
+		from (SELECT u.user_seq, user_name, user_id, user_email, u.reg_dt, f.file_url user_profile_image, code
+			from user u LEFT JOIN user_img_file f
+			ON u.user_seq = f.user_seq) uf, review r
+		where r.no = #{houseNo} and r.user_seq = uf.user_seq;
 	</select>
 
 	<select id="houseReviewAllListByUserSeq" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">

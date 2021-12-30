@@ -252,7 +252,7 @@ public class UserServiceImpl implements UserService {
 	        if (!uploadDir.exists()) uploadDir.mkdir();
 	        
 	        // 물리 파일 삭제 (존재 시)
-	        String fileUrl = userDto.getUserProfileimage();
+	        String fileUrl = userDto.getUserProfileImage();
 	        if (fileUrl != null && !fileUrl.isEmpty()) {
 	        	File file = new File(uploadPath + File.separator, fileUrl);
 	            if (file.exists()) file.delete();
