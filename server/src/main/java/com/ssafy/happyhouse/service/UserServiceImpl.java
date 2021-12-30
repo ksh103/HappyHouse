@@ -1,23 +1,45 @@
 package com.ssafy.happyhouse.service;
 
+import java.io.File;
+import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.ssafy.happyhouse.dao.FriendDao;
 import com.ssafy.happyhouse.dao.UserDao;
+import com.ssafy.happyhouse.dto.FriendDto;
 import com.ssafy.happyhouse.dto.UserDto;
+import com.ssafy.happyhouse.dto.UserImgFileDto;
 import com.ssafy.happyhouse.dto.UserResultDto;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private FriendDao friendDao;
 
-	private static final int SUCCESS = 1;
+	private static final int SUCCESS = 1;	
 	private static final int INCORRECT_INFO = 2;
+	private static final int DUPLICATED = 3; 
+	private static final int NOT_DUPLICATED = 4; 
 	private static final int FAIL = -1;
+	
+	@Value("${app.fileupload.uploadDir}")
+	private String uploadFolder;
+
+	@Value("${app.fileupload.uploadPath}")
+	private String uploadPath;
 
 	@Override
 	public UserResultDto userRegister(UserDto userDto) {
@@ -54,6 +76,23 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public UserResultDto userPasswordModify(UserDto userDto) {
+		UserResultDto userResultDto = new UserResultDto();
+		try {
+			if (userDao.userPasswordModify(userDto) == 1) {
+				userResultDto.setDto(userDto);
+				userResultDto.setResult(SUCCESS);
+			} else {
+				userResultDto.setResult(FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			userResultDto.setResult(FAIL);
+		}
+		return userResultDto;
+	}
+	
+	@Override
 	public UserResultDto userDelete(UserDto userDto) {
 		UserResultDto userResultDto = new UserResultDto();
 		try {
@@ -61,6 +100,22 @@ public class UserServiceImpl implements UserService {
 				userResultDto.setResult(SUCCESS);
 			} else {
 				userResultDto.setResult(FAIL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			userResultDto.setResult(FAIL);
+		}
+		return userResultDto;
+	}
+	
+	@Override
+	public UserResultDto userIdCheck(String userId){
+		UserResultDto userResultDto = new UserResultDto();
+		try {
+			if (userDao.userIdCheck(userId) == 1) {
+				userResultDto.setResult(DUPLICATED);
+			} else {
+				userResultDto.setResult(NOT_DUPLICATED);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -186,4 +241,87 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+	@Override
+	public UserResultDto userFileInsert(UserDto userDto, MultipartHttpServletRequest request) {
+		UserResultDto userResultDto = new UserResultDto();
+		try {
+			int userSeq = userDto.getUserSeq();
+			// 파일 경로 찾기
+	        File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+	        if (!uploadDir.exists()) uploadDir.mkdir();
+	        
+	        // 물리 파일 삭제 (존재 시)
+	        String fileUrl = userDto.getUserProfileImage();
+	        if (fileUrl != null && !fileUrl.isEmpty()) {
+	        	File file = new File(uploadPath + File.separator, fileUrl);
+	            if (file.exists()) file.delete();
+	        }
+	        
+	        // 파일 테이블에서 제거
+	        userDao.userImgFileDelete(userSeq);
+	        MultipartFile part = request.getFile("profileImg");
+            String fileName = part.getOriginalFilename();
+            
+            // Random File Id
+            UUID uuid = UUID.randomUUID();
+            
+            // file 확장사
+            String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
+
+            String savingFileName = uuid + "." + extension;
+        
+            File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+            
+//            System.out.println("실제저장경로");
+            System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+            part.transferTo(destFile);
+        
+            // Table Insert
+            UserImgFileDto userFileDto = new UserImgFileDto();
+	        userFileDto.setUserSeq(userDto.getUserSeq());
+            userFileDto.setFileName(fileName);
+            userFileDto.setFileSize(part.getSize());
+            userFileDto.setFileContentType(part.getContentType());
+            String userFileUrl = "/" + uploadFolder + "/" + savingFileName;
+            userFileDto.setFileUrl(userFileUrl);
+//            System.out.println(userFileDto);
+	        userDao.userImgFileInsert(userFileDto);
+	        userResultDto.setUploadProfileImgUrl(userFileUrl);
+	        userResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			userResultDto.setResult(FAIL);
+		}
+		return userResultDto;
+	}
+
+	@Override
+	public UserResultDto friendSearch(String searchWord, UserDto userDto) {
+		UserResultDto userResultDto = new UserResultDto();
+		List<UserDto> list = null;
+		try {
+			list = userDao.friendSearch(searchWord);
+			
+			List<FriendDto> friendList = friendDao.friendFollowing(userDto.getUserId());
+			
+			for (UserDto user : list) {
+				for (FriendDto friend : friendList) {
+					if (user.getUserId().equals(friend.getToId())) {
+						user.setFriend(true);
+					}
+				}
+				if (user.getUserId().equals(userDto.getUserId())) {
+					user.setSameUser(true);
+				}
+			}
+
+			userResultDto.setUserDto(list);
+			userResultDto.setResult(SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			userResultDto.setResult(FAIL);
+		}
+		return userResultDto;
+	}
 }

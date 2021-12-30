@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -23,14 +24,11 @@ public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	NoticeDao dao;
 	
-	private static final String uploadFolder = "upload";
-	private static final String uploadPath = "C:" + File.separator + "Users" + File.separator + "park" + File.separator + "git" + File.separator + "HappyHouse_Vue"
-            + File.separator + "server" 
-            + File.separator + "src" 
-            + File.separator + "main"
-            + File.separator + "resources"
-            + File.separator + "static";
+	@Value("${app.fileupload.uploadDir}")
+	private String uploadFolder;
 
+	@Value("${app.fileupload.uploadPath}")
+	private String uploadPath;
     
     private static final int SUCCESS = 1;
     private static final int FAIL = -1;
@@ -222,6 +220,23 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 	
 	@Override
+	public NoticeResultDto noticeLatestList(NoticeParamDto noticeParamDto) {
+		NoticeResultDto noticeResultDto = new NoticeResultDto();
+	    
+	    try {
+	        List<NoticeDto> list = dao.noticeLatestList(noticeParamDto);           
+	        noticeResultDto.setList(list);
+	        noticeResultDto.setResult(SUCCESS);
+	        
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        noticeResultDto.setResult(FAIL);
+	    }
+	    
+	    return noticeResultDto;
+	}
+	
+	@Override
 	public NoticeResultDto noticeListSearchWord(NoticeParamDto noticeParamDto) {
 
 		NoticeResultDto noticeResultDto = new NoticeResultDto();
@@ -242,4 +257,6 @@ public class NoticeServiceImpl implements NoticeService {
 	    
 	    return noticeResultDto;
 	}
+
+
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.ssafy.happyhouse.dao.BookMarkDao">
+
+	<select id="getBookmarkHouseDetailListById" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseDetailDto">
+		select no as house_no, dong as dong_name, aptname as apt_name, buildyear as buildYear, jibun, lat, lng 
+		from bookmark_house b, houseinfo h where b.house_no = h.no and user_id = #{userId}
+	</select>
+
+	<select id="getBookmarkHouseOngoingListById" parameterType="String" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+		SELECT h.ongoing_id, h.houseinfo_no as house_no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom, i.aptName, i.dong, i.jibun
+		FROM bookmark_ongoing b, house_ongoing h, houseinfo i
+		WHERE b.ongoing_id = h.ongoing_id AND b.user_id=#{userId} AND i.no = h.houseinfo_no
+	</select>
+	
+	<insert id="insertBookmarkHouseDetail" parameterType="com.ssafy.happyhouse.dto.BookMarkParamDto">
+		insert into bookmark_house (user_id, house_no) 
+		values ( #{userId}, #{houseNo} )
+	</insert>
+	
+	<insert id="insertBookmarkHouseOngoing" parameterType="com.ssafy.happyhouse.dto.BookMarkParamDto">
+		insert into bookmark_ongoing ( user_id, ongoing_id ) 
+		values ( #{userId}, #{ongoingId} )
+	</insert>
+		
+	<delete id="deleteBookmarkHouseDetail" parameterType="com.ssafy.happyhouse.dto.BookMarkParamDto">
+		delete from bookmark_house 
+		where user_id = #{userId}
+		and house_no = #{houseNo}
+	</delete>
+	
+	<delete id="deleteBookmarkHouseOngoing" parameterType="com.ssafy.happyhouse.dto.BookMarkResultDto">
+		delete from bookmark_ongoing 
+		where user_id = #{userId}
+		and ongoing_id = #{ongoingId}
+	</delete>
+
+</mapper>

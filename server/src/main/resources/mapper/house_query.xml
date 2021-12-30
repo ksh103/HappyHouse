@@ -1,12 +1,178 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.ssafy.happyhouse.dao.HouseDao">
-	<select id="getHouseDetail" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseDetailDto">
-		SELECT no AS houseNo, dong AS dongName, aptname AS aptName, buildyear AS buildYear, jibun AS jiBun, lat, lng FROM houseinfo
-		WHERE dong like #{dong}
+	<select id="getHouseDongDetail" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseDetailDto">
+		select no as house_no, dong as dong_name, aptname as apt_name, buildyear as buildYear, jibun, lat, lng 
+		from houseinfo
+		where dong like concat(#{dongName}, '%');
 	</select>
+	
+	<select id="getHouseSearchDetail" parameterType="string" resultType="com.ssafy.happyhouse.dto.HouseDetailDto">
+		(select no as house_no, dong as dong_name, aptname as apt_name, buildyear as buildYear, jibun, lat, lng 
+		from houseinfo
+		where aptname like concat(#{aptName}, '%'))
+		union all
+		(select no as house_no, dong as dong_name, aptname as apt_name, buildyear as buildYear, jibun, lat, lng 
+		from houseinfo
+		where dong like concat(#{dongName}, '%'))
+	</select>
+	
 	<select id="getHouseDeal" resultType="com.ssafy.happyhouse.dto.HouseDealDto">
-		SELECT no AS houseNo, house_no, dong AS dongName, aptname, dealamount AS dealAmount, dealyear AS dealYear, dealmonth AS dealMonth, dealday AS dealDay, area, floor
-		FROM happyhouse_rf.housedeal where house_no=#{houseNo}
+		select no as house_no, house_no, dong as dongName, aptname as apt_name, dealamount as dealAmount, dealyear as dealYear, dealmonth as dealMonth, dealday as dealDay, area, floor
+		from housedeal 
+		where house_no=#{houseNo}
 	</select>
+	
+	<insert id="houseOnGoingRegister" parameterType="com.ssafy.happyhouse.dto.HouseOnGoingDto" useGeneratedKeys="true" keyProperty="ongoingId">
+		insert into house_ongoing(houseinfo_no, comp_seq, title, content, deal_amount, floor, area, direction, type, fee, room, bathroom) 
+		values ( #{houseNo}, #{compSeq}, #{title}, #{content}, #{dealAmount}, #{floor}, #{area}, #{direction}, #{type}, #{fee}, #{room}, #{bathroom} )
+	</insert>
+	
+	<select id="houseOnGoingDetail" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto" >
+		select h.comp_seq, h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, c.comp_address, c.comp_email, c.comp_phone, i.AptName, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		from house_ongoing h, company c, houseinfo i
+		where h.ongoing_id = #{ongoingId}
+		and h.comp_seq = c.comp_seq
+		and h.houseinfo_no = i.no;
+	</select>
+	
+	<delete id="houseOnGoingDelete">
+		delete from house_ongoing
+		where ongoing_id = #{ongoingId}
+	</delete>
+	
+	<update id="houseOnGoingUpdate" parameterType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+		UPDATE house_ongoing
+		SET houseinfo_no = #{houseNo}, title = #{title}, content = #{content}, deal_amount = #{dealAmount}, 
+			floor = #{floor}, area = #{area}, direction = #{direction}, type = #{type}, fee = #{fee}, room = #{room}, bathroom = #{bathroom}
+		WHERE ongoing_id = #{ongoingId}
+	</update>
+		
+	<select id="houseOnGoingList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+		select h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, i.AptName, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		from house_ongoing h, company c, houseinfo i
+		where h.comp_seq = c.comp_seq
+		and h.houseinfo_no = i.no
+		<if test="dealType != null and dealType != '' and dealType != '전체'.toString()">
+			AND h.type = #{dealType}
+		</if>
+		order by h.ongoing_id desc
+		limit #{limit} offset #{offset}
+		<!-- select h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, i.AptName, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		from house_ongoing h, company c, houseinfo i
+		where h.comp_seq = c.comp_seq
+		and h.houseinfo_no = i.no
+		order by h.ongoing_id desc
+		limit #{limit} offset #{offset} -->
+	</select>
+	
+	<select id="houseOnGoingListByKeyword" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+		select h.ongoing_id, h.houseinfo_no as house_no, c.comp_name, i.AptName, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		from house_ongoing h, company c, houseinfo i
+		where h.comp_seq = c.comp_seq
+		and h.houseinfo_no = i.no
+		<if test="dealType != null and dealType != '' and dealType != '전체'.toString()">
+			AND h.type = #{dealType}
+		</if>
+		<if test="keywordType != null">
+			<if test="keywordType == 'all'.toString()">AND (h.title LIKE CONCAT('%', #{keyword} ,'%') OR h.content LIKE CONCAT('%', #{keyword} ,'%'))</if>
+			<if test="keywordType == 'houseName'.toString()">AND i.aptname LIKE CONCAT('%', #{keyword} ,'%')</if>
+			<if test="keywordType == 'compName'.toString()">AND c.comp_name LIKE CONCAT('%', #{keyword} ,'%')</if>
+			<if test="keywordType == 'area'.toString()">AND h.area=#{keyword}</if>
+		</if>
+		order by h.ongoing_id desc
+		limit #{limit} offset #{offset}
+	</select>
+	
+	
+	<select id="houseNoOnGoingList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+		select h.ongoing_id, h.houseinfo_no as house_no, h.comp_seq, h.title, h.content, h.deal_amount, h.floor, h.area, h.direction, h.type, h.fee, h.room, h.bathroom
+		from house_ongoing h, company c
+		where h.comp_seq = c.comp_seq
+		and h.houseinfo_no = #{houseNo}
+		order by h.ongoing_id desc
+		<!-- limit #{limit} offset #{offset} -->
+	</select>
+	
+	<select id="houseOnGoingLimitList" parameterType="map" resultType="com.ssafy.happyhouse.dto.HouseOnGoingDto">
+		select h.ongoing_id, h.type, h.deal_amount, h.houseinfo_no as house_no, h.title, i.AptName, h.title
+		from house_ongoing h, houseinfo i
+		where h.houseinfo_no = i.no
+		order by ongoing_id desc
+		limit 5
+	</select>
+	
+	<select id="houseOnGoingListTotalCount" parameterType="map" resultType="int">
+		select count(*)
+		from house_ongoing
+		<if test="dealType != null and dealType != '' and dealType != '전체'.toString()">
+			WHERE type = #{dealType}
+		</if>
+	</select>
+	
+	<select id="houseOnGoingListByKeywordTotalCount" parameterType="map" resultType="int">
+		select count(*)
+		from house_ongoing h, company c, houseinfo i
+		where h.comp_seq = c.comp_seq
+		and h.houseinfo_no = i.no
+		<if test="dealType != null and dealType != '' and dealType != '전체'.toString()">
+			AND h.type = #{dealType}
+		</if>
+		<if test="keywordType != null">
+			<if test="keywordType == 'all'.toString()">AND (i.aptname LIKE CONCAT('%', #{keyword} ,'%') OR c.comp_name LIKE CONCAT('%', #{keyword} ,'%') OR h.area=#{keyword})</if>
+			<if test="keywordType == 'houseName'.toString()">AND i.aptname LIKE CONCAT('%', #{keyword} ,'%')</if>
+			<if test="keywordType == 'compName'.toString()">AND c.comp_name LIKE CONCAT('%', #{keyword} ,'%')</if>
+			<if test="keywordType == 'area'.toString()">AND h.area=#{keyword}</if>
+		</if>
+	</select>
+
+	<select id="houseNoOnGoingListTotalCount" parameterType="int" resultType="int">
+		select count(*)
+		from house_ongoing
+		where houseinfo_no = #{houseNo}
+	</select>
+	
+	<insert id="houseOnGoingFileInsert" parameterType="com.ssafy.happyhouse.dto.HouseOnGoingFileDto" >
+		insert into house_ongoing_file ( ongoing_id, file_name, file_size, file_content_type, file_url)
+		            VALUES ( #{ongoingId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl})
+	</insert>
+	
+	<delete id="houseOnGoingFileDelete" parameterType="int">
+		delete from house_ongoing_file where ongoing_id = #{ongoingId}
+	</delete>
+	
+	<select id="houseOnGoingFileUrlDeleteList" parameterType="int" resultType="string">
+		select file_url from house_ongoing_file where ongoing_id = #{ongoingId}
+	</select>
+	
+	<select id="houseOnGoingDetailFileList" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseOnGoingFileDto">
+		select ongoing_id, file_id, file_name, file_size, file_content_type, file_url, reg_dt
+		from house_ongoing_file
+		where ongoing_id = #{ongoingId}
+	</select>
+	
+	<insert id="houseReviewRegister" parameterType="com.ssafy.happyhouse.dto.HouseReviewDto">
+		insert into review(no, user_seq, content, traffic_score, surrounding_score, living_score, recommend_score) 
+					values(#{houseNo}, #{userSeq}, #{content}, #{trafficScore} , #{surroundingScore}, #{livingScore}, #{recommendScore});
+	</insert>
+	
+	<select id="houseReviewList" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">
+		select r.review_id, r.no as house_no, uf.user_seq, uf.user_name, uf.reg_dt, user_profile_image, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score
+		from (SELECT u.user_seq, user_name, user_id, user_email, u.reg_dt, f.file_url user_profile_image, code
+			from user u LEFT JOIN user_img_file f
+			ON u.user_seq = f.user_seq) uf, review r
+		where r.no = #{houseNo} and r.user_seq = uf.user_seq;
+	</select>
+
+	<select id="houseReviewAllListByUserSeq" parameterType="int" resultType="com.ssafy.happyhouse.dto.HouseReviewDto">
+		select r.review_id, r.no as house_no, u.user_seq, u.user_name, u.reg_dt, r.content, r.traffic_score, r.surrounding_score, r.living_score, r.recommend_score, h.aptName
+		from review r, user u, houseinfo h
+		where r.user_seq = u.user_seq and r.no = h.no
+		and u.user_seq=#{user_seq}
+	</select>
+
+	<delete id="houseReviewDelete" parameterType="int">
+		delete from review where review_id=#{reviewId}
+	</delete>
+
 </mapper>

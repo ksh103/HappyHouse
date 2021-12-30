@@ -12,5 +12,6 @@ public interface NoticeService {
 	public NoticeResultDto noticeUpdate(NoticeDto dto, MultipartHttpServletRequest request);
 	public NoticeResultDto noticeInsert(NoticeDto dto, MultipartHttpServletRequest request);
 	public NoticeResultDto noticeList(NoticeParamDto noticeParamDto);
+	public NoticeResultDto noticeLatestList(NoticeParamDto noticeParamDto);
 	public NoticeResultDto noticeListSearchWord(NoticeParamDto noticeParamDto);
 }

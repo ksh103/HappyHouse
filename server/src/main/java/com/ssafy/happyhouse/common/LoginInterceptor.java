@@ -9,6 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.ssafy.happyhouse.dto.CompanyDto;
 import com.ssafy.happyhouse.dto.UserDto;
 
 @Component
@@ -26,11 +27,15 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         HttpSession session = request.getSession();
         UserDto userDto = (UserDto) session.getAttribute("userDto");
+        CompanyDto companyDto = null;
+        
+        if (userDto == null) companyDto = (CompanyDto) session.getAttribute("companyDto");
+        
         // CORS의 put, delete에서 options request 가 브라우저에 의해서 발생되는 데이터 무조건 수락
         if (request.getMethod().equals("OPTIONS")) {
         	return true;
         }
-        if (userDto == null) {
+        if (userDto == null && companyDto == null) {
         	Gson gson = new Gson();
 
 			JsonObject jsonObject = new JsonObject();

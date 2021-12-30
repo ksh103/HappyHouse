@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.ssafy.happyhouse.dto.HouseOnGoingParamDto;
+import com.ssafy.happyhouse.dto.HouseOnGoingResultDto;
 import com.ssafy.happyhouse.dto.NoticeDto;
 import com.ssafy.happyhouse.dto.NoticeParamDto;
 import com.ssafy.happyhouse.dto.NoticeResultDto;
@@ -43,6 +45,21 @@ public class NoticeController {
 	    }else {
 	    	noticeResultDto = service.noticeListSearchWord(noticeParamDto); // 검색어가 포함되어 있을 때
 	    }
+	    
+	    if( noticeResultDto.getResult() == SUCCESS ) {
+	        return new ResponseEntity<NoticeResultDto>(noticeResultDto, HttpStatus.OK);
+	    }else {
+	        return new ResponseEntity<NoticeResultDto>(noticeResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+    
+	// 최근 등록 매물 5개까지
+    @GetMapping(value="/notices/latest")
+    public ResponseEntity<NoticeResultDto> noticeLatestList(NoticeParamDto noticeParamDto){
+    	NoticeResultDto noticeResultDto = new NoticeResultDto();
+    	System.out.println(noticeParamDto);
+    	
+    	noticeResultDto = service.noticeLatestList(noticeParamDto);
 	    
 	    if( noticeResultDto.getResult() == SUCCESS ) {
 	        return new ResponseEntity<NoticeResultDto>(noticeResultDto, HttpStatus.OK);

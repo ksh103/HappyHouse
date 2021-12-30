@@ -31,6 +31,7 @@ public interface NoticeDao {
 	public int noticeFileInsert(NoticeFileDto dto);
 
 	public List<NoticeDto> noticeList(NoticeParamDto noticeParamDto);
+	public List<NoticeDto> noticeLatestList(NoticeParamDto noticeParamDto);
 	public int noticeListTotalCount();
 
 	public List<NoticeDto> noticeListSearchWord(NoticeParamDto noticeParamDto);

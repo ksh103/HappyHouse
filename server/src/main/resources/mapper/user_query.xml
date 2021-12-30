@@ -1,27 +1,90 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.ssafy.happyhouse.dao.UserDao">
+
 	<insert id="userRegister" parameterType="com.ssafy.happyhouse.dto.UserDto">
-		insert into user(user_name, user_id, user_password, user_email) 
-		values ( #{userName}, #{userId}, #{userPassword}, #{userEmail} )
+		insert into user(user_name, user_id, user_password, user_email, user_phone, reg_dt) 
+		values ( #{userName}, #{userId}, #{userPassword}, #{userEmail}, #{userPhone}, now())
 	</insert>
+	
 	<update id="userModify" parameterType="com.ssafy.happyhouse.dto.UserDto">
-		update user set user_name = #{userName}, user_password = #{userPassword}, user_email = #{userEmail}
-		where user_id = #{userId}
+    	update user
+	    <set>
+	        <if test="userName != null">user_name=#{userName},</if>
+	        <if test="userEmail != null">user_email=#{userEmail},</if>
+	        <if test="userPhone != null">user_phone=#{userPhone},</if>
+	    </set>
+    	where user_id = #{userId}
 	</update>
+	
+	<update id="userPasswordModify" parameterType="com.ssafy.happyhouse.dto.UserDto">
+    	update user set user_password = #{userPassword}
+    	where user_id = #{userId}
+	</update>
+	
 	<delete id="userDelete" parameterType="com.ssafy.happyhouse.dto.UserDto">
 		delete from user where user_id = #{userId}
 	</delete>
+	
+	<!-- 아이디 중복 체크 -->
+    <select id="userIdCheck" parameterType="String" resultType="int">
+        select count(user_id) from user 
+        where user_id= #{userId}
+    </select>
+	
 	<select id="login" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
-		select user_seq, user_name, user_id, user_password, user_email, user_level
-		from user where user_id = #{userId}
+		SELECT u.user_seq, user_name, user_id, user_password, user_email, user_phone, u.reg_dt, f.file_url user_profile_image, code
+		from user u LEFT JOIN user_img_file f
+		ON u.user_seq = f.user_seq
+		where user_id = #{userId}
 	</select>
+	
 	<select id="findPassword" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
-		select user_seq, user_name, user_id, user_password, user_email, user_level
+		select user_name, user_id, user_email
 		from user where user_id = #{userId}
 	</select>
+	
 	<update id="updatePassword" parameterType="com.ssafy.happyhouse.dto.UserDto">
 		update user set user_password = #{userPassword}
 		where user_id = #{userId}
 	</update>
+	
+	<insert id="userImgFileInsert" parameterType="com.ssafy.happyhouse.dto.UserImgFileDto">
+		insert into user_img_file ( user_seq, file_name, file_size, file_content_type, file_url, reg_dt )
+		            values ( #{userSeq}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl}, now() )
+	</insert>
+	
+	<delete id="userImgFileDelete" parameterType="int">
+		delete from user_img_file where user_seq = #{userSeq}
+	</delete>
+	
+	<!-- <select id="userFileUrlDeleteList" parameterType="int" resultType="string">
+		select file_url from user_file where user_id = #{userId}
+	</select>
+	
+	<select id="userDetailFileList" parameterType="int" resultType="com.ssafy.happyhouse.dto.UserFileDto">
+		select user_seq, file_id, file_name, file_size, file_content_type, file_url, reg_dt
+		from user_file
+		where user_seq = #{userSeq}
+	</select> -->
+	
+	<!-- 친구 찾기 -->
+	<select id="friendSearch" parameterType="string" resultType="com.ssafy.happyhouse.dto.UserDto">
+		(select user_name, user_id, user_email, u.user_seq, u.user_phone, f.file_url user_profileimage
+		from user u left join user_img_file f
+		ON u.user_seq = f.user_seq
+		where user_id like concat(#{userId}, '%'))
+		union all
+		(select user_name, user_id, user_email, u.user_seq, u.user_phone, f.file_url user_profileimage
+		from user u left join user_img_file f
+		ON u.user_seq = f.user_seq
+		where user_name like concat(#{userName}, '%'));
+		<!-- (select user_name, user_id, user_email, user_seq, user_profileimage
+		from user
+		where user_id like concat(#{userId}, '%'))
+		union all
+		(select user_name, user_id, user_email, user_seq, user_profileimage
+		from user
+		where user_name like concat(#{userName}, '%')) -->
+	</select>
 </mapper>

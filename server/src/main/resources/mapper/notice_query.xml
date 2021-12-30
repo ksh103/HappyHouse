@@ -20,6 +20,13 @@
 		 LIMIT #{limit} OFFSET #{offset}
 	</select>
 	
+	<select id="noticeLatestList" parameterType="map" resultType="com.ssafy.happyhouse.dto.NoticeDto">
+		SELECT NOTICE_ID, TITLE
+		FROM NOTICE
+		ORDER BY NOTICE_ID DESC
+		LIMIT 5
+	</select>
+	
 	<select id="noticeListTotalCount" resultType="int">
 		SELECT COUNT(*) FROM NOTICE
 	</select>
