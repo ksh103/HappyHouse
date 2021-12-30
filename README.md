@@ -1,77 +1,98 @@
-# **관통프로젝트 : 🏘 HappyHouse_Vue** 
+# Happy House
+- 삼성 청년 SW 아카데미 6기 Java 트랙 1학기 관통 프로젝트의 결과물입니다.
+## 개요
+- 부동산 매물의 다양한 서비스 제공을 목적으로 매물 실거래가, 최신 매물 정보, 실거주자 리뷰, 친구 기능 등을 구현하고자 한다.
 
-## **🚩제출일: 2021.11.17**
+## 프로젝트 기간
+- 2021년 11월 일 ~ 2021년 11월 일
 
-<br>
+## 성과
+- 삼성 청년 SW 아카데미 1학기 프로젝트 최우수상 수상
 
-## **🚩참여 페어**
+## 기술 스택
+<p align="center">
+  <img src="https://img.shields.io/badge/API-Kakao_Map-red?style=flat">&nbsp;
+  <img src="https://img.shields.io/badge/API-Naver_News-6DB33F?style=flat">&nbsp;
+  <img src="https://img.shields.io/badge/Library-vue_Bootstrap-563D7C?style=flat&logo=bootstrap&logoColor=white">&nbsp;
+  <img src="https://img.shields.io/badge/Language-Java-007396?style=flat&logo=java&logoColor=white">&nbsp;
+  <img src="https://img.shields.io/badge/Language-JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=white">&nbsp;
+  <img src="https://img.shields.io/badge/Database-MySql-F80000?style=flat&logo=mysql&logoColor=white">&nbsp;
+  <img src="https://img.shields.io/badge/Framework-Vue-D22128?style=flat&logo=vue.js&logoColor=white">&nbsp;
+  <img src="https://img.shields.io/badge/Framework-SpringFramework-6DB33F?style=flat&logo=spring&logoColor=white">&nbsp;
 
-- 박대언, 강소현
+</p>
 
-<br>
+## 팀원
+<table>
+  <thead>
+    <tr>
+      <th>이름</th>
+      <th>역할</th>
+      <th>구현 기능</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2">박대언</td>
+      <td rowspan="2">팀장</td>
+      <td>Front-End 전반</td>
+    </tr>
+    <tr>
+      <td>Back-End (Rest API 설계, SQL/Spring 디버깅, 이미지 업로드, 매물 조회 게시판 카테고리/키워드 검색 등 필요 API 추가, DB 테이블 수정 등)</td>
+    </tr>
+    <tr>
+      <td rowspan="2">강소현</td>
+      <td rowspan="2">팀원</td>
+      <td>Back-End 전반</td>
+    </tr>
+    <tr>
+      <td>Front-End (메인 페이지 검색창 수정 및 매물 조회 게시판 디자인)</td>
+    </tr>
+  </tbody>
+</table>
 
-## **🚩처리된 요구사항 목록**
+## 주요 기능
+![기능명세서](./기능정의서.png)
 
-| 난이도 | 구현기능                                | 세부 | 작성여부(O/X) |
-| :----: | --------------------------------------- | ---- | :-----------: |
-|  기본  | Vue js) 전반적인 프론트엔드 템플릿 구성 |      |       ⭕       |
-|  기본  | Vue js) 로그인/로그아웃 기능 구현       | 회원 |       ⭕       |
-|  기본  | Vue js) 회원가입 구현                   | 회원 |       🔺       |
-|  기본  | Vue js) 회원탈퇴 구현                   | 회원 |       🔺       |
-|  기본  | Vue js) 회원수정 구현                   | 회원 |       🔺       |
+## 실행 화면
+### 메인 페이지
+![메인](./실행화면/메인.png)
 
+### 로그인 및 회원가입
+![로그인회원가입](./실행화면/로그인회원가입.gif)
+회원 분류 (일반 회원 / 기업 회원) 2가지, 아이디 중복체크, 비밀번호 이중 체크
 
+### 공지사항
+![공지사항](./실행화면/공지사항.gif)
+공지사항 리스트, 글 조회, 작성, 수정, 삭제
 
-## **🚩 실행화면 캡쳐**
+### 매물
+- 매물 리스트
+![매물리스트](./실행화면/매물조회_리스트.gif)
+리스트, 페이지네이션
 
-## **1. 로그인 / 로그아웃**
+- 매물 검색
+![매물검색](./실행화면/매물조회_검색.gif)
+매물 카테고리(매매/전세/월세), 검색 유형에 따른 키워드 검색
 
-### **❗  로그인**
+- 매물 등록, 상세 조회, 삭제
+![매물조회](./실행화면/매물조회_등록상세조회.gif)
 
-![01_vue_로그인](https://user-images.githubusercontent.com/82499565/142254082-8a7886cb-8085-41d4-8548-3de0bb326aa6.gif)
+### 실거래가
+- 검색
+![검색](./실행화면/실거래가_검색.gif)
+동(콤보 박스) 또는 키워드 검색에 따른 실거래가 상세 조회
 
+- 리뷰 및 북마크 (관심 건물 / 매물)
+![리뷰북마크](./실행화면/실거래가_리뷰북마크.gif)
+실거래가 페이지에서 등록한 리뷰, 북마크 (관심 건물 / 매물)를 마이 페이지에서 확인, 삭제 가능
 
+### 마이 페이지
+- 프로필
+![프로필](./실행화면/마이페이지_프로필.gif)
+프로필 사진 등록, 정보 수정 가능
 
-### **❗  로그아웃**
-
-![02_vue_로그아웃](https://user-images.githubusercontent.com/82499565/142254017-0c5662fc-1e32-4555-929a-66aa37f77585.gif)
-
-<br><br>
-
-## **2. 회원가입**
-
-![03_vue_회원가입](https://user-images.githubusercontent.com/82499565/142254021-4c53a242-30ee-468e-b0e8-0c392bbe6406.gif)
-
-- 회원가입 완료 후, DB에 저장이 잘 되나 현재 프론트상에서 페이지 전환이 안 됨을 확인 (수정 예정)
-
-
-
-### **❗  회원 가입 확인을 위한 로그인**
-
-![04_vue_가입확인을 위한 로그인](https://user-images.githubusercontent.com/82499565/142254075-3af3078e-c55c-497e-b4a6-c607c643e5e7.gif)
-
-- 회원가입 완료한 유저가 로그인 시, 로그인이 잘 됨을 확인.
-
-<br><br>
-
-## **3. 개인정보 변경**
-
-![05_vue_회원정보_변경](https://user-images.githubusercontent.com/82499565/142254032-4afaf128-71ba-4752-a44d-f8d79673f630.gif)
-
-- 회원정보 변경 완료 후, DB에 저장이 잘 되나 현재 프론트상에서 페이지 전환이 안 됨을 확인 (수정 예정)
-
-<br><br>
-
-## **4. 회원 탈퇴**
-
-![06_vue_회원정보_탈퇴](https://user-images.githubusercontent.com/82499565/142254036-2571a7e6-1f39-40a8-b707-0ab4e16a122d.gif)
-
-- 회원탈퇴 완료 후, DB에 저장이 잘 되나 현재 프론트상에서 페이지 전환이 안 됨을 확인 (수정 예정)
-- 새 비밀번호, 새 비밀번호 확인을 통해 비밀번호가 변경되게 로직 처리를 하지 않음.  (현재 비밀번호를 통해 비밀번호 변경 가능하게 로직 처리를 해둠 --> 테스트) (수정 예정)
-
-
-
-### **❗  존재하지 않는 회원은  로그인이 안 됨**
-
-![07_vue_없는_회원_로그인_안_됨](https://user-images.githubusercontent.com/82499565/142254040-c8d77d8a-a2df-4ea1-9d6f-d2270f17c195.gif)
+- 친구
+![친구](./실행화면/마이페이지_친구.gif)
+친구 추가, 삭제, 친구의 관심 매물 조회 가능<br>두 계정을 이용하여 팔로워, 팔로잉 변화 확인
 
